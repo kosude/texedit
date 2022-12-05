@@ -10,5 +10,5 @@ dependencies {
 }
 
 application {
-    mainClass = "texedit.App"
+    mainClass = "texedit.Program"
 }
