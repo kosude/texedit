@@ -14,6 +14,9 @@ package texedit.windows;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+
+import texedit.web.Repository;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
@@ -71,6 +74,13 @@ public class EditorWindow extends Window {
             quitMenuItem.addActionListener(menuItemListener);
             fileMenu.add(quitMenuItem);
 
+            // [help] menu items
+
+            JMenuItem repoMenuItem = new JMenuItem("GitHub repository...");
+            repoMenuItem.setActionCommand("open-repo");
+            repoMenuItem.addActionListener(menuItemListener);
+            helpMenu.add(repoMenuItem);
+
             add(fileMenu);
             add(helpMenu);
         }
@@ -81,11 +91,20 @@ public class EditorWindow extends Window {
         private class MenuItemListener implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 switch (e.getActionCommand()) {
+                    // FILE MENU
+
                     case "quit":
                         // dispatch event to parent editor window to be closed
                         EditorWindow.this.dispatchEvent(
                             new WindowEvent(EditorWindow.this, WindowEvent.WINDOW_CLOSING)
                         );
+
+                        return;
+
+                    // HELP MENU
+
+                    case "open-repo":
+                        Repository.openGitHubRepository();
 
                         return;
 
