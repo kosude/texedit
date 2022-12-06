@@ -25,8 +25,6 @@ import java.awt.event.WindowEvent;
  * A basic TexEdit window class
  */
 public class EditorWindow extends Window {
-    MenuBar menuBar;
-
     /**
      * Create a TexEdit editor window
      */
@@ -81,6 +79,11 @@ public class EditorWindow extends Window {
             repoMenuItem.addActionListener(menuItemListener);
             helpMenu.add(repoMenuItem);
 
+            JMenuItem aboutMenuItem = new JMenuItem("About TexEdit...");
+            aboutMenuItem.setActionCommand("about");
+            aboutMenuItem.addActionListener(menuItemListener);
+            helpMenu.add(aboutMenuItem);
+
             add(fileMenu);
             add(helpMenu);
         }
@@ -103,6 +106,10 @@ public class EditorWindow extends Window {
 
                     // HELP MENU
 
+                    case "about":
+                        new AboutDialogue(EditorWindow.this).setVisible(true);
+
+                        return;
                     case "open-repo":
                         Repository.openGitHubRepository();
 
