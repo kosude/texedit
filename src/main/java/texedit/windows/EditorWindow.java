@@ -11,6 +11,7 @@
 
 package texedit.windows;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
@@ -23,6 +24,7 @@ import javax.swing.JSplitPane;
 import texedit.pane.EditorPane;
 import texedit.pane.FilePane;
 import texedit.pane.PreviewPane;
+import texedit.pane.StatusBar;
 import texedit.web.Repository;
 
 /**
@@ -42,6 +44,9 @@ public class EditorWindow extends Window {
     protected void constructGui() {
         // set menu bar
         setJMenuBar(new MenuBar());
+
+        // set status bar
+        add(new StatusBar(), BorderLayout.SOUTH);
 
         // construct panes
 

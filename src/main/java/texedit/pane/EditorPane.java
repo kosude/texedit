@@ -13,15 +13,14 @@ package texedit.pane;
 
 import java.awt.Dimension;
 
-import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
-import javax.swing.JTextPane;
+import javax.swing.JTextArea;
 
 /**
  * Class to represent the editor pane within a TexEdit editor window.
  */
 public class EditorPane extends JScrollPane {
-    public JEditorPane editor;
+    public JTextArea editor;
 
     /**
      * Initialise the editor pane
@@ -34,8 +33,9 @@ public class EditorPane extends JScrollPane {
 
         // initialise the actual text editor
 
-        editor = new JTextPane();
-
+        // make sure to completely disable word wrapping
+        editor = new JTextArea();
+        editor.setLineWrap(false);
         getViewport().setView(editor);
     }
 }

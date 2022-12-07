@@ -11,25 +11,43 @@
 
 package texedit.pane;
 
-import java.awt.Color;
-import java.awt.Dimension;
-
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-// TODO: http://www.java2s.com/Code/Java/Swing-JFC/DisplayafilesysteminaJTreeview.htm
+import javax.swing.border.BevelBorder;
+import javax.swing.border.EmptyBorder;
 
 /**
- * Class to represent the file tree pane within a TexEdit editor window.
+ * A TexEdit status bar class.
  */
-public class FilePane extends JPanel {
-    /**
-     * Construct the file tree pane
-     */
-    public FilePane() {
-        setMinimumSize(new Dimension(100, 0));
+public class StatusBar extends JPanel {
+    private JLabel status;
 
-        add(new JLabel("File view"));
-        setBackground(Color.RED);
+    /**
+     * Initialise the status bar
+     */
+    public StatusBar() {
+        setBorder(new BevelBorder(BevelBorder.LOWERED));
+        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+
+        status = new JLabel("Ready");
+        status.setBorder(new EmptyBorder(2, 10, 2, 10));
+
+        add(Box.createHorizontalGlue());
+        add(status);
+    }
+
+    /**
+     * Get the status text.
+     */
+    public String getStatus() {
+        return status.getText();
+    }
+    /**
+     * Set the status text.
+     */
+    public void setStatus(String text) {
+        status.setText(text);
     }
 }

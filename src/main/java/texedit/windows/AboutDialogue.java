@@ -31,6 +31,8 @@ public class AboutDialogue extends Dialogue {
     @Override
     protected void constructGui() {
         Box vBox = Box.createVerticalBox();
+
+        // spacing
         vBox.add(Box.createVerticalGlue());
 
         // Application name and description
@@ -40,11 +42,13 @@ public class AboutDialogue extends Dialogue {
         programName.setFont(new Font("sans serif", Font.BOLD, 25));
         programName.setBorder(new EmptyBorder(0, 0, 7, 0));
         vBox.add(programName);
+
         JLabel programBrief = new JLabel("<html><body style='text-align: center'>Integrated editor and viewer for<br>LaTeX documents", JLabel.CENTER);
         programBrief.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         programBrief.setFont(new Font("sans serif", Font.BOLD | Font.ITALIC, 12));
         vBox.add(programBrief);
 
+        // spacing
         vBox.add(Box.createVerticalGlue());
 
         // Copyright and non-affiliation notice
@@ -53,11 +57,13 @@ public class AboutDialogue extends Dialogue {
         copyright.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         copyright.setFont(new Font("sans serif", Font.PLAIN, 11));
         vBox.add(copyright);
+
         JLabel affiliation = new JLabel("Not affiliated with the LaTeX project", JLabel.CENTER);
         affiliation.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         affiliation.setFont(new Font("sans serif", Font.PLAIN, 11));
         vBox.add(affiliation);
 
+        // spacing
         vBox.add(Box.createVerticalGlue());
 
         add(vBox);
