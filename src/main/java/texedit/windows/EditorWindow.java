@@ -11,15 +11,19 @@
 
 package texedit.windows;
 
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-
-import texedit.web.Repository;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
+
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JSplitPane;
+
+import texedit.pane.EditorPane;
+import texedit.pane.FilePane;
+import texedit.pane.PreviewPane;
+import texedit.web.Repository;
 
 /**
  * A basic TexEdit window class
@@ -38,6 +42,27 @@ public class EditorWindow extends Window {
     protected void constructGui() {
         // set menu bar
         setJMenuBar(new MenuBar());
+
+        // construct panes
+
+        // parent SplitPane (file tree + editor/preview)
+        JSplitPane parentPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+        parentPane.setContinuousLayout(true);
+        parentPane.setOneTouchExpandable(true);
+
+        parentPane.setLeftComponent(new FilePane());
+
+        // child SplitPane (editor + preview)
+        JSplitPane childPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+        childPane.setContinuousLayout(true);
+        childPane.setResizeWeight(0.5);
+
+        childPane.setLeftComponent(new EditorPane());
+        childPane.setRightComponent(new PreviewPane());
+
+        parentPane.setRightComponent(childPane);
+
+        add(parentPane);
     }
 
     @Override
@@ -74,7 +99,7 @@ public class EditorWindow extends Window {
 
             // [help] menu items
 
-            JMenuItem repoMenuItem = new JMenuItem("GitHub repository...");
+            JMenuItem repoMenuItem = new JMenuItem("Git repository...");
             repoMenuItem.setActionCommand("open-repo");
             repoMenuItem.addActionListener(menuItemListener);
             helpMenu.add(repoMenuItem);

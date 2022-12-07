@@ -9,19 +9,36 @@
 /* THE USE OR OTHER DEALINGS IN THE SOFTWARE.                                              */
 /* *************************************************************************************** */
 
-package texedit;
+package texedit.application;
 
-import texedit.application.Application;
+import javax.swing.UIManager;
+
+import texedit.windows.EditorWindow;
 
 /**
- * Program entrypoint class
+ * Top-level TexEdit application instance
  */
-public class Program {
+public class Application {
+    EditorWindow editorWindow;
+
     /**
-     * Entrypoint function
+     * Initialise the TexEdit application
      */
-    public static void main(String[] args) {
-        Application app = new Application();
-        app.run();
+    public Application() {
+        // try to load native look and feel because the cross-platform one is obscene.
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+            System.out.println("Failed to load native LaF");
+        }
+
+        editorWindow = new EditorWindow();
+    }
+
+    /**
+     * Run the application
+     */
+    public void run() {
+        editorWindow.setVisible(true);
     }
 }

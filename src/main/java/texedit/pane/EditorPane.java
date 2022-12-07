@@ -9,19 +9,33 @@
 /* THE USE OR OTHER DEALINGS IN THE SOFTWARE.                                              */
 /* *************************************************************************************** */
 
-package texedit;
+package texedit.pane;
 
-import texedit.application.Application;
+import java.awt.Dimension;
+
+import javax.swing.JEditorPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextPane;
 
 /**
- * Program entrypoint class
+ * Class to represent the editor pane within a TexEdit editor window.
  */
-public class Program {
+public class EditorPane extends JScrollPane {
+    public JEditorPane editor;
+
     /**
-     * Entrypoint function
+     * Initialise the editor pane
      */
-    public static void main(String[] args) {
-        Application app = new Application();
-        app.run();
+    public EditorPane() {
+        setMinimumSize(new Dimension(50, 0));
+
+        setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+        // initialise the actual text editor
+
+        editor = new JTextPane();
+
+        getViewport().setView(editor);
     }
 }

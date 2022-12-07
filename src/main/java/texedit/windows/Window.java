@@ -11,10 +11,10 @@
 
 package texedit.windows;
 
-import javax.swing.JFrame;
-
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+
+import javax.swing.JFrame;
 
 /**
  * An abstract TexEdit window class

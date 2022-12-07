@@ -11,11 +11,11 @@
 
 package texedit.windows;
 
+import java.awt.Font;
+
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.border.EmptyBorder;
-
-import java.awt.Font;
 
 /**
  * An about dialogue window

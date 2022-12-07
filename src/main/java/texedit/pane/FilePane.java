@@ -9,19 +9,27 @@
 /* THE USE OR OTHER DEALINGS IN THE SOFTWARE.                                              */
 /* *************************************************************************************** */
 
-package texedit;
+package texedit.pane;
 
-import texedit.application.Application;
+import java.awt.Color;
+import java.awt.Dimension;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+// TODO: http://www.java2s.com/Code/Java/Swing-JFC/DisplayafilesysteminaJTreeview.htm
 
 /**
- * Program entrypoint class
+ * Class to represent the file tree pane within a TexEdit editor window.
  */
-public class Program {
+public class FilePane extends JPanel {
     /**
-     * Entrypoint function
+     * Construct the file tree pane
      */
-    public static void main(String[] args) {
-        Application app = new Application();
-        app.run();
+    public FilePane() {
+        setMinimumSize(new Dimension(100, 0));
+
+        add(new JLabel("File view", JLabel.CENTER));
+        setBackground(Color.RED);
     }
 }
