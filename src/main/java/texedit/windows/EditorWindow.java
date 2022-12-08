@@ -15,12 +15,14 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
+import java.io.File;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JSplitPane;
 
+import texedit.file.Loader;
 import texedit.pane.EditorPane;
 import texedit.pane.FilePane;
 import texedit.pane.PreviewPane;
@@ -31,13 +33,26 @@ import texedit.web.Repository;
  * A basic TexEdit window class
  */
 public class EditorWindow extends Window {
+    private StatusBar statusBar;
+
+    private FilePane filePane;
+    private EditorPane editorPane;
+    private PreviewPane previewPane;
+
     /**
      * Create a TexEdit editor window
      */
     public EditorWindow() {
         super("TexEdit", 1280, 760);
 
+        statusBar = new StatusBar();
+        filePane = new FilePane();
+        editorPane = new EditorPane();
+        previewPane = new PreviewPane();
+
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+        constructGui();
     }
 
     @Override
@@ -46,7 +61,7 @@ public class EditorWindow extends Window {
         setJMenuBar(new MenuBar());
 
         // set status bar
-        add(new StatusBar(), BorderLayout.SOUTH);
+        add(statusBar, BorderLayout.SOUTH);
 
         // construct panes
 
@@ -55,15 +70,15 @@ public class EditorWindow extends Window {
         parentPane.setContinuousLayout(true);
         parentPane.setOneTouchExpandable(true);
 
-        parentPane.setLeftComponent(new FilePane());
+        parentPane.setLeftComponent(filePane);
 
         // child SplitPane (editor + preview)
         JSplitPane childPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         childPane.setContinuousLayout(true);
         childPane.setResizeWeight(0.5);
 
-        childPane.setLeftComponent(new EditorPane());
-        childPane.setRightComponent(new PreviewPane());
+        childPane.setLeftComponent(editorPane);
+        childPane.setRightComponent(previewPane);
 
         parentPane.setRightComponent(childPane);
 
@@ -76,6 +91,22 @@ public class EditorWindow extends Window {
         System.exit(0);
 
         super.windowClosed(arg0);
+    }
+
+    /**
+     * Load the given file into this editor
+     */
+    public void loadFile(File file) {
+        if (file == null) {
+            return;
+        }
+
+        String contents = Loader.readFile(file);
+        editorPane.editor.setText(contents);
+
+        // set status and title
+        statusBar.setStatus(file.getAbsolutePath());
+        setTitle(file.getName() + " - TexEdit");
     }
 
     /**
@@ -96,6 +127,13 @@ public class EditorWindow extends Window {
             menuItemListener = new MenuItemListener();
 
             // [file] menu items
+
+            JMenuItem openFileMenuItem = new JMenuItem("Open file...");
+            openFileMenuItem.setActionCommand("open-file");
+            openFileMenuItem.addActionListener(menuItemListener);
+            fileMenu.add(openFileMenuItem);
+
+            fileMenu.addSeparator();
 
             JMenuItem quitMenuItem = new JMenuItem("Quit");
             quitMenuItem.setActionCommand("quit");
@@ -126,6 +164,10 @@ public class EditorWindow extends Window {
                 switch (e.getActionCommand()) {
                     // FILE MENU
 
+                    case "open-file":
+                        EditorWindow.this.loadFile(Loader.promptFile(EditorWindow.this));
+
+                        return;
                     case "quit":
                         // dispatch event to parent editor window to be closed
                         EditorWindow.this.dispatchEvent(

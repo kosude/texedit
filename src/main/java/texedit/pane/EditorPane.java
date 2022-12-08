@@ -12,6 +12,7 @@
 package texedit.pane;
 
 import java.awt.Dimension;
+import java.awt.Font;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -33,9 +34,11 @@ public class EditorPane extends JScrollPane {
 
         // initialise the actual text editor
 
-        // make sure to completely disable word wrapping
         editor = new JTextArea();
         editor.setLineWrap(false);
+
+        editor.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
+
         getViewport().setView(editor);
     }
 }

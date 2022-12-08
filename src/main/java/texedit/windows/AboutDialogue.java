@@ -39,13 +39,13 @@ public class AboutDialogue extends Dialogue {
 
         JLabel programName = new JLabel("TexEdit", JLabel.CENTER);
         programName.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-        programName.setFont(new Font("sans serif", Font.BOLD, 25));
+        programName.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 25));
         programName.setBorder(new EmptyBorder(0, 0, 7, 0));
         vBox.add(programName);
 
         JLabel programBrief = new JLabel("<html><body style='text-align: center'>Integrated editor and viewer for<br>LaTeX documents", JLabel.CENTER);
         programBrief.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-        programBrief.setFont(new Font("sans serif", Font.BOLD | Font.ITALIC, 12));
+        programBrief.setFont(new Font(Font.SANS_SERIF, Font.BOLD | Font.ITALIC, 12));
         vBox.add(programBrief);
 
         // spacing
@@ -55,12 +55,12 @@ public class AboutDialogue extends Dialogue {
 
         JLabel copyright = new JLabel("(c) 2022 Jack Bennett", JLabel.CENTER);
         copyright.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-        copyright.setFont(new Font("sans serif", Font.PLAIN, 11));
+        copyright.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 11));
         vBox.add(copyright);
 
         JLabel affiliation = new JLabel("Not affiliated with the LaTeX project", JLabel.CENTER);
         affiliation.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-        affiliation.setFont(new Font("sans serif", Font.PLAIN, 11));
+        affiliation.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 11));
         vBox.add(affiliation);
 
         // spacing

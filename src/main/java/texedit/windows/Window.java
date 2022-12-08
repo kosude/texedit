@@ -26,8 +26,6 @@ public abstract class Window extends JFrame implements WindowListener {
     public Window(String name, int width, int height) {
         setTitle(name);
         setSize(width, height);
-
-        constructGui();
     }
 
     /**

@@ -11,8 +11,6 @@
 
 package texedit.application;
 
-import javax.swing.UIManager;
-
 import texedit.windows.EditorWindow;
 
 /**
@@ -25,13 +23,6 @@ public class Application {
      * Initialise the TexEdit application
      */
     public Application() {
-        // try to load native look and feel because the cross-platform one is obscene.
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {
-            System.out.println("Failed to load native LaF");
-        }
-
         editorWindow = new EditorWindow();
     }
 
