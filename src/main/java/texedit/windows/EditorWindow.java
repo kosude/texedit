@@ -39,6 +39,8 @@ public class EditorWindow extends Window {
     private EditorPane editorPane;
     private PreviewPane previewPane;
 
+    private File currentFile, currentFolder;
+
     /**
      * Create a TexEdit editor window
      */
@@ -46,9 +48,13 @@ public class EditorWindow extends Window {
         super("TexEdit", 1280, 760);
 
         statusBar = new StatusBar();
-        filePane = new FilePane();
         editorPane = new EditorPane();
         previewPane = new PreviewPane();
+
+        filePane = new FilePane(this);
+
+        setCurrentFile(null);
+        setCurrentFolder(null);
 
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -93,20 +99,56 @@ public class EditorWindow extends Window {
         super.windowClosed(arg0);
     }
 
+    public StatusBar getStatusBar() {
+        return statusBar;
+    }
+    public FilePane getFilePane() {
+        return filePane;
+    }
+    public EditorPane getEditorPane() {
+        return editorPane;
+    }
+    public PreviewPane getPreviewPane() {
+        return previewPane;
+    }
+
     /**
-     * Load the given file into this editor
+     * Set the current file and update any GUI elements to reflect it
      */
-    public void loadFile(File file) {
-        if (file == null) {
-            return;
+    public void setCurrentFile(File val) {
+        currentFile = val;
+
+        updateTitle();
+
+        if (val != null) {
+            statusBar.setStatus(val.getAbsolutePath());
+        } else {
+            statusBar.setStatus("Ready");
         }
+    }
+    /**
+     * Set the current folder and update any GUI elements to reflect it
+     */
+    public void setCurrentFolder(File val) {
+        currentFolder = val;
+        updateTitle();
+    }
 
-        String contents = Loader.readFile(file);
-        editorPane.editor.setText(contents);
+    /**
+     * Update the title to contain the current file and folder names
+     */
+    private void updateTitle() {
+        String buffer = "";
 
-        // set status and title
-        statusBar.setStatus(file.getAbsolutePath());
-        setTitle(file.getName() + " - TexEdit");
+        if (currentFile != null) {
+            buffer += currentFile.getName() + " - ";
+        }
+        if (currentFolder != null) {
+            buffer += currentFolder.getName() + " - ";
+        }
+        buffer += "TexEdit";
+
+        setTitle(buffer);
     }
 
     /**
@@ -133,6 +175,23 @@ public class EditorWindow extends Window {
             openFileMenuItem.addActionListener(menuItemListener);
             fileMenu.add(openFileMenuItem);
 
+            JMenuItem openFolderMenuItem = new JMenuItem("Open folder...");
+            openFolderMenuItem.setActionCommand("open-folder");
+            openFolderMenuItem.addActionListener(menuItemListener);
+            fileMenu.add(openFolderMenuItem);
+
+            fileMenu.addSeparator();
+
+            JMenuItem closeFileMenuItem = new JMenuItem("Close current file");
+            closeFileMenuItem.setActionCommand("close-file");
+            closeFileMenuItem.addActionListener(menuItemListener);
+            fileMenu.add(closeFileMenuItem);
+
+            JMenuItem closeFolderMenuItem = new JMenuItem("Close current folder");
+            closeFolderMenuItem.setActionCommand("close-folder");
+            closeFolderMenuItem.addActionListener(menuItemListener);
+            fileMenu.add(closeFolderMenuItem);
+
             fileMenu.addSeparator();
 
             JMenuItem quitMenuItem = new JMenuItem("Quit");
@@ -146,6 +205,8 @@ public class EditorWindow extends Window {
             repoMenuItem.setActionCommand("open-repo");
             repoMenuItem.addActionListener(menuItemListener);
             helpMenu.add(repoMenuItem);
+
+            helpMenu.addSeparator();
 
             JMenuItem aboutMenuItem = new JMenuItem("About TexEdit...");
             aboutMenuItem.setActionCommand("about");
@@ -165,7 +226,24 @@ public class EditorWindow extends Window {
                     // FILE MENU
 
                     case "open-file":
-                        EditorWindow.this.loadFile(Loader.promptFile(EditorWindow.this));
+                        Loader.loadFile(Loader.promptFile(EditorWindow.this), EditorWindow.this);
+
+                        return;
+                    case "open-folder":
+                        Loader.loadFolder(Loader.promptFolder(EditorWindow.this), EditorWindow.this);
+
+                        return;
+                    case "close-file":
+                        Loader.loadFile(null, EditorWindow.this);
+                        setCurrentFile(null);
+
+                        return;
+                    case "close-folder":
+                        Loader.loadFile(null, EditorWindow.this);
+                        filePane.updateRootFolder(null);
+
+                        setCurrentFile(null);
+                        setCurrentFolder(null);
 
                         return;
                     case "quit":
