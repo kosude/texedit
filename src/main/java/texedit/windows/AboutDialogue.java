@@ -43,6 +43,13 @@ public class AboutDialogue extends Dialogue {
         programName.setBorder(new EmptyBorder(0, 0, 7, 0));
         vBox.add(programName);
 
+        // TODO store application version in properties file: https://stackoverflow.com/a/20863821/12980669
+        JLabel programVersion = new JLabel("Version dev-v0.1.0", JLabel.CENTER);
+        programVersion.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        programVersion.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
+        programVersion.setBorder(new EmptyBorder(0, 0, 7, 0));
+        vBox.add(programVersion);
+
         JLabel programBrief = new JLabel("<html><body style='text-align: center'>Integrated editor and viewer for<br>LaTeX documents", JLabel.CENTER);
         programBrief.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         programBrief.setFont(new Font(Font.SANS_SERIF, Font.BOLD | Font.ITALIC, 12));
