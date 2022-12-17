@@ -34,6 +34,7 @@ import texedit.web.Repository;
  */
 public class EditorWindow extends Window {
     private StatusBar statusBar;
+    private MenuBar menuBar;
 
     private FilePane filePane;
     private EditorPane editorPane;
@@ -48,10 +49,11 @@ public class EditorWindow extends Window {
         super("TexEdit", 1280, 760);
 
         statusBar = new StatusBar();
-        editorPane = new EditorPane();
-        previewPane = new PreviewPane();
+        menuBar = new MenuBar();
 
         filePane = new FilePane(this);
+        editorPane = new EditorPane();
+        previewPane = new PreviewPane();
 
         setCurrentFile(null);
         setCurrentFolder(null);
@@ -64,7 +66,7 @@ public class EditorWindow extends Window {
     @Override
     protected void constructGui() {
         // set menu bar
-        setJMenuBar(new MenuBar());
+        setJMenuBar(menuBar);
 
         // set status bar
         add(statusBar, BorderLayout.SOUTH);
@@ -122,8 +124,10 @@ public class EditorWindow extends Window {
 
         if (val != null) {
             statusBar.setStatus(val.getAbsolutePath());
+            menuBar.closeFileMenuItem.setEnabled(true);
         } else {
             statusBar.setStatus("Ready");
+            menuBar.closeFileMenuItem.setEnabled(false);
         }
     }
     /**
@@ -132,6 +136,12 @@ public class EditorWindow extends Window {
     public void setCurrentFolder(File val) {
         currentFolder = val;
         updateTitle();
+
+        if (val != null) {
+            menuBar.closeFolderMenuItem.setEnabled(true);
+        } else {
+            menuBar.closeFolderMenuItem.setEnabled(false);
+        }
     }
 
     /**
@@ -160,6 +170,19 @@ public class EditorWindow extends Window {
 
         private final MenuItemListener menuItemListener;
 
+        // menu items within the File section
+        public JMenuItem
+            openFileMenuItem,
+            openFolderMenuItem,
+            closeFileMenuItem,
+            closeFolderMenuItem,
+            quitMenuItem;
+
+        // menu items within the Help section
+        public JMenuItem
+            repoMenuItem,
+            aboutMenuItem;
+
         /**
          * Construct the menu bar
          */
@@ -168,47 +191,58 @@ public class EditorWindow extends Window {
             helpMenu = new JMenu("Help");
             menuItemListener = new MenuItemListener();
 
+            //
             // [file] menu items
+            //
 
-            JMenuItem openFileMenuItem = new JMenuItem("Open file...");
+            // open file...
+            openFileMenuItem = new JMenuItem("Open file...");
             openFileMenuItem.setActionCommand("open-file");
             openFileMenuItem.addActionListener(menuItemListener);
             fileMenu.add(openFileMenuItem);
 
-            JMenuItem openFolderMenuItem = new JMenuItem("Open folder...");
+            // open folder...
+            openFolderMenuItem = new JMenuItem("Open folder...");
             openFolderMenuItem.setActionCommand("open-folder");
             openFolderMenuItem.addActionListener(menuItemListener);
             fileMenu.add(openFolderMenuItem);
 
             fileMenu.addSeparator();
 
-            JMenuItem closeFileMenuItem = new JMenuItem("Close current file");
+            // close current file
+            closeFileMenuItem = new JMenuItem("Close current file");
             closeFileMenuItem.setActionCommand("close-file");
             closeFileMenuItem.addActionListener(menuItemListener);
             fileMenu.add(closeFileMenuItem);
 
-            JMenuItem closeFolderMenuItem = new JMenuItem("Close current folder");
+            // close current folder
+            closeFolderMenuItem = new JMenuItem("Close current folder");
             closeFolderMenuItem.setActionCommand("close-folder");
             closeFolderMenuItem.addActionListener(menuItemListener);
             fileMenu.add(closeFolderMenuItem);
 
             fileMenu.addSeparator();
 
-            JMenuItem quitMenuItem = new JMenuItem("Quit");
+            // quit
+            quitMenuItem = new JMenuItem("Quit");
             quitMenuItem.setActionCommand("quit");
             quitMenuItem.addActionListener(menuItemListener);
             fileMenu.add(quitMenuItem);
 
+            //
             // [help] menu items
+            //
 
-            JMenuItem repoMenuItem = new JMenuItem("Git repository...");
+            // git repository...
+            repoMenuItem = new JMenuItem("Git repository...");
             repoMenuItem.setActionCommand("open-repo");
             repoMenuItem.addActionListener(menuItemListener);
             helpMenu.add(repoMenuItem);
 
             helpMenu.addSeparator();
 
-            JMenuItem aboutMenuItem = new JMenuItem("About TexEdit...");
+            // about texedit...
+            aboutMenuItem = new JMenuItem("About TexEdit...");
             aboutMenuItem.setActionCommand("about");
             aboutMenuItem.addActionListener(menuItemListener);
             helpMenu.add(aboutMenuItem);
