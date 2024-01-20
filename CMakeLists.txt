@@ -2,6 +2,11 @@ cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
 project("texedit")
 
 set(TE_DEPS_DIR "${CMAKE_CURRENT_LIST_DIR}/deps/")
+set(TE_TEXLIVE_DIR "${CMAKE_CURRENT_LIST_DIR}/texlive/")
+set(TE_SCRIPTS_DIR "${CMAKE_CURRENT_LIST_DIR}/scripts/")
+
+set(TE_CMAKE_DIR "${CMAKE_CURRENT_LIST_DIR}/cmake/")
+set(CMAKE_MODULE_PATH "${TE_CMAKE_DIR}/mod/")
 
 set(CMAKE_CONFIGURATION_TYPES Debug Release)
 if (NOT CMAKE_BUILD_TYPE)
@@ -28,4 +33,23 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 
-add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/" "${CMAKE_CURRENT_BINARY_DIR}/texedit/")
+set(TE_SRCS
+    "src/main.cpp"
+)
+set(TE_TARGET_NAME "texeditexec")
+add_executable(${TE_TARGET_NAME} ${TE_SRCS})
+target_compile_options(${TE_TARGET_NAME} PRIVATE ${TE_COMPILE_OPTIONS})
+target_compile_definitions(${TE_TARGET_NAME} PRIVATE ${TE_DEFINITIONS})
+target_include_directories(${TE_TARGET_NAME} PRIVATE ${CMAKE_CURRENT_LIST_DIR})
+
+# zf_log v0.4.1
+add_subdirectory("${TE_DEPS_DIR}/zf_log/" "${PROJECT_BINARY_DIR}/deps/zf_log/")
+target_link_libraries(${TE_TARGET_NAME} zf_log)
+
+add_custom_target(copy_texlive
+    COMMAND ${CMAKE_COMMAND} -DIN_DIR:STRING="${TE_TEXLIVE_DIR}" -DOUT_DIR:STRING="texlive" -P "${TE_CMAKE_DIR}/copy_dir.cmake")
+add_dependencies(${TE_TARGET_NAME} copy_texlive)
+
+add_custom_target(copy_scripts
+    COMMAND ${CMAKE_COMMAND} -DIN_DIR:STRING="${TE_SCRIPTS_DIR}" -DOUT_DIR:STRING="scripts" -P "${TE_CMAKE_DIR}/copy_dir.cmake")
+add_dependencies(${TE_TARGET_NAME} copy_scripts)
