@@ -18,6 +18,13 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     set(TE_DEBUG true)
     set(TE_DEFINITIONS ${TE_DEFINITIONS} "_DEBUG")
 endif()
+if (WIN32)
+    set(TE_DEFINITIONS ${TE_DEFINITIONS} "_WIN32")
+elseif (APPLE)
+    set(TE_DEFINITIONS ${TE_DEFINITIONS} "_APPLE")
+elseif (UNIX)
+    set(TE_DEFINITIONS ${TE_DEFINITIONS} "_UNIX")
+endif()
 
 # treating warnings as errors may be problematic when compiling for prod use.
 # we are assuming here that lib users will be compiling in release config and lib developers/contributors in debug config.
@@ -28,15 +35,16 @@ if (TE_DEBUG)
         -Wno-error=unused-function)
 endif()
 
-set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD 20)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 
 set(TE_SRCS
+    "src/compile.cpp"
     "src/main.cpp"
 )
-set(TE_TARGET_NAME "texeditexec")
+set(TE_TARGET_NAME "teexec")
 add_executable(${TE_TARGET_NAME} ${TE_SRCS})
 target_compile_options(${TE_TARGET_NAME} PRIVATE ${TE_COMPILE_OPTIONS})
 target_compile_definitions(${TE_TARGET_NAME} PRIVATE ${TE_DEFINITIONS})
