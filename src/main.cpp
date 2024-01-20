@@ -6,9 +6,14 @@
  */
 
 #include "util/log.hpp"
+#include "compile.hpp"
 
 int main(int argc, char **argv) {
-    LLOG("Hello world");
+    std::string scriptdir = "scripts/";
+    std::string outdir = "pdftmp/";
+
+    te::TeXLiveInstance tex{scriptdir, outdir};
+    tex.CompileLaTeX("../tests/test.tex");
 
     return 0;
 }
