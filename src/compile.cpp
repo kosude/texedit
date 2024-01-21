@@ -30,9 +30,9 @@ namespace te {
 
         std::string cmd = _texcmp;
 #       if defined(_APPLE)
-            cmd += " osx";
+            cmd += " darwin";
 #       elif defined(_UNIX)
-            cmd += " nix";
+            cmd += " linux";
 #       endif
         cmd += " \"" + texname.string() + "\" \"" + _outdir.string() + "\"";
 
