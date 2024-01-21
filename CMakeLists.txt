@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
 project("texedit")
 
 set(TE_DEPS_DIR "${CMAKE_CURRENT_LIST_DIR}/deps/")
-set(TE_TEXLIVE_DIR "${CMAKE_CURRENT_LIST_DIR}/texlive_dist/")
+set(TE_TEXLIVE_DIR "${CMAKE_CURRENT_LIST_DIR}/disttex/")
 set(TE_SCRIPTS_DIR "${CMAKE_CURRENT_LIST_DIR}/src/scripts/")
 
 set(TE_CMAKE_DIR "${CMAKE_CURRENT_LIST_DIR}/cmake/")
@@ -67,7 +67,7 @@ target_link_libraries(${TE_TARGET_NAME} zf_log)
 # target_link_libraries(${TE_TARGET_NAME} Qt6::Widgets)
 
 add_custom_target(copy_texlive
-    COMMAND ${CMAKE_COMMAND} -DIN_DIR:STRING="${TE_TEXLIVE_DIR}" -DOUT_DIR:STRING="texlive" -P "${TE_CMAKE_DIR}/copy_dir.cmake")
+    COMMAND ${CMAKE_COMMAND} -DIN_DIR:STRING="${TE_TEXLIVE_DIR}" -DOUT_DIR:STRING="disttex" -P "${TE_CMAKE_DIR}/copy_dir.cmake")
 add_dependencies(${TE_TARGET_NAME} copy_texlive)
 add_custom_target(copy_scripts
     COMMAND ${CMAKE_COMMAND} -DIN_DIR:STRING="${TE_SCRIPTS_DIR}" -DOUT_DIR:STRING="." -P "${TE_CMAKE_DIR}/copy_dir.cmake")
