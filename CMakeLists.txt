@@ -35,12 +35,21 @@ if (TE_DEBUG)
         -Wno-error=unused-function)
 endif()
 
-set(CMAKE_C_STANDARD 20)
-set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 
+find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
+
 set(TE_SRCS
+    "src/interface/windows/base/base_window.cpp"
+    "src/interface/windows/editor_view.cpp"
+    "src/interface/application.cpp"
+
     "src/compile.cpp"
     "src/main.cpp"
 )
@@ -48,16 +57,18 @@ set(TE_TARGET_NAME "teexec")
 add_executable(${TE_TARGET_NAME} ${TE_SRCS})
 target_compile_options(${TE_TARGET_NAME} PRIVATE ${TE_COMPILE_OPTIONS})
 target_compile_definitions(${TE_TARGET_NAME} PRIVATE ${TE_DEFINITIONS})
-target_include_directories(${TE_TARGET_NAME} PRIVATE ${CMAKE_CURRENT_LIST_DIR})
+target_include_directories(${TE_TARGET_NAME} PRIVATE "${CMAKE_CURRENT_LIST_DIR}/src/" "${CMAKE_CURRENT_BINARY_DIR}/${TE_TARGET_NAME}_autogen/")
 
 # zf_log v0.4.1
 add_subdirectory("${TE_DEPS_DIR}/zf_log/" "${PROJECT_BINARY_DIR}/deps/zf_log/")
 target_link_libraries(${TE_TARGET_NAME} zf_log)
 
+# Qt libraries
+target_link_libraries(${TE_TARGET_NAME} Qt6::Widgets)
+
 add_custom_target(copy_texlive
     COMMAND ${CMAKE_COMMAND} -DIN_DIR:STRING="${TE_TEXLIVE_DIR}" -DOUT_DIR:STRING="texlive" -P "${TE_CMAKE_DIR}/copy_dir.cmake")
 add_dependencies(${TE_TARGET_NAME} copy_texlive)
-
 add_custom_target(copy_scripts
     COMMAND ${CMAKE_COMMAND} -DIN_DIR:STRING="${TE_SCRIPTS_DIR}" -DOUT_DIR:STRING="scripts" -P "${TE_CMAKE_DIR}/copy_dir.cmake")
 add_dependencies(${TE_TARGET_NAME} copy_scripts)
