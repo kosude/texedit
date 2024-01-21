@@ -67,7 +67,7 @@ target_link_libraries(${TE_TARGET_NAME} zf_log)
 # target_link_libraries(${TE_TARGET_NAME} Qt6::Widgets)
 
 add_custom_target(copy_texlive
-    COMMAND ${CMAKE_COMMAND} -DIN_DIR:STRING="${TE_TEXLIVE_DIR}" -DOUT_DIR:STRING="disttex" -P "${TE_CMAKE_DIR}/copy_dir.cmake")
+    COMMAND ${CMAKE_COMMAND} -DIN_DIR:STRING="${TE_TEXLIVE_DIR}" -DOUT_DIR:STRING="tex" -P "${TE_CMAKE_DIR}/copy_dir.cmake")
 add_dependencies(${TE_TARGET_NAME} copy_texlive)
 add_custom_target(copy_scripts
     COMMAND ${CMAKE_COMMAND} -DIN_DIR:STRING="${TE_SCRIPTS_DIR}" -DOUT_DIR:STRING="." -P "${TE_CMAKE_DIR}/copy_dir.cmake")
