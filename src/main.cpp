@@ -11,7 +11,7 @@
 
 int main(int argc, char **argv) {
     std::string scriptdir = "./";
-    std::string outdir = "pdftmp/";
+    std::string outdir = "tmp/";
 
     te::TeXLiveInstance tex{scriptdir, outdir};
     tex.CompileLaTeX("../tests/test.tex");
