@@ -20,8 +20,6 @@ namespace te {
     private:
 #       if defined(_WIN32)
             static constexpr const char *_TEXCMP_NAME = "texcmp_win32.bat";
-#       elif defined(_APPLE)
-            static constexpr const char *_TEXCMP_NAME = "texcmp_darwin.sh";
 #       else
             static constexpr const char *_TEXCMP_NAME = "texcmp.sh";
 #       endif

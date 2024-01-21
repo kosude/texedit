@@ -40,15 +40,15 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui)
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTOUIC ON)
-set(CMAKE_AUTORCC ON)
+# find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui)
+# set(CMAKE_AUTOMOC ON)
+# set(CMAKE_AUTOUIC ON)
+# set(CMAKE_AUTORCC ON)
 
 set(TE_SRCS
-    "src/interface/windows/base/base_window.cpp"
-    "src/interface/windows/editor_view.cpp"
-    "src/interface/application.cpp"
+    # "src/interface/windows/base/base_window.cpp"
+    # "src/interface/windows/editor_view.cpp"
+    # "src/interface/application.cpp"
 
     "src/compile.cpp"
     "src/main.cpp"
@@ -64,7 +64,7 @@ add_subdirectory("${TE_DEPS_DIR}/zf_log/" "${PROJECT_BINARY_DIR}/deps/zf_log/")
 target_link_libraries(${TE_TARGET_NAME} zf_log)
 
 # Qt libraries
-target_link_libraries(${TE_TARGET_NAME} Qt6::Widgets)
+# target_link_libraries(${TE_TARGET_NAME} Qt6::Widgets)
 
 add_custom_target(copy_texlive
     COMMAND ${CMAKE_COMMAND} -DIN_DIR:STRING="${TE_TEXLIVE_DIR}" -DOUT_DIR:STRING="texlive" -P "${TE_CMAKE_DIR}/copy_dir.cmake")

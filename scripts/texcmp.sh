@@ -4,11 +4,10 @@
 
 usage() {
     cat << EOF
-usage: texcmp.sh (nix/osx/win) TEXNAME OUTDIR
+usage: texcmp.sh (nix/osx) TEXNAME OUTDIR
 
 nix - Use Unix/Linux binaries for TeX compilation
 osx - Use macOS binaries for TeX compilation
-win - Use Windows binaries for TeX compilation
 EOF
 }
 

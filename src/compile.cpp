@@ -29,11 +29,9 @@ namespace te {
         }
 
         std::string cmd = _texcmp;
-#       if defined(_WIN32)
-            cmd += " win";
-#       elif defined(_APPLE)
+#       if defined(_APPLE)
             cmd += " osx";
-#       else
+#       elif defined(_UNIX)
             cmd += " nix";
 #       endif
         cmd += " \"" + texname.string() + "\" \"" + _outdir.string() + "\"";
