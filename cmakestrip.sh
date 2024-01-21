@@ -2,7 +2,7 @@
 
 usage() {
     cat << EOF
-usage: buildstrip.sh BUILDDIR
+usage: cmakestrip.sh BUILDDIR
 EOF
 }
 
