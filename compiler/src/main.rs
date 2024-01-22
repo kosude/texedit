@@ -23,7 +23,7 @@ fn ret_main() -> CompResult<()> {
     texpdfc.push(files::get_texpdfc());
 
     let mut docpath = basep.clone();
-    docpath.push("../../tests/secondone.tex");
+    docpath.push("../../tests/test.tex");
     docpath = docpath
         .canonicalize()
         .map_err(|e| CompError::FileNotFoundError(e.to_string()))?;
