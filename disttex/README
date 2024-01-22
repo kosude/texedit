@@ -4,7 +4,7 @@ shipped with the TexEdit project.
 TexEdit is not affiliated with TeX Live!
 
 Binaries in this distribution should not be invoked directly. Instead, use the
-'texcmp.sh' script or equivalent to compile TeX documents on the appropriate
+'texpdfc.sh' script or equivalent to compile TeX documents on the appropriate
 system architecture.
 
 ---

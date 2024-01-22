@@ -5,7 +5,7 @@
 
 usage() {
     cat << EOF
-usage: texcmp.sh (darwin|linux) TEXNAME OUTDIR
+usage: texpdfc.sh (darwin|linux) TEXNAME OUTDIR
 
 darwin - Use macOS binaries for TeX compilation
 linux - Use Linux binaries for TeX compilation
@@ -30,7 +30,7 @@ pdflatex_bin="$texlive_os_dir/bin/pdflatex"
 cd $texlive_base_dir
 source env_$arch.sh
 
-cmd="$pdflatex_bin -output-directory=$outdir $filename"
+cmd="$pdflatex_bin -interaction=nonstopmode -output-directory=$outdir $filename"
 
 echo "$cmd"
 $cmd
