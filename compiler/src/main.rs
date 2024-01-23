@@ -5,52 +5,58 @@
  *   See the LICENCE file for more information.
  */
 
-use std::{fs, process::exit};
+use std::{fs, path::PathBuf, process::exit};
 
-use compiler::Compiler;
+use clap::Parser;
+use cli::CommandVariant;
+use compiler::{CompileOutput, Compiler};
 use error::CompResult;
 
 use crate::error::CompError;
 
+mod cli;
 mod compiler;
 mod error;
 mod files;
 
-fn ret_main() -> CompResult<()> {
-    let basep = files::get_exec_loc()?;
+fn main() {
+    if let Err(e) = || -> CompResult<()> {
+        let args = cli::Cli::parse();
 
-    let mut texpdfc = basep.clone();
-    texpdfc.push(files::get_texpdfc());
+        // get texpdfc script, relative to binary
+        let basep = files::get_exec_loc()?;
+        let mut texpdfc = basep.clone();
+        texpdfc.push(files::get_texpdfc());
 
-    let mut docpath = basep.clone();
-    docpath.push("../../tests/secondone.tex");
-    docpath = docpath
+        match args.subcommand {
+            CommandVariant::Make(a) => {
+                let res = compile_file(&texpdfc, &a.input, &a.com.outdir)?;
+
+                println!("{:#?}", res.pdf());
+
+                return Ok(());
+            }
+        }
+    }() {
+        e.handle();
+    }
+
+    exit(0);
+}
+
+fn compile_file(texpdfc: &PathBuf, input: &str, outdir: &str) -> CompResult<CompileOutput> {
+    // get canonical path to input + check it exists
+    let docpath = PathBuf::from(input)
         .canonicalize()
         .map_err(|e| CompError::FileNotFoundError(e.to_string()))?;
 
-    let mut outdir = basep.clone();
-    outdir.push("tmp");
+    // attempt to create output directory if not exist
+    let outdir = PathBuf::from(outdir);
     fs::create_dir_all(&outdir).map_err(|e| CompError::FilesystemError(e.to_string()))?;
 
-    let res = Compiler::new(&texpdfc)
+    Compiler::new(&texpdfc)
         .document(&docpath)
         .out_dir(&outdir)
         .compile()
-        .map_err(|_| {
-            CompError::CompilationError(format!(
-                "Failed to compile TeX document at {}",
-                docpath.as_os_str().to_str().unwrap()
-            ))
-        })?;
-
-    println!("{:#?}", res.pdf());
-
-    Ok(())
-}
-
-fn main() {
-    if let Err(e) = ret_main() {
-        e.handle();
-    }
-    exit(0);
+        .map_err(|_| CompError::CompilationError("Compile error".to_string()))
 }
