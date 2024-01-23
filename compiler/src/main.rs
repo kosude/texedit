@@ -29,10 +29,32 @@ fn main() {
         texpdfc.push(files::get_texpdfc());
 
         match args.subcommand {
-            CommandVariant::Make(a) => {
-                let res = compile_file(&texpdfc, &a.input, &a.com.outdir)?;
+            CommandVariant::Make(o) => {
+                let input = PathBuf::from(o.input)
+                    .canonicalize()
+                    .map_err(|e| CompError::FileNotFoundError(e.to_string()))?;
 
-                println!("{:#?}", res.pdf());
+                compile_file(&texpdfc, &input, &o.outdir)?;
+
+                return Ok(());
+            }
+            CommandVariant::Watch(o) => {
+                let input = PathBuf::from(o.input)
+                    .canonicalize()
+                    .map_err(|e| CompError::FileNotFoundError(e.to_string()))?;
+
+                let watch = PathBuf::from(o.watch)
+                    .canonicalize()
+                    .map_err(|e| CompError::FileNotFoundError(e.to_string()))?;
+
+                if watch.is_dir() {
+                    println!("Watching FILE: {:?}, will compile {:?}", watch, input);
+                } else {
+                    println!("Watching DIRECTORY: {:?}, will compile {:?}", watch, input);
+                }
+
+                // TODO: replace this line with some function that starts a watch procedure that continues indefinitely.
+                compile_file(&texpdfc, &input, &o.outdir)?;
 
                 return Ok(());
             }
@@ -44,18 +66,13 @@ fn main() {
     exit(0);
 }
 
-fn compile_file(texpdfc: &PathBuf, input: &str, outdir: &str) -> CompResult<CompileOutput> {
-    // get canonical path to input + check it exists
-    let docpath = PathBuf::from(input)
-        .canonicalize()
-        .map_err(|e| CompError::FileNotFoundError(e.to_string()))?;
-
+fn compile_file(texpdfc: &PathBuf, input: &PathBuf, outdir: &str) -> CompResult<CompileOutput> {
     // attempt to create output directory if not exist
     let outdir = PathBuf::from(outdir);
     fs::create_dir_all(&outdir).map_err(|e| CompError::FilesystemError(e.to_string()))?;
 
     Compiler::new(&texpdfc)
-        .document(&docpath)
+        .document(&input)
         .out_dir(&outdir)
         .compile()
         .map_err(|_| CompError::CompilationError("Compile error".to_string()))

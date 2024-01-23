@@ -14,16 +14,10 @@ pub struct Cli {
     pub subcommand: CommandVariant,
 }
 
-#[derive(Args, Debug)]
-pub struct ArgsCommon {
-    /// Path to output directory
-    #[arg(short, long, default_value = ".")]
-    pub outdir: String,
-}
-
 #[derive(Subcommand, Debug)]
 pub enum CommandVariant {
     Make(MakeArgs),
+    Watch(WatchArgs),
 }
 
 /// Compile TeX input into PDF output
@@ -31,7 +25,20 @@ pub enum CommandVariant {
 pub struct MakeArgs {
     /// Path to the input .tex file
     pub input: String,
+    /// Path to output directory
+    #[arg(short, long, default_value = ".")]
+    pub outdir: String,
+}
 
-    #[command(flatten)]
-    pub com: ArgsCommon,
+/// Persistently watch folder or file for changes and recompile
+#[derive(Args, Debug)]
+pub struct WatchArgs {
+    /// Path to a file or directory to watch
+    pub watch: String,
+
+    /// Path to the input .tex file
+    pub input: String,
+    /// Path to output directory
+    #[arg(short, long, default_value = ".")]
+    pub outdir: String,
 }
