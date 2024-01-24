@@ -38,7 +38,7 @@ impl<'a> Compiler<'a> {
         self
     }
 
-    pub fn compile(&mut self) -> CompileResult {
+    pub fn compile(&self) -> CompileResult {
         let mut cmd = Command::new(self.texpdfc);
         if cfg!(target_os = "macos") {
             cmd.arg("darwin");
