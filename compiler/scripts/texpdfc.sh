@@ -19,8 +19,8 @@ if [ $# -ne 3 ] ; then
 fi
 
 arch=$1
-filename=$(realpath "$2")
-outdir=$(realpath "$3")
+filename=$(realpath $2)
+outdir=$(realpath $3)
 
 base_dir="$(realpath "${0%/*}")"
 texlive_base_dir="$(realpath "$base_dir/tex")"

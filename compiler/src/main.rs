@@ -11,6 +11,10 @@ use clap::Parser;
 use cli::CommandVariant;
 use compiler::{CompileOutput, Compiler};
 use error::CompResult;
+use notify::{
+    event::{CreateKind, DataChange, ModifyKind, RemoveKind, RenameMode},
+    EventKind, RecommendedWatcher, RecursiveMode, Watcher,
+};
 
 use crate::error::CompError;
 
@@ -48,13 +52,12 @@ fn main() {
                     .map_err(|e| CompError::FileNotFoundError(e.to_string()))?;
 
                 if watch.is_dir() {
-                    println!("Watching FILE: {:?}, will compile {:?}", watch, input);
-                } else {
                     println!("Watching DIRECTORY: {:?}, will compile {:?}", watch, input);
+                } else {
+                    println!("Watching FILE: {:?}, will compile {:?}", watch, input);
                 }
 
-                // TODO: replace this line with some function that starts a watch procedure that continues indefinitely.
-                compile_file(&texpdfc, &input, &o.outdir)?;
+                watch_compile(&texpdfc, &input, &o.outdir, &watch)?;
 
                 return Ok(());
             }
@@ -76,4 +79,54 @@ fn compile_file(texpdfc: &PathBuf, input: &PathBuf, outdir: &str) -> CompResult<
         .out_dir(&outdir)
         .compile()
         .map_err(|_| CompError::CompilationError("Compile error".to_string()))
+}
+
+fn watch_compile(
+    texpdfc: &PathBuf,
+    input: &PathBuf,
+    outdir: &str,
+    watch: &PathBuf,
+) -> CompResult<()> {
+    // attempt to create output directory if not exist
+    let outdir = PathBuf::from(outdir);
+    fs::create_dir_all(&outdir).map_err(|e| CompError::FilesystemError(e.to_string()))?;
+
+    let comp = Compiler::new(&texpdfc)
+        .document(&input)
+        .out_dir(&outdir)
+        .to_owned();
+
+    let (tx, rx) = std::sync::mpsc::channel();
+
+    let mut watcher = RecommendedWatcher::new(tx, notify::Config::default())
+        .map_err(|e| CompError::WatchError(e.to_string()))?;
+
+    watcher
+        .watch(&watch, RecursiveMode::Recursive)
+        .map_err(|e| CompError::WatchError(e.to_string()))?;
+
+    let events = vec![
+        EventKind::Create(CreateKind::File),
+        EventKind::Modify(ModifyKind::Data(DataChange::Any)),
+        EventKind::Modify(ModifyKind::Name(RenameMode::From)),
+        EventKind::Remove(RemoveKind::File),
+    ];
+
+    for res in rx {
+        match res {
+            Ok(ev) => {
+                if events.contains(&ev.kind) {
+                    comp.compile()
+                        .map_err(|_| CompError::CompilationError("Compile error".to_string()))?;
+                }
+            }
+            Err(err) => {
+                return Err(CompError::WatchError(
+                    format!("Watch error: {err:?}").to_string(),
+                ))
+            }
+        }
+    }
+
+    Ok(())
 }
