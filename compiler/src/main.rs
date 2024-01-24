@@ -99,11 +99,11 @@ fn watch_compile(
     let (tx, rx) = std::sync::mpsc::channel();
 
     let mut watcher = RecommendedWatcher::new(tx, notify::Config::default())
-        .map_err(|e| CompError::WatchError(e.to_string()))?;
+        .map_err(|e| CompError::WatchStartUpError(e.to_string()))?;
 
     watcher
         .watch(&watch, RecursiveMode::Recursive)
-        .map_err(|e| CompError::WatchError(e.to_string()))?;
+        .map_err(|e| CompError::WatchStartUpError(e.to_string()))?;
 
     let events = vec![
         EventKind::Create(CreateKind::File),
@@ -115,13 +115,19 @@ fn watch_compile(
     for res in rx {
         match res {
             Ok(ev) => {
+                if ev.paths.contains(&watch) {
+                    return Err(CompError::WatchRuntimeError(
+                        format!("Deletion or renaming of watched node {watch:?}").to_string(),
+                    ));
+                }
+
                 if events.contains(&ev.kind) {
                     comp.compile()
                         .map_err(|_| CompError::CompilationError("Compile error".to_string()))?;
                 }
             }
             Err(err) => {
-                return Err(CompError::WatchError(
+                return Err(CompError::WatchRuntimeError(
                     format!("Watch error: {err:?}").to_string(),
                 ))
             }
