@@ -13,7 +13,8 @@ pub enum CompError {
     FilesystemError(String),
     FileNotFoundError(String),
     CompilationError(String),
-    WatchError(String),
+    WatchStartUpError(String),
+    WatchRuntimeError(String),
 }
 
 impl CompError {
@@ -22,7 +23,8 @@ impl CompError {
             Self::FilesystemError(s) => eprintln!("Filesystem error: {}", s),
             Self::FileNotFoundError(s) => eprintln!("File not found: {}", s),
             Self::CompilationError(s) => eprintln!("TeX compilation error: {}", s),
-            Self::WatchError(s) => eprintln!("Error when beginning watch service: {}", s),
+            Self::WatchStartUpError(s) => eprintln!("Error on watch service start-up: {}", s),
+            Self::WatchRuntimeError(s) => eprintln!("Error during watch service runtime: {}", s),
         };
         exit(i32::from(self));
     }
@@ -34,7 +36,8 @@ impl From<CompError> for i32 {
             CompError::FilesystemError(_) => 1,
             CompError::FileNotFoundError(_) => 2,
             CompError::CompilationError(_) => 3,
-            CompError::WatchError(_) => 4,
+            CompError::WatchStartUpError(_) => 4,
+            CompError::WatchRuntimeError(_) => 5,
         }
     }
 }
