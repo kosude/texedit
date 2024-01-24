@@ -5,7 +5,12 @@
  *   See the LICENCE file for more information.
  */
 
-use std::{env::current_exe, path::PathBuf};
+use std::{
+    env::current_exe,
+    fmt::Debug,
+    fs,
+    path::{Path, PathBuf},
+};
 
 use crate::error::{CompError, CompResult};
 
@@ -23,4 +28,20 @@ pub fn get_texpdfc() -> &'static str {
     } else {
         "texpdfc.sh"
     }
+}
+
+pub fn makedir<P: AsRef<Path> + Debug>(dir: P) -> CompResult<()> {
+    Ok(fs::create_dir_all(&dir).map_err(|e| CompError::FilesystemError(e.to_string()))?)
+}
+
+pub fn str_to_pathbuf<S: AsRef<str>>(str: S, must_exist: bool) -> CompResult<PathBuf> {
+    let mut p = PathBuf::from(&str.as_ref());
+    if must_exist {
+        // canonicalize() checks that the file exists on the fs
+        p = p
+            .canonicalize()
+            .map_err(|e| CompError::FileNotFoundError(format!("{}: {e}", str.as_ref())))?;
+    }
+
+    Ok(p)
 }
