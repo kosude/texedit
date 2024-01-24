@@ -7,6 +7,8 @@
 
 use std::process::exit;
 
+use crate::log;
+
 pub type CompResult<T> = Result<T, CompError>;
 
 pub enum CompError {
@@ -19,19 +21,26 @@ pub enum CompError {
 
 impl CompError {
     pub fn handle(self) -> ! {
+        let c = i32::from(&self);
+
         match &self {
-            Self::FilesystemError(s) => eprintln!("Filesystem error: {}", s),
-            Self::FileNotFoundError(s) => eprintln!("File not found: {}", s),
-            Self::CompilationError(s) => eprintln!("TeX compilation error: {}", s),
-            Self::WatchStartUpError(s) => eprintln!("Error on watch service start-up: {}", s),
-            Self::WatchRuntimeError(s) => eprintln!("Error during watch service runtime: {}", s),
+            Self::FilesystemError(s) => log::fatal(format!("Filesystem error ({c}): {s}")),
+            Self::FileNotFoundError(s) => log::fatal(format!("File not found ({c}): {s}")),
+            Self::CompilationError(s) => log::fatal(format!("TeX compilation error ({c}): {s}")),
+            Self::WatchStartUpError(s) => {
+                log::fatal(format!("Error on watch service start-up ({c}): {s}"))
+            }
+            Self::WatchRuntimeError(s) => {
+                log::fatal(format!("Error during watch service runtime ({c}): {s}"))
+            }
         };
-        exit(i32::from(self));
+
+        exit(c);
     }
 }
 
-impl From<CompError> for i32 {
-    fn from(value: CompError) -> Self {
+impl From<&CompError> for i32 {
+    fn from(value: &CompError) -> Self {
         match value {
             CompError::FilesystemError(_) => 1,
             CompError::FileNotFoundError(_) => 2,
