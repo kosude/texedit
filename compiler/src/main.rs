@@ -35,23 +35,24 @@ fn main() {
 
         match args.subcommand {
             CommandVariant::Make(o) => {
-                files::makedir(&o.outdir)?;
-
                 Compiler::new(&texpdfc)
-                    .document(&str_to_pathbuf(&o.input, true)?)
-                    .out_dir(&str_to_pathbuf(&o.outdir, false)?)
+                    .document(&str_to_pathbuf(&o.com.input, true)?)
+                    .out_dir(&str_to_pathbuf(&o.com.outdir, true)?)
+                    .verbosity(if o.com.verbose {
+                        compiler::OutputVerbosity::Verbose
+                    } else {
+                        compiler::OutputVerbosity::NoDelegation
+                    })
                     .compile()
                     .map_err(|_| CompError::CompilationError("Compile error".to_string()))?;
 
                 return Ok(());
             }
             CommandVariant::Watch(o) => {
-                files::makedir(&o.outdir)?;
-
                 watch::watch_sync(
                     &texpdfc,
-                    &str_to_pathbuf(&o.input, true)?,
-                    &str_to_pathbuf(&o.outdir, false)?,
+                    &str_to_pathbuf(&o.com.input, true)?,
+                    &str_to_pathbuf(&o.com.outdir, true)?,
                     &str_to_pathbuf(&o.watch, true)?,
                 )?;
 

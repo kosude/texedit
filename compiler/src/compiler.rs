@@ -7,16 +7,35 @@
 
 use std::{
     path::{Path, PathBuf},
-    process::Command,
+    process::{Command, Stdio},
 };
 
-use crate::error::{CompError, CompResult};
+use crate::{
+    error::{CompError, CompResult},
+    log,
+};
+
+#[derive(Clone, Copy, PartialEq, Eq)]
+pub enum OutputVerbosity {
+    /// Full output including pdflatex
+    Verbose,
+    /// Default value - don't delegate output here from pdflatex; otherwise, full output
+    NoDelegation,
+}
+
+impl Default for OutputVerbosity {
+    fn default() -> Self {
+        Self::NoDelegation
+    }
+}
 
 #[derive(Clone)]
 pub struct Compiler<'a> {
     texpdfc: &'a PathBuf,
     texdoc: PathBuf,
     outdir: PathBuf,
+
+    verbosity: OutputVerbosity,
 }
 
 impl<'a> Compiler<'a> {
@@ -25,6 +44,8 @@ impl<'a> Compiler<'a> {
             texpdfc: p,
             texdoc: PathBuf::default(),
             outdir: PathBuf::default(),
+
+            verbosity: OutputVerbosity::default(),
         }
     }
 
@@ -38,6 +59,11 @@ impl<'a> Compiler<'a> {
         self
     }
 
+    pub fn verbosity(&mut self, val: OutputVerbosity) -> &mut Self {
+        self.verbosity = val;
+        self
+    }
+
     pub fn compile(&self) -> CompileResult {
         let mut cmd = Command::new(self.texpdfc);
         if cfg!(target_os = "macos") {
@@ -47,7 +73,12 @@ impl<'a> Compiler<'a> {
         }
         cmd.args([&self.texdoc, &self.outdir]);
 
-        println!("\"{}\"", format!("{:?}", cmd).replace("\"", ""));
+        log::info(format!("Compiling {:?}", &self.texdoc));
+
+        if self.verbosity == OutputVerbosity::NoDelegation {
+            cmd.stdout(Stdio::null());
+            cmd.stderr(Stdio::null());
+        }
 
         cmd.status()
             .unwrap()
@@ -57,7 +88,11 @@ impl<'a> Compiler<'a> {
                 "texpdfc compilation failed".to_string(),
             ))?;
 
-        Ok(CompileOutput::new(self.build_output_path_stem()))
+        let r = CompileOutput::new(self.build_output_path_stem());
+
+        log::info(format!("Resulting PDF is at {:?}", &r.pdf()));
+
+        Ok(r)
     }
 
     fn build_output_path_stem(&self) -> PathBuf {

@@ -20,14 +20,24 @@ pub enum CommandVariant {
     Watch(WatchArgs),
 }
 
-/// Compile TeX input into PDF output
 #[derive(Args, Debug)]
-pub struct MakeArgs {
+pub struct CommonArgGroup {
     /// Path to the input .tex file
     pub input: String,
+
     /// Path to output directory
     #[arg(short, long, default_value = ".")]
     pub outdir: String,
+    /// Print full TeX compilation output
+    #[arg(short, long, action)]
+    pub verbose: bool,
+}
+
+/// Compile TeX input into PDF output
+#[derive(Args, Debug)]
+pub struct MakeArgs {
+    #[command(flatten)]
+    pub com: CommonArgGroup,
 }
 
 /// Persistently watch folder or file for changes and recompile
@@ -36,9 +46,6 @@ pub struct WatchArgs {
     /// Path to a file or directory to watch
     pub watch: String,
 
-    /// Path to the input .tex file
-    pub input: String,
-    /// Path to output directory
-    #[arg(short, long, default_value = ".")]
-    pub outdir: String,
+    #[command(flatten)]
+    pub com: CommonArgGroup,
 }
