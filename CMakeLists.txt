@@ -14,6 +14,12 @@ endif()
 
 set(TE_ROOT "${CMAKE_CURRENT_SOURCE_DIR}")
 
+# add tecomp compiler
 set(TE_COMPILER "tecomp")
-set(TE_COMPILER_DIR "${CMAKE_CURRENT_LIST_DIR}/src/compiler/")
+set(TE_COMPILER_DIR "${TE_ROOT}/src/compiler/")
 add_subdirectory("${TE_COMPILER_DIR}")
+
+# add GUI frontend
+set(TE_FRONTEND "texedit")
+set(TE_FRONTEND_DIR "${TE_ROOT}/src/frontend/")
+add_subdirectory("${TE_FRONTEND_DIR}")

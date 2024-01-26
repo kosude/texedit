@@ -1,3 +1,5 @@
+# Copyright (c) 2022 Andrew Lilley Brinker.
+
 # Find Cargo, possibly in ~/.cargo. Make sure to check in any `bin` subdirectories
 # on the program search path
 # TODO: Remove the Unix-ism ($ENV{HOME}) and replace it with something platform-agnostic.

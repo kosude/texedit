@@ -1,7 +1,13 @@
 .vscode/
 
 build/
+
 target/
+
+bin/
+obj/
+*.sln
+
 tmp/
 *.log
 *.aux
