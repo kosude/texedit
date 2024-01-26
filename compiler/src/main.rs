@@ -14,6 +14,7 @@ use cli::CommandVariant;
 use compiler::Compiler;
 use error::CompResult;
 use files::str_to_pathbuf;
+use handle::add_watch_ctrlc_handler;
 
 use crate::error::CompError;
 
@@ -21,6 +22,7 @@ mod cli;
 mod compiler;
 mod error;
 mod files;
+mod handle;
 mod log;
 mod watch;
 
@@ -38,22 +40,21 @@ fn main() {
                 Compiler::new(&texpdfc)
                     .document(&str_to_pathbuf(&o.com.input, true)?)
                     .out_dir(&str_to_pathbuf(&o.com.outdir, true)?)
-                    .verbosity(if o.com.verbose {
-                        compiler::OutputVerbosity::Verbose
-                    } else {
-                        compiler::OutputVerbosity::NoDelegation
-                    })
+                    .verbosity(args_to_comp_verbosity_enum(o.com.verbose))
                     .compile()
-                    .map_err(|_| CompError::CompilationError("Compile error".to_string()))?;
+                    .map_err(|_| CompError::CompilationError(format!("Compilation error")))?;
 
                 return Ok(());
             }
             CommandVariant::Watch(o) => {
+                add_watch_ctrlc_handler()?;
+
                 watch::watch_sync(
                     &texpdfc,
                     &str_to_pathbuf(&o.com.input, true)?,
                     &str_to_pathbuf(&o.com.outdir, true)?,
                     &str_to_pathbuf(&o.watch, true)?,
+                    args_to_comp_verbosity_enum(o.com.verbose),
                 )?;
 
                 return Ok(());
@@ -64,4 +65,12 @@ fn main() {
     }
 
     exit(0);
+}
+
+fn args_to_comp_verbosity_enum(verbose: bool) -> compiler::OutputVerbosity {
+    if verbose {
+        compiler::OutputVerbosity::Verbose
+    } else {
+        compiler::OutputVerbosity::NoDelegation
+    }
 }
