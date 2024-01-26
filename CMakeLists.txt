@@ -12,6 +12,8 @@ elseif (CMAKE_BUILD_TYPE STREQUAL "Debug")
     set(TE_DEBUG true)
 endif()
 
+set(TE_ROOT "${CMAKE_CURRENT_SOURCE_DIR}")
+
 set(TE_COMPILER "tecomp")
-set(TE_COMPILER_DIR "${CMAKE_CURRENT_LIST_DIR}/compiler/")
+set(TE_COMPILER_DIR "${CMAKE_CURRENT_LIST_DIR}/src/compiler/")
 add_subdirectory("${TE_COMPILER_DIR}")
