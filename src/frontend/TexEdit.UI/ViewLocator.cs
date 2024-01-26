@@ -10,7 +10,7 @@ using Avalonia.Controls.Templates;
 using TexEdit.UI.ViewModels;
 
 namespace TexEdit.UI {
-    public class ViewLocator : IDataTemplate {
+    public sealed class ViewLocator : IDataTemplate {
         public Control Build(object? data) {
             // generate name for view
             string? viewName = data?.GetType().FullName?.Replace("ViewModel", "View");

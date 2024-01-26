@@ -1,0 +1,34 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:TexEdit.UI.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        x:Class="TexEdit.UI.Views.EditorView"
+        x:Name="EditorViewInstance"
+        Title="TexEdit"
+        ClientSize="640, 480">
+
+    <Design.DataContext>
+        <vm:EditorViewModel/>
+    </Design.DataContext>
+
+    <DockPanel LastChildFill="False">
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Quit"
+                          Click="MenuItem_File_Quit"/>
+            </MenuItem>
+
+            <MenuItem Header="_Help">
+                <MenuItem Header="Git _repository..."
+                          Click="MenuItem_Help_GitRepository"/>
+                <!-- <Separator/>
+                <MenuItem Header="View _licence..."
+                          Click="MenuItem_Help_ViewLicence"/>
+                <MenuItem Header="_About TexEdit..."
+                          Click="MenuItem_Help_AboutTexEdit"/> -->
+            </MenuItem>
+        </Menu>
+    </DockPanel>
+</Window>
