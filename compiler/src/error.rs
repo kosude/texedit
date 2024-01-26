@@ -24,15 +24,17 @@ impl CompError {
         let c = i32::from(&self);
 
         match &self {
-            Self::FilesystemError(s) => log::fatal(format!("Filesystem error ({c}): {s}")),
-            Self::FileNotFoundError(s) => log::fatal(format!("File not found ({c}): {s}")),
-            Self::CompilationError(s) => log::fatal(format!("TeX compilation error ({c}): {s}")),
+            Self::FilesystemError(s) => log::fatal(format!("Filesystem error (error {c}): {s}")),
+            Self::FileNotFoundError(s) => log::fatal(format!("File not found (error {c}): {s}")),
+            Self::CompilationError(s) => {
+                log::fatal(format!("TeX compilation error (error {c}): {s}"))
+            }
             Self::WatchStartUpError(s) => {
-                log::fatal(format!("Error on watch service start-up ({c}): {s}"))
+                log::fatal(format!("Error on watch service start-up (error {c}): {s}"))
             }
-            Self::WatchRuntimeError(s) => {
-                log::fatal(format!("Error during watch service runtime ({c}): {s}"))
-            }
+            Self::WatchRuntimeError(s) => log::fatal(format!(
+                "Error during watch service runtime (error {c}): {s}"
+            )),
         };
 
         exit(c);

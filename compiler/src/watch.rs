@@ -15,6 +15,7 @@ use notify::{
 use crate::{
     compiler::Compiler,
     error::{CompError, CompResult},
+    log,
 };
 
 fn get_tracked_events() -> Vec<EventKind> {
@@ -47,6 +48,8 @@ pub fn watch_sync<P: AsRef<Path> + Debug>(
         .map_err(|e| CompError::WatchStartUpError(e.to_string()))?;
 
     let events = get_tracked_events();
+
+    log::info(format!("Started watch session on path {watch:?}"));
 
     for res in rx {
         match res {

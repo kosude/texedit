@@ -9,6 +9,10 @@ use colored::Colorize;
 
 use std::fmt::Display;
 
+pub fn info<S: Into<String> + Display>(str: S) {
+    println!("{str}");
+}
+
 pub fn fatal<S: Into<String> + Display>(str: S) {
     eprintln!("{} {} {str}", "tecomp:".bold(), "fatal:".red().bold());
 }
