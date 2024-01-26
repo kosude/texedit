@@ -13,7 +13,7 @@ use notify::{
 };
 
 use crate::{
-    compiler::Compiler,
+    compiler::{self, Compiler},
     error::{CompError, CompResult},
     log,
 };
@@ -32,6 +32,7 @@ pub fn watch_sync<P: AsRef<Path> + Debug>(
     input: P,
     outdir: P,
     watch: P,
+    verbosity: compiler::OutputVerbosity,
 ) -> CompResult<()> {
     let (tx, rx) = std::sync::mpsc::channel();
     let texpdfc = &texpdfc.as_ref().to_path_buf();
@@ -39,6 +40,7 @@ pub fn watch_sync<P: AsRef<Path> + Debug>(
     let compiler = Compiler::new(&texpdfc)
         .document(&input.as_ref().to_path_buf())
         .out_dir(&outdir.as_ref())
+        .verbosity(verbosity)
         .to_owned();
 
     let mut watcher = RecommendedWatcher::new(tx, notify::Config::default())
