@@ -5,10 +5,27 @@
  *   See the LICENCE file for more information.
  */
 
+using Avalonia;
+using Avalonia.ReactiveUI;
+
+using TexEdit.Utils;
+using TexEdit.UI;
+
 namespace TexEdit {
     class Program {
+        [STAThread]
         static void Main(string[] args) {
-            Console.WriteLine("Hello TexEdit");
+            Logging.Notification("Starting TexEdit frontend");
+
+            // start UI
+            BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
+        }
+
+        static AppBuilder BuildAvaloniaApp() {
+            return AppBuilder.Configure<UIApplication>()
+                .UsePlatformDetect()
+                .LogToTrace()
+                .UseReactiveUI();
         }
     }
 }
