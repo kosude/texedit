@@ -12,16 +12,16 @@ using TexEdit.Utils;
 using TexEdit.UI;
 
 namespace TexEdit {
-    class Program {
+    public static class Program {
         [STAThread]
-        static void Main(string[] args) {
+        public static void Main(string[] args) {
             Logging.Notification("Starting TexEdit frontend");
 
             // start UI
             BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
         }
 
-        static AppBuilder BuildAvaloniaApp() {
+        private static AppBuilder BuildAvaloniaApp() {
             return AppBuilder.Configure<UIApplication>()
                 .UsePlatformDetect()
                 .LogToTrace()

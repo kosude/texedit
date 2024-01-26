@@ -6,6 +6,6 @@
  */
 
 namespace TexEdit.UI.ViewModels {
-    public abstract class ViewModelBase {
+    public sealed class EditorViewModel : ViewModelBase {
     }
 }

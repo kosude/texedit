@@ -6,7 +6,7 @@
  */
 
 namespace TexEdit.Utils {
-    public class Logging {
+    public static class Logging {
         public static void Log(string str) {
             Console.WriteLine($"texedit: LOG  : {str}");
         }
