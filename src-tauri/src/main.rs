@@ -23,6 +23,6 @@ fn main() {
 
 fn create_tauri_builder(ctx: &tauri::Context<EmbeddedAssets>) -> tauri::Builder<Wry> {
     tauri::Builder::default()
-        .menu(windows::Editor::menu(ctx))
+        .menu(windows::Editor::menu(&ctx.package_info().name))
         .on_menu_event(windows::Editor::menu_event_handler())
 }
