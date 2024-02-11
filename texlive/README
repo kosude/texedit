@@ -1,0 +1,17 @@
+This directory contains a minimal, custom distribution of TeX Live 2023 which is
+shipped with the TexEdit project.
+
+TexEdit is not affiliated with TeX Live!
+
+Binaries in this distribution should not be invoked directly. Instead, use the
+'texpdfc.sh' script or equivalent to compile TeX documents on the appropriate
+system architecture.
+
+---
+
+TeX Live is a developed as a joint effort by all TeX user groups. Feel free to
+join your user group of choice as listed on the web page:
+    https://tug.org/usergroups.html
+
+For further reading, see the TeX Live home page:
+    https://tug.org/texlive/
