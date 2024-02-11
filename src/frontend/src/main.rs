@@ -5,7 +5,6 @@
  *   See the LICENCE file for more information.
  */
 
-namespace TexEdit.UI.ViewModels {
-    public abstract class ViewModelBase {
-    }
+fn main() {
+    println!("Hello world");
 }
