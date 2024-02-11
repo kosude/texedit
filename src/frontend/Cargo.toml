@@ -1,0 +1,9 @@
+[package]
+name = "texedit"
+version = "0.1.0"
+description = "TexEdit GUI frontend"
+
+edition = "2018"
+
+[dependencies]
+colored = "2.1.0"
