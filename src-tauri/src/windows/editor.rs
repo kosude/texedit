@@ -59,10 +59,18 @@ impl Editor {
         //
         m = m.add_submenu(tauri::Submenu::new(
             "Help",
-            tauri::Menu::new().add_item(tauri::CustomMenuItem::new(
-                "help__git_repository",
-                "Git repository",
-            )),
+            tauri::Menu::new()
+                .add_item(tauri::CustomMenuItem::new(
+                    "help__git_repository",
+                    "Git repository",
+                ))
+                .add_native_item(tauri::MenuItem::Separator)
+                .add_native_item(tauri::MenuItem::About(
+                    app_name.to_string(),
+                    tauri::AboutMetadata::default()
+                        .copyright("Copyright (c) 2024 Jack Bennett")
+                        .comments("Integrated viewer, compiler and editor for LaTeX documents"),
+                )),
         ));
 
         m
