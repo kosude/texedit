@@ -6,7 +6,7 @@
         "distDir": "../views"
     },
     "package": {
-        "productName": "texedit",
+        "productName": "TexEdit",
         "version": "0.1.0"
     },
     "tauri": {
