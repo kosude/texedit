@@ -6,5 +6,5 @@
  */
 
 fn main() {
-    println!("Hello world");
+    tauri_build::build()
 }

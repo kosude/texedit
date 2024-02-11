@@ -41,7 +41,7 @@ compiler: $(TEXLIVE_DST) $(BUILD_DIR)/texpdfc.sh
 #
 # Compile the TexEdit GUI frontend
 #
-FRONTEND_TOML := $(SRC_DIR)/Cargo.toml
+FRONTEND_TOML := $(SRC_DIR)/src-tauri/Cargo.toml
 .PHONY: frontend
 frontend: compiler
 	$(CARGO) $(CARGOCHAN) build $(CARGOFLAGS) --manifest-path=$(FRONTEND_TOML) --target-dir=$(BUILD_DIR)/_$@ --out-dir=$(BUILD_DIR)
