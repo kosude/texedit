@@ -5,34 +5,67 @@
  *   See the LICENCE file for more information.
  */
 
-use tauri::{utils::assets::EmbeddedAssets, Wry};
+use tauri::Wry;
 
 use crate::browser;
 
 pub struct Editor {}
 
 impl Editor {
-    pub fn menu(ctx: &tauri::Context<EmbeddedAssets>) -> tauri::Menu {
-        let file = tauri::Submenu::new(
-            "File",
-            tauri::Menu::new()
-                .add_item(tauri::CustomMenuItem::new(
-                    "file__close_window",
-                    "Close Window",
-                ))
-                .add_native_item(tauri::MenuItem::Separator)
-                .add_item(tauri::CustomMenuItem::new("file__exit", "Exit")),
-        );
+    pub fn menu(#[allow(unused)] app_name: &str) -> tauri::Menu {
+        let mut m = tauri::Menu::new();
 
-        let help = tauri::Submenu::new(
+        // application menu (macos only)
+        //
+        #[cfg(target_os = "macos")]
+        {
+            m = m.add_submenu(tauri::Submenu::new(
+                app_name,
+                tauri::Menu::new()
+                    .add_native_item(tauri::MenuItem::About(
+                        app_name.to_string(),
+                        tauri::AboutMetadata::default(),
+                    ))
+                    .add_native_item(tauri::MenuItem::Separator)
+                    .add_native_item(tauri::MenuItem::Services)
+                    .add_native_item(tauri::MenuItem::Separator)
+                    .add_native_item(tauri::MenuItem::Hide)
+                    .add_native_item(tauri::MenuItem::HideOthers)
+                    .add_native_item(tauri::MenuItem::ShowAll)
+                    .add_native_item(tauri::MenuItem::Separator)
+                    .add_native_item(tauri::MenuItem::Quit),
+            ));
+        }
+
+        // file menu
+        //
+        let mut file = tauri::Submenu::new(
+            "File",
+            tauri::Menu::new().add_item(tauri::CustomMenuItem::new(
+                "file__close_window",
+                "Close Window",
+            )),
+        );
+        #[cfg(not(target_os = "macos"))]
+        {
+            file.inner = file
+                .inner
+                .add_native_item(tauri::MenuItem::Separator)
+                .add_item(tauri::CustomMenuItem::new("file__exit", "Exit"));
+        }
+        m = m.add_submenu(file);
+
+        // help menu
+        //
+        m = m.add_submenu(tauri::Submenu::new(
             "Help",
             tauri::Menu::new().add_item(tauri::CustomMenuItem::new(
                 "help__git_repository",
                 "Git repository",
             )),
-        );
+        ));
 
-        tauri::Menu::new().add_submenu(file).add_submenu(help)
+        m
     }
 
     fn menu_event_handler_loc(ev: tauri::WindowMenuEvent<Wry>) {
