@@ -5,6 +5,8 @@
  *   See the LICENCE file for more information.
  */
 
+#![allow(dead_code)]
+
 use colored::Colorize;
 
 use std::fmt::Display;
