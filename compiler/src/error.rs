@@ -20,9 +20,7 @@ pub enum CompError {
 }
 
 impl CompError {
-    pub fn handle(self) -> ! {
-        let c = i32::from(&self);
-
+    fn base_handle_fn(&self, c: &i32) {
         match &self {
             Self::FilesystemError(s) => log::fatal(format!("Filesystem error (error {c}): {s}")),
             Self::FileNotFoundError(s) => log::fatal(format!("File not found (error {c}): {s}")),
@@ -36,8 +34,18 @@ impl CompError {
                 "Error during watch service runtime (error {c}): {s}"
             )),
         };
+    }
+
+    pub fn handle(self) -> ! {
+        let c = i32::from(&self);
+        self.base_handle_fn(&c);
 
         exit(c);
+    }
+
+    pub fn handle_safe(self) {
+        let c = i32::from(&self);
+        self.base_handle_fn(&c);
     }
 }
 

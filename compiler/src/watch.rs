@@ -13,7 +13,7 @@ use notify::{
 };
 
 use crate::{
-    compiler::{self, Compiler},
+    compiler::{self, CompileOutput, Compiler},
     error::{CompError, CompResult},
     log,
 };
@@ -64,9 +64,15 @@ pub fn watch_sync<P: AsRef<Path> + Debug>(
                 }
 
                 if events.contains(&ev.kind) {
-                    compiler
-                        .compile()
-                        .map_err(|_| CompError::CompilationError("Compile error".to_string()))?;
+                    // handle the error here (safely) instead of in main -- we don't want to exit the program on error when watching.
+                    if let Err(e) = || -> CompResult<CompileOutput> {
+                        compiler
+                            .compile()
+                            .map_err(|_| CompError::CompilationError("Compile error".to_string()))
+                    }() {
+                        // this just prints the error without stopping the process
+                        e.handle_safe();
+                    }
                 }
             }
             Err(err) => {
