@@ -4,8 +4,8 @@ shipped with the TexEdit project.
 TexEdit is not affiliated with TeX Live!
 
 Binaries in this distribution should not be invoked directly. Instead, use the
-'texpdfc.sh' script or equivalent to compile TeX documents on the appropriate
-system architecture.
+'texpdfc.sh' script provided to compile TeX documents on the appropriate system
+architecture. TexEdit's compilation wrapper, tecomp, invokes this script.
 
 ---
 

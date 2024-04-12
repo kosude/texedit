@@ -19,7 +19,7 @@ all: compiler frontend
 # Copy TexLive distribution
 #
 TEXLIVE_SRC := $(SRC_DIR)/texlive
-TEXLIVE_DST := $(BUILD_DIR)/texlive
+TEXLIVE_DST := $(BUILD_DIR)/inst
 $(TEXLIVE_DST): $(TEXLIVE_SRC)
 	mkdir -p $(TEXLIVE_DST) && cp -r $(TEXLIVE_SRC)/* $(TEXLIVE_DST)
 
@@ -52,3 +52,10 @@ frontend: compiler
 .PHONY: clean
 clean:
 	rm -r $(BUILD_DIR)
+
+#
+# Clean build directory (remove unnecessary build artifacts, i.e. prepare for distribution)
+#
+.PHONY: predist
+predist:
+	rm -r $(BUILD_DIR)/_*

@@ -23,7 +23,7 @@ filename=$(realpath $2)
 outdir=$(realpath $3)
 
 base_dir="$(realpath "${0%/*}")"
-texlive_base_dir="$(realpath "$base_dir/texlive")"
+texlive_base_dir="$(realpath "$base_dir/inst")"
 texlive_os_dir="$(realpath "$texlive_base_dir/os/$arch")"
 pdflatex_bin="$texlive_os_dir/bin/pdflatex"
 
