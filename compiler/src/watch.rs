@@ -5,11 +5,15 @@
  *   See the LICENCE file for more information.
  */
 
-use std::{fmt::Debug, path::Path};
+use std::{fmt::Debug, path::Path, time::Duration};
 
-use notify::{
-    event::{CreateKind, DataChange, ModifyKind, RemoveKind, RenameMode},
-    EventKind, RecommendedWatcher, RecursiveMode, Watcher,
+use notify_debouncer_full::{
+    new_debouncer,
+    notify::{
+        event::{CreateKind, DataChange, ModifyKind, RemoveKind, RenameMode},
+        EventKind, RecursiveMode, Watcher,
+    },
+    DebounceEventResult,
 };
 
 use crate::{
@@ -44,28 +48,46 @@ pub fn watch_sync<P: AsRef<Path> + Debug>(
         .verbosity(verbosity)
         .to_owned();
 
-    let mut watcher = RecommendedWatcher::new(tx, notify::Config::default())
-        .map_err(|e| CompError::WatchStartUpError(e.to_string()))?;
-    watcher
+    // set up debouncer watcher
+    let mut debouncer = new_debouncer(
+        Duration::from_millis(500), // this value seems to debounce successfully without too long of a delay
+        None,
+        move |res: DebounceEventResult| {
+            if let Err(e) = tx.send(res) {
+                CompError::WatchRuntimeError(format!("When sending event result: {e:?}"))
+                    .handle_safe();
+            }
+        },
+    )
+    .map_err(|e| CompError::WatchStartUpError(e.to_string()))?;
+    debouncer
+        .watcher()
         .watch(watch.as_ref(), RecursiveMode::Recursive)
         .map_err(|e| CompError::WatchStartUpError(e.to_string()))?;
-
-    let events = get_tracked_events();
+    debouncer
+        .cache()
+        .add_root(watch.as_ref(), RecursiveMode::Recursive);
 
     log::info(format!("Started watch session on path {watch:?}"));
 
+    let tracked_evs = get_tracked_events();
     for res in rx {
         match res {
-            Ok(ev) => {
-                if ev.kind == EventKind::Modify(ModifyKind::Name(RenameMode::Any)) {
-                    if ev.paths.contains(&watch.as_ref().to_path_buf()) {
-                        return Err(CompError::WatchRuntimeError(
-                            format!("Deletion or renaming of watched node {watch:?}").to_string(),
-                        ));
-                    }
+            Ok(evs) => {
+                // stop with an error if the root file or folder that is being watched is renamed or moved, as otherwise the watcher will hang
+                if evs.iter().any(|ev| {
+                    (ev.kind == EventKind::Modify(ModifyKind::Name(RenameMode::From))
+                        || ev.kind == EventKind::Modify(ModifyKind::Name(RenameMode::Both))
+                        || ev.kind == EventKind::Modify(ModifyKind::Name(RenameMode::Any)))
+                        && ev.paths.contains(&watch.as_ref().to_path_buf())
+                }) {
+                    return Err(CompError::WatchRuntimeError(
+                        format!("Deletion or renaming of watched node {watch:?}").to_string(),
+                    ));
                 }
 
-                if events.contains(&ev.kind) {
+                // check if any of the recieved errors are to be tracked
+                if evs.iter().any(|ev| tracked_evs.contains(&ev.kind)) {
                     // handle the error here (safely) instead of in main -- we don't want to exit the program on error when watching.
                     if let Err(e) = || -> CompResult<CompileOutput> {
                         compiler
@@ -77,9 +99,9 @@ pub fn watch_sync<P: AsRef<Path> + Debug>(
                     }
                 }
             }
-            Err(err) => {
+            Err(errs) => {
                 return Err(CompError::WatchRuntimeError(
-                    format!("Watch error: {err:?}").to_string(),
+                    format!("Recieved the following watch errors: {errs:?}").to_string(),
                 ))
             }
         }
