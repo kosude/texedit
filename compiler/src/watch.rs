@@ -22,6 +22,7 @@ fn get_tracked_events() -> Vec<EventKind> {
     vec![
         EventKind::Create(CreateKind::File),
         EventKind::Modify(ModifyKind::Data(DataChange::Any)),
+        EventKind::Modify(ModifyKind::Data(DataChange::Content)),
         EventKind::Modify(ModifyKind::Name(RenameMode::From)),
         EventKind::Remove(RemoveKind::File),
     ]
