@@ -39,7 +39,7 @@ impl Editor {
 
         // file menu
         //
-        let file = tauri::Submenu::new(
+        let mut file = tauri::Submenu::new(
             "File",
             tauri::Menu::new().add_item(tauri::CustomMenuItem::new(
                 "file__close_window",
