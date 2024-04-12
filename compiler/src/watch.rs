@@ -57,10 +57,12 @@ pub fn watch_sync<P: AsRef<Path> + Debug>(
     for res in rx {
         match res {
             Ok(ev) => {
-                if ev.paths.contains(&watch.as_ref().to_path_buf()) {
-                    return Err(CompError::WatchRuntimeError(
-                        format!("Deletion or renaming of watched node {watch:?}").to_string(),
-                    ));
+                if ev.kind == EventKind::Modify(ModifyKind::Name(RenameMode::Any)) {
+                    if ev.paths.contains(&watch.as_ref().to_path_buf()) {
+                        return Err(CompError::WatchRuntimeError(
+                            format!("Deletion or renaming of watched node {watch:?}").to_string(),
+                        ));
+                    }
                 }
 
                 if events.contains(&ev.kind) {
