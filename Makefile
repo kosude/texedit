@@ -18,8 +18,8 @@ all: compiler frontend
 #
 # Copy TexLive distribution
 #
-TEXLIVE_SRC := $(SRC_DIR)/texlive
-TEXLIVE_DST := $(BUILD_DIR)/inst
+TEXLIVE_SRC := $(SRC_DIR)/vendor/tex
+TEXLIVE_DST := $(BUILD_DIR)/vendor/tex
 $(TEXLIVE_DST): $(TEXLIVE_SRC)
 	mkdir -p $(TEXLIVE_DST) && cp -r $(TEXLIVE_SRC)/* $(TEXLIVE_DST)
 

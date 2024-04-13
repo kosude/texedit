@@ -1,2 +1,2 @@
-texlive/** linguist-vendored
+vendor/** linguist-vendored
 *.tar.xz filter=lfs diff=lfs merge=lfs -text
