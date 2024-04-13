@@ -22,12 +22,19 @@ namespace te {
         public:
             wxMenuBar *component;
 
-            MenuBar(RootFrame *frame);
+            MenuBar(
+                RootFrame *frame
+            );
 
         private:
+            enum {
+                _ID_OPEN_REPOSITORY = 1,
+            };
+
             RootFrame *_frame;
 
-            void _OnExit();
+            void _OnFileExit();
+            void _OnHelpGitRepository();
         };
 
         MenuBar _menuBar;

@@ -1,6 +1,8 @@
 BUILD_DIR := build
 SRC_DIR := .
+DEPS_DIR := deps
 
+CMAKE := cmake
 CARGO := cargo
 CARGOCHAN := +nightly
 CARGOFLAGS := -Zunstable-options
@@ -30,12 +32,13 @@ $(TEXLIVE_DST): $(TEXLIVE_SRC)
 
 
 #
-# Copy texpdfc script
+# Copy scripts
 #
 
-COMPILER_SCRIPT_SRC := $(SRC_DIR)/compiler
+$(BUILD_DIR)/texpdfc.sh: $(SRC_DIR)/compiler/texpdfc.sh
+	mkdir -p $(BUILD_DIR) && cp $< $@
 
-$(BUILD_DIR)/texpdfc.sh: $(COMPILER_SCRIPT_SRC)/texpdfc.sh
+$(BUILD_DIR)/start.sh: $(SRC_DIR)/start.sh
 	mkdir -p $(BUILD_DIR) && cp $< $@
 
 
@@ -50,6 +53,20 @@ compiler: $(TEXLIVE_DST) $(BUILD_DIR)/texpdfc.sh
 
 
 #
+# Compile frontend dependencies
+#
+
+DEPS_CUTILS := $(DEPS_DIR)/cutils
+DEPS_CUTILS_LDLIBS := -lcutils
+
+$(BUILD_DIR)/lib/libcutils.so:
+	mkdir -p $(BUILD_DIR)/lib
+	$(CMAKE) $(DEPS_DIR)/cutils -B$(DEPS_DIR)/cutils/build -DCMAKE_BUILD_TYPE=Release -DCUTILS_CLIST=OFF -DCUTILS_CARRAY=OFF
+	$(CMAKE) --build $(DEPS_DIR)/cutils/build
+	cp $(DEPS_DIR)/cutils/build/libcutils.so $(BUILD_DIR)/lib
+
+
+#
 # Compile the TexEdit GUI frontend
 #
 
@@ -57,12 +74,12 @@ FRONTEND_SRCS := $(shell find $(SRC_DIR)/frontend -name '*.cpp')
 FRONTEND_OBJS := $(patsubst %,$(BUILD_DIR)/_frontend/%.o,$(subst $(SRC_DIR)/frontend/,,$(FRONTEND_SRCS)))
 FRONTEND_DEPS := $(FRONTEND_OBJS:.o=.d)
 
-frontend: $(BUILD_DIR)/texedit
+frontend: $(BUILD_DIR)/texedit $(BUILD_DIR)/start.sh
 
-FRONTEND_INC_DIRS := $(SRC_DIR)/frontend
-CXXFLAGS := $(addprefix -I,$(FRONTEND_INC_DIRS)) $(shell wx-config --cxxflags) -MMD -MP -std=c++11 -Wall -Wextra -Wpedantic -Werror \
+FRONTEND_INC_DIRS := $(SRC_DIR)/frontend $(DEPS_DIR)/cutils
+CXXFLAGS := $(addprefix -I,$(FRONTEND_INC_DIRS)) $(shell wx-config --cxxflags) -MMD -MP -std=c++17 -Wall -Wextra -Wpedantic -Werror \
 			-Wno-error=unused-parameter -Wno-error=unused-function -Wno-implicit-fallthrough
-LDFLAGS := $(shell wx-config --libs)
+LDFLAGS := $(shell wx-config --libs) -L$(BUILD_DIR)/lib ${DEPS_CUTILS_LDLIBS}
 
 ifneq "$(DEBUG)" "1" 	# run with DEBUG=1 to use debug configuration
 CXXFLAGS += -O2 -s -DNDEBUG
@@ -70,15 +87,13 @@ else
 CXXFLAGS += -O0 -g
 endif
 
-$(BUILD_DIR)/_frontend:
-	mkdir -p $@
-
 # build c++ objects
-$(BUILD_DIR)/_frontend/%.cpp.o: $(SRC_DIR)/frontend/%.cpp | $(BUILD_DIR)/_frontend
+$(BUILD_DIR)/_frontend/%.cpp.o: $(SRC_DIR)/frontend/%.cpp
+	mkdir -p $(@D)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 # link objects to create final binary
-$(BUILD_DIR)/texedit: $(FRONTEND_OBJS)
+$(BUILD_DIR)/texedit: $(FRONTEND_OBJS) $(BUILD_DIR)/lib/libcutils.so
 	$(CXX) $(FRONTEND_OBJS) -o $@ $(LDFLAGS)
 
 -include $(FRONTEND_DEPS)

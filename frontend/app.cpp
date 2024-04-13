@@ -8,6 +8,7 @@
 #include "app.hpp"
 
 #include "root_frame.hpp"
+#include "util/log.hpp"
 
 wxIMPLEMENT_APP(te::App);
 
@@ -16,6 +17,9 @@ namespace te {
         // show root (editor) window
         RootFrame *root = new RootFrame();
         root->Show();
+
+        util::Info("Starting TexEdit instance");
+
         return true;
     }
 }
