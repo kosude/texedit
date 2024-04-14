@@ -16,7 +16,9 @@ namespace te {
     public:
         bool OnExceptionInMainLoop() override;
         void OnUnhandledException() override;
+
         bool OnInit() override;
+        int OnExit() override;
     };
 }
 

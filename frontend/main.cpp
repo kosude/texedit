@@ -50,4 +50,9 @@ namespace te {
 
         return true;
     }
+
+    int Application::OnExit() {
+        util::log::Info("Exiting...");
+        return 0;
+    }
 }

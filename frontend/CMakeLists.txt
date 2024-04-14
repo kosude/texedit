@@ -28,7 +28,6 @@ set(DEPS_DIR "${CMAKE_CURRENT_LIST_DIR}/../deps/")
 set(SRCS
     "gui/main_frame.cpp"
     "util/log.cpp"
-    "util/url_open.cpp"
     "main.cpp"
 )
 
@@ -36,7 +35,7 @@ set(SRCS
 add_subdirectory("${DEPS_DIR}/cutils" "${CMAKE_CURRENT_BINARY_DIR}/deps/cutils")
 
 # wxwidgets
-find_package(wxWidgets REQUIRED COMPONENTS net core base)
+find_package(wxWidgets REQUIRED COMPONENTS core base)
 include(${wxWidgets_USE_FILE})
 
 # build executable

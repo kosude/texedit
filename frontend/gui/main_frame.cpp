@@ -7,40 +7,56 @@
 
 #include "main_frame.hpp"
 
-#include "util/url_open.hpp"
 #include "util/except.hpp"
+#include "command_ids.hpp"
 
 namespace te {
-    MainFrame::MainFrame() : wxFrame(nullptr, wxID_ANY, "TexEdit", wxDefaultPosition, wxSize{1080, 720}), _menuBar{this} {
-        // initialise and apply menu bar
-        SetMenuBar(_menuBar.component);
+    MainFrame::MainFrame() : wxFrame(nullptr, wxID_ANY, "TexEdit", wxDefaultPosition, wxSize{1080, 720}) {
+        BuildMenuBar();
     }
 
-    MainFrame::MenuBar::MenuBar(MainFrame *frame): component{new wxMenuBar}, _frame{frame} {
-        //
-        // File menu
+    void MainFrame::BuildMenuBar() {
+        _menuBar = new wxMenuBar();
 
-        wxMenu *file = new wxMenu;
-        file->Append(wxID_EXIT);
+        wxMenu *fileMenu = new wxMenu();
+        fileMenu->Append(wxID_EXIT, "&Quit");
+        _menuBar->Append(fileMenu, "&File");
 
-        component->Append(file, "&File");
-        _frame->Bind(wxEVT_MENU, [=](wxCommandEvent &) { _OnFileExit(); }, wxID_EXIT);
+        wxMenu *helpMenu = new wxMenu();
+        helpMenu->Append(cmds::Menu_URLSourcePage, "Git &repository");
+        helpMenu->Append(cmds::Menu_URLFeatureRequest, "&Feature requests");
+        helpMenu->Append(cmds::Menu_URLBugReport, "&Bug reports");
+        _menuBar->Append(helpMenu, "&Help");
 
-        //
-        // Help menu
-
-        wxMenu *help = new wxMenu;
-        help->Append(_ID_OPEN_REPOSITORY, "Git &repository...");
-
-        component->Append(help, "&Help");
-        _frame->Bind(wxEVT_MENU, [=](wxCommandEvent &) { _OnHelpGitRepository(); }, _ID_OPEN_REPOSITORY);
+        SetMenuBar(_menuBar);
     }
 
-    void MainFrame::MenuBar::_OnFileExit() {
-        _frame->Close(true);
+    void MainFrame::ShowURL(const std::string &url) {
+        if (!wxLaunchDefaultBrowser(url)) {
+            wxLogError("Failed to open URL \"%s\"", url.c_str());
+        }
     }
 
-    void MainFrame::MenuBar::_OnHelpGitRepository() {
-        util::OpenUrl(util::GitHubUrl);
+    void MainFrame::OnMenuQuit(wxCommandEvent &event) {
+        Close(true);
     }
+
+    void MainFrame::OnMenuURLSourcePage(wxCommandEvent &event) {
+        ShowURL("https://github.com/kosude/texedit");
+    }
+
+    void MainFrame::OnMenuURLFeatureRequest(wxCommandEvent &event) {
+        ShowURL("https://github.com/kosude/texedit/issues");
+    }
+
+    void MainFrame::OnMenuURLBugReport(wxCommandEvent &event) {
+        ShowURL("https://github.com/kosude/texedit/issues");
+    }
+
+    wxBEGIN_EVENT_TABLE(MainFrame, wxFrame)
+        EVT_MENU(wxID_EXIT, MainFrame::OnMenuQuit)
+        EVT_MENU(cmds::Menu_URLSourcePage, MainFrame::OnMenuURLSourcePage)
+        EVT_MENU(cmds::Menu_URLFeatureRequest, MainFrame::OnMenuURLFeatureRequest)
+        EVT_MENU(cmds::Menu_URLBugReport, MainFrame::OnMenuURLBugReport)
+    wxEND_EVENT_TABLE()
 }

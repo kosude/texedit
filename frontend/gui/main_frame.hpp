@@ -17,27 +17,18 @@ namespace te {
         MainFrame();
 
     private:
-        // menu bar shenanigans
-        class MenuBar {
-        public:
-            wxMenuBar *component;
+        wxMenuBar *_menuBar;
 
-            MenuBar(
-                MainFrame *frame
-            );
+        void BuildMenuBar();
 
-        private:
-            enum {
-                _ID_OPEN_REPOSITORY = 1,
-            };
+        void ShowURL(const std::string &url);
 
-            MainFrame *_frame;
+        void OnMenuQuit(wxCommandEvent &event);
+        void OnMenuURLSourcePage(wxCommandEvent &event);
+        void OnMenuURLFeatureRequest(wxCommandEvent &event);
+        void OnMenuURLBugReport(wxCommandEvent &event);
 
-            void _OnFileExit();
-            void _OnHelpGitRepository();
-        };
-
-        MenuBar _menuBar;
+        wxDECLARE_EVENT_TABLE();
     };
 }
 
