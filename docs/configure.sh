@@ -10,5 +10,5 @@ CMD="$SPHINXEXEC -q -b html $SRCDIR $BINDIR"
 echo -e "\t(configure.sh): $CMD" # for diagnostics (particularly in CD pipelines)
 
 # run sphinx-build with env vars set
-CONFPY_VERSION="$($UTILDIR/version.sh --long)" \
+CONFPY_VERSION="$($UTILDIR/version.sh --short)" \
 $CMD
