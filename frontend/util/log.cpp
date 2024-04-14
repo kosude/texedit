@@ -7,8 +7,8 @@
 
 #include "log.hpp"
 
-#include <cio/cio.h>
-#include <cio/cioenum.h>
+#include <cio.h>
+#include <cioenum.h>
 #include <iostream>
 
 #include <ctime>
