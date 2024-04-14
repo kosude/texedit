@@ -46,13 +46,10 @@ $(TEXLIVE_DST): $(TEXLIVE_SRC)
 
 
 #
-# Copy scripts
+# Copy script(s)
 #
 
 $(BUILD_DIR)/texpdfc.sh: $(SRC_DIR)/compiler/texpdfc.sh | $(BUILD_DIR)
-	cp $< $@
-
-$(BUILD_DIR)/start.sh: $(SRC_DIR)/start.sh | $(BUILD_DIR)
 	cp $< $@
 
 
@@ -72,7 +69,7 @@ compiler: $(COMPILER_TOML) $(TEXLIVE_DST) $(BUILD_DIR)/texpdfc.sh
 
 FRONTEND_CMAKELISTS := $(SRC_DIR)/frontend/CMakeLists.txt
 
-frontend: $(FRONTEND_CMAKELISTS) $(BUILD_DIR)/start.sh
+frontend: $(FRONTEND_CMAKELISTS)
 	$(CMAKE) $(SRC_DIR)/frontend -B$(BUILD_DIR)/_frontend $(CMAKEFLAGS)
 	$(CMAKE) --build $(BUILD_DIR)/_frontend
 	cp $(BUILD_DIR)/_frontend/texedit $(BUILD_DIR)
