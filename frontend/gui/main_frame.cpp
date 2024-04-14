@@ -50,9 +50,11 @@ namespace te {
         menuBar->Append(fileMenu, "&File");
 
         wxMenu *helpMenu = new wxMenu();
-        helpMenu->Append(cmds::Menu_URLSourcePage, "Git &repository");
-        helpMenu->Append(cmds::Menu_URLFeatureRequest, "&Feature requests");
-        helpMenu->Append(cmds::Menu_URLBugReport, "&Bug reports");
+        helpMenu->Append(cmds::Menu_URLUserManual, "&Documentation");
+        helpMenu->AppendSeparator();
+        helpMenu->Append(cmds::Menu_URLSourcePage, "Git &Repository");
+        helpMenu->Append(cmds::Menu_URLFeatureRequest, "&Feature Requests");
+        helpMenu->Append(cmds::Menu_URLBugReport, "&Bug Reports");
         menuBar->Append(helpMenu, "&Help");
 
         SetMenuBar(menuBar);
@@ -80,10 +82,15 @@ namespace te {
         ShowURL("https://github.com/kosude/texedit/issues");
     }
 
+    void MainFrame::OnMenuURLUserManual(wxCommandEvent &event) {
+        ShowURL("https://kosude.github.io/texedit/");
+    }
+
     wxBEGIN_EVENT_TABLE(MainFrame, wxFrame)
         EVT_MENU(wxID_EXIT, MainFrame::OnMenuQuit)
         EVT_MENU(cmds::Menu_URLSourcePage, MainFrame::OnMenuURLSourcePage)
         EVT_MENU(cmds::Menu_URLFeatureRequest, MainFrame::OnMenuURLFeatureRequest)
         EVT_MENU(cmds::Menu_URLBugReport, MainFrame::OnMenuURLBugReport)
+        EVT_MENU(cmds::Menu_URLUserManual, MainFrame::OnMenuURLUserManual)
     wxEND_EVENT_TABLE()
 }

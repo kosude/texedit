@@ -26,6 +26,7 @@ namespace te {
         void OnMenuURLSourcePage(wxCommandEvent &event);
         void OnMenuURLFeatureRequest(wxCommandEvent &event);
         void OnMenuURLBugReport(wxCommandEvent &event);
+        void OnMenuURLUserManual(wxCommandEvent &event);
 
         wxDECLARE_EVENT_TABLE();
     };

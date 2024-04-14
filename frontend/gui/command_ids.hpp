@@ -14,6 +14,7 @@ namespace te::cmds {
         Menu_URLSourcePage = 101,
         Menu_URLFeatureRequest,
         Menu_URLBugReport,
+        Menu_URLUserManual
     };
 }
 
