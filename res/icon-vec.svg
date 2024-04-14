@@ -11,7 +11,7 @@
    inkscape:export-filename="bitmap.png"
    inkscape:export-xdpi="122.88"
    inkscape:export-ydpi="122.88"
-   sodipodi:docname="drawing.svg"
+   sodipodi:docname="icon-vec.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -33,12 +33,12 @@
      inkscape:showpageshadow="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:zoom="0.90156117"
-     inkscape:cx="169.15103"
-     inkscape:cy="12.755651"
+     inkscape:cx="169.70562"
+     inkscape:cy="-7.7643095"
      inkscape:window-width="1920"
-     inkscape:window-height="1043"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:window-height="1014"
+     inkscape:window-x="1920"
+     inkscape:window-y="29"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1" />
   <defs
@@ -49,41 +49,6 @@
      id="layer1"
      transform="translate(-80.505486,-278.03217)"
      style="display:inline">
-    <rect
-       style="fill:#ffffff;fill-opacity:1;stroke-width:0.529849;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
-       id="rect5"
-       width="148.76945"
-       height="76.354729"
-       x="74.497375"
-       y="157.91272"
-       ry="7.4295506" />
-    <g
-       id="g9"
-       transform="translate(0.1940093,0.80549478)">
-      <path
-         style="font-size:39.1208px;line-height:1.25;font-family:'CMU Serif';-inkscape-font-specification:'CMU Serif';font-variant-ligatures:none;letter-spacing:-0.668313px;fill:#000000;fill-opacity:1;stroke-width:1.63003"
-         d="m 135.83567,196.5545 v -1.20343 q 1.79558,0 3.11362,-0.55395 1.31803,-0.55396 1.70007,-0.9551 0.40114,-0.42024 0.85959,-1.08881 l 6.41826,-9.45547 -7.20144,-10.88811 q -0.55396,-0.82139 -1.29893,-1.08881 -0.72588,-0.26743 -2.33044,-0.26743 h -0.74498 v -1.22253 q 2.15852,0.11462 5.08112,0.11462 4.33615,0 5.71149,-0.11462 v 1.22253 q -1.16522,0.0382 -1.85289,0.42024 -0.68767,0.36294 -0.68767,0.74498 0,0.15281 0.26742,0.59216 l 5.04292,7.54527 4.46986,-6.60928 q 0.34383,-0.55395 0.34383,-0.89779 0,-0.70677 -0.64946,-1.22252 -0.63037,-0.53486 -1.77649,-0.57306 v -1.22253 q 1.56636,0.11462 5.02382,0.11462 0.43934,0 1.14611,-0.0191 0.72588,-0.0191 1.68098,-0.0573 0.95509,-0.0382 1.50905,-0.0382 v 1.22253 q -3.9541,0.0382 -5.67328,2.54056 l -5.36765,7.8509 8.25205,12.49268 q 0.59216,0.85959 1.33713,1.14612 0.74498,0.26742 2.34954,0.26742 h 0.74498 v 1.20343 q -2.46415,-0.11462 -5.08112,-0.11462 -4.33614,0 -5.71148,0.11462 v -1.20343 q 1.16521,-0.0382 1.85288,-0.40114 0.68767,-0.38204 0.68767,-0.78318 0,-0.0382 -0.21012,-0.42024 l -6.16993,-9.35996 -5.55867,8.21384 q -0.38203,0.63037 -0.38203,0.936 0,0.63036 0.61126,1.20342 0.63036,0.55396 1.85289,0.61126 v 1.20343 q -1.41355,-0.11462 -5.02382,-0.11462 -0.11461,0 -4.33614,0.11462 z"
-         id="path3" />
-      <path
-         style="font-size:39.1208px;line-height:1.25;font-family:'CMU Serif';-inkscape-font-specification:'CMU Serif';font-variant-ligatures:none;letter-spacing:-0.668313px;fill:#000000;fill-opacity:1;stroke-width:1.63003"
-         d="m 115.59976,205.05235 v -1.20343 h 0.936 q 2.12032,0 2.59786,-0.34383 0.49666,-0.36294 0.49666,-1.50906 v -20.49639 q 0,-1.12702 -0.49666,-1.47085 -0.49665,-0.36294 -2.59786,-0.36294 h -0.936 v -1.22252 h 22.02455 l 1.08882,8.806 h -0.9742 q -0.26743,-2.23493 -0.63037,-3.51476 -0.34383,-1.29894 -1.20342,-2.29224 -0.84049,-0.9933 -2.23493,-1.37534 -1.37534,-0.40114 -3.61027,-0.40114 h -5.04291 q -1.33714,0 -1.62367,0.28653 -0.28653,0.26743 -0.28653,1.27983 v 9.37906 h 3.51476 q 2.69338,0 3.45745,-0.936 0.76408,-0.93599 0.76408,-3.62937 h 0.9933 v 10.35326 h -0.9933 q 0,-2.65517 -0.76408,-3.61027 -0.76407,-0.9551 -3.45745,-0.9551 h -3.51476 v 10.44877 q 0,1.01241 0.28653,1.29894 0.30563,0.26742 1.62367,0.26742 h 5.21483 q 1.68097,0 2.9035,-0.21012 1.24162,-0.22922 2.10121,-0.76408 0.85959,-0.55395 1.43265,-1.18432 0.59216,-0.63036 0.9933,-1.75738 0.42024,-1.14611 0.64947,-2.19672 0.24832,-1.05061 0.51575,-2.76979 h 0.9742 l -1.64277,10.08584 z"
-         id="path2" />
-      <path
-         style="font-size:39.1208px;line-height:1.25;font-family:'CMU Serif';-inkscape-font-specification:'CMU Serif';font-variant-ligatures:none;letter-spacing:-0.668313px;fill:#000000;fill-opacity:1;stroke-width:1.63003"
-         d="m 93.557295,178.86609 0.744976,-8.7869 h 23.896539 l 0.74498,8.7869 h -0.9742 q -0.15282,-1.75738 -0.30563,-2.76979 -0.13372,-1.0124 -0.47755,-1.9675 -0.32474,-0.9742 -0.74498,-1.43264 -0.40114,-0.47755 -1.18432,-0.84049 -0.78318,-0.38204 -1.79558,-0.47755 -1.01241,-0.0955 -2.54056,-0.0955 -1.79559,0 -2.23493,0.0764 -0.47755,0.11461 -0.59216,0.45845 -0.11461,0.32473 -0.11461,1.0315 v 20.61101 q 0,0.78318 0.15281,1.10791 0.17192,0.30563 1.06971,0.55396 0.89779,0.22922 2.8844,0.22922 h 1.56636 v 1.20343 q -1.60457,-0.11462 -7.43066,-0.11462 -5.78789,0 -7.392456,0.11462 v -1.20343 h 1.566356 q 1.98661,0 2.8844,-0.22922 0.91689,-0.24833 1.06971,-0.55396 0.15281,-0.32473 0.15281,-1.10791 v -20.61101 q 0,-0.55395 -0.0382,-0.78318 -0.0382,-0.22922 -0.21012,-0.42024 -0.17191,-0.21012 -0.57306,-0.28653 -0.38203,-0.0764 -2.10121,-0.0764 -1.52816,0 -2.559663,0.0955 -1.012403,0.0955 -1.795583,0.47755 -0.78318,0.36294 -1.203423,0.84049 -0.401141,0.45844 -0.744976,1.43264 -0.324734,0.9551 -0.458447,1.9675 -0.133714,1.01241 -0.28653,2.76979 z"
-         id="text1" />
-      <text
-         xml:space="preserve"
-         style="font-size:41.4449px;line-height:1.25;font-family:'JetBrains Mono';-inkscape-font-specification:'JetBrains Mono';font-variant-ligatures:none;letter-spacing:-0.708015px;fill:#000000;fill-opacity:1;stroke-width:1.72687"
-         x="139.68776"
-         y="220.27289"
-         id="text5"><tspan
-           sodipodi:role="line"
-           id="tspan5"
-           style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'CMU Serif';-inkscape-font-specification:'CMU Serif';fill:#000000;fill-opacity:1;stroke-width:1.72687"
-           x="139.68776"
-           y="220.27289">edit</tspan></text>
-    </g>
     <rect
        style="fill:#ffffff;fill-opacity:1;stroke-width:0.334152;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
        id="rect6"

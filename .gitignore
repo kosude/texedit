@@ -1,5 +1,7 @@
 .vscode/
 
+.venv/
+
 build/
 target/
 

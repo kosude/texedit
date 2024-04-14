@@ -8,6 +8,8 @@ CARGO := cargo
 CARGOCHAN := +nightly
 CARGOFLAGS := -Zunstable-options
 
+SPHINX := sphinx-build
+
 # run with DEBUG=1 to use debug configuration
 
 ifeq "$(DEBUG)" "1"
@@ -20,7 +22,7 @@ ifneq "$(DEBUG)" "1"
 CARGOFLAGS += --release
 endif
 
-.PHONY: compiler frontend clean predist
+.PHONY: compiler frontend docs clean predist
 
 
 #
@@ -73,6 +75,17 @@ frontend: $(FRONTEND_CMAKELISTS)
 	$(CMAKE) $(SRC_DIR)/frontend -B$(BUILD_DIR)/_frontend $(CMAKEFLAGS)
 	$(CMAKE) --build $(BUILD_DIR)/_frontend
 	cp $(BUILD_DIR)/_frontend/texedit $(BUILD_DIR)
+
+
+#
+# Compile HTMLdocumentation
+#
+
+DOCS_CONF_PY := $(SRC_DIR)/docs/conf.py
+DOCS_CONFIG_SH := $(SRC_DIR)/docs/configure.sh
+
+docs: $(DOCS_CONFIG_SH) $(DOCS_CONF_PY)
+	$(DOCS_CONFIG_SH) "$(SPHINX)" "$(SRC_DIR)/docs" "$(BUILD_DIR)/docs" "$(SRC_DIR)/util"
 
 
 #
