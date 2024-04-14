@@ -17,8 +17,7 @@ namespace te {
         MainFrame();
 
     private:
-        wxMenuBar *_menuBar;
-
+        void BuildSplitLayout();
         void BuildMenuBar();
 
         void ShowURL(const std::string &url);

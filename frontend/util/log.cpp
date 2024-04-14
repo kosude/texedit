@@ -10,8 +10,8 @@
 #include <cio.h>
 #include <cioenum.h>
 #include <iostream>
-
 #include <ctime>
+#include <wx/wx.h>
 
 static std::string GetCurrentDateTime(
     const bool with_time
@@ -38,10 +38,14 @@ namespace te::util::log {
         ResetLogColour();
     }
 
-    void Error(const std::string &msg) {
+    void Error(const std::string &msg, bool show) {
         ciocolstateset(CIOCOL_RED, 0xff, stderr);
         std::cerr << "[" << GetCurrentDateTime(true) << "] ERROR: " << msg << std::endl;
         ResetLogColour();
+
+        if (show) {
+            wxLogError(msg.c_str());
+        }
     }
 
     void Fatal(const std::string &msg) {

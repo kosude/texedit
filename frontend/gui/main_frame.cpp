@@ -7,33 +7,60 @@
 
 #include "main_frame.hpp"
 
+#include "util/log.hpp"
 #include "util/except.hpp"
 #include "command_ids.hpp"
+#include "editor_panel.hpp"
+
+#include <wx/splitter.h>
 
 namespace te {
-    MainFrame::MainFrame() : wxFrame(nullptr, wxID_ANY, "TexEdit", wxDefaultPosition, wxSize{1080, 720}) {
+    MainFrame::MainFrame() : wxFrame(nullptr, wxID_ANY, "TexEdit", wxDefaultPosition, wxSize{1024, 640}) {
         BuildMenuBar();
+        BuildSplitLayout();
+    }
+
+    void MainFrame::BuildSplitLayout() {
+        wxSplitterWindow *splitter = new wxSplitterWindow(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_LIVE_UPDATE);
+        splitter->SetMinimumPaneSize(100);
+
+        wxWindow *l = new wxWindow(splitter, wxID_ANY);
+        wxBoxSizer* lSizer = new wxBoxSizer(wxHORIZONTAL);
+        lSizer->Add(new EditorPanel(l), 1, wxEXPAND);
+        l->SetSizer(lSizer);
+
+        wxWindow *r = new wxWindow(splitter, wxID_ANY);
+        wxTextCtrl* rText = new wxTextCtrl(r, wxID_ANY, L"Panel 2 Text", wxDefaultPosition, wxSize(150, 150));
+        wxBoxSizer* rSizer = new wxBoxSizer(wxHORIZONTAL);
+        rSizer->Add(rText, 1, wxEXPAND);
+        r->SetSizer(rSizer);
+
+        splitter->SplitVertically(l, r);
+
+        wxBoxSizer *topSizer = new wxBoxSizer(wxHORIZONTAL);
+        topSizer->Add(splitter, 1, wxEXPAND);
+        SetSizer(topSizer);
     }
 
     void MainFrame::BuildMenuBar() {
-        _menuBar = new wxMenuBar();
+        wxMenuBar *menuBar = new wxMenuBar();
 
         wxMenu *fileMenu = new wxMenu();
         fileMenu->Append(wxID_EXIT, "&Quit");
-        _menuBar->Append(fileMenu, "&File");
+        menuBar->Append(fileMenu, "&File");
 
         wxMenu *helpMenu = new wxMenu();
         helpMenu->Append(cmds::Menu_URLSourcePage, "Git &repository");
         helpMenu->Append(cmds::Menu_URLFeatureRequest, "&Feature requests");
         helpMenu->Append(cmds::Menu_URLBugReport, "&Bug reports");
-        _menuBar->Append(helpMenu, "&Help");
+        menuBar->Append(helpMenu, "&Help");
 
-        SetMenuBar(_menuBar);
+        SetMenuBar(menuBar);
     }
 
     void MainFrame::ShowURL(const std::string &url) {
         if (!wxLaunchDefaultBrowser(url)) {
-            wxLogError("Failed to open URL \"%s\"", url.c_str());
+            util::log::Error("Failed to open URL \"" + url + "\"");
         }
     }
 
