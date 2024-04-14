@@ -11,14 +11,14 @@
 
 #include <string>
 
-namespace te::util {
+namespace te::util::log {
     void ResetLogColour();
 
     void Log(const std::string &msg);
     void Info(const std::string &msg);
     void Warn(const std::string &msg);
     void Error(const std::string &msg);
-    void Fatal(const std::string &msg, bool except = true);
+    void Fatal(const std::string &msg);
 }
 
 #endif

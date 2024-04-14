@@ -12,9 +12,9 @@
 #include <wx/wx.h>
 
 namespace te {
-    class RootFrame : public wxFrame {
+    class MainFrame : public wxFrame {
     public:
-        RootFrame();
+        MainFrame();
 
     private:
         // menu bar shenanigans
@@ -23,7 +23,7 @@ namespace te {
             wxMenuBar *component;
 
             MenuBar(
-                RootFrame *frame
+                MainFrame *frame
             );
 
         private:
@@ -31,7 +31,7 @@ namespace te {
                 _ID_OPEN_REPOSITORY = 1,
             };
 
-            RootFrame *_frame;
+            MainFrame *_frame;
 
             void _OnFileExit();
             void _OnHelpGitRepository();

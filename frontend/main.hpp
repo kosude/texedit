@@ -12,10 +12,14 @@
 #include <wx/wx.h>
 
 namespace te {
-    class App : public wxApp {
+    class Application : public wxApp {
     public:
+        bool OnExceptionInMainLoop() override;
+        void OnUnhandledException() override;
         bool OnInit() override;
     };
 }
+
+wxDECLARE_APP(te::Application);
 
 #endif

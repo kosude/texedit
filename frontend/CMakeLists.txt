@@ -26,10 +26,10 @@ set(TARGET_NAME "${PROJECT_NAME}")
 set(DEPS_DIR "${CMAKE_CURRENT_LIST_DIR}/../deps/")
 
 set(SRCS
+    "gui/main_frame.cpp"
     "util/log.cpp"
     "util/url_open.cpp"
-    "app.cpp"
-    "root_frame.cpp"
+    "main.cpp"
 )
 
 # cutils

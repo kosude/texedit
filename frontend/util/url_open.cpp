@@ -28,7 +28,7 @@ namespace te::util {
 
         cmd += url;
 
-        Info("Opening URL: executing: " + cmd);
+        log::Info("Opening URL: executing: " + cmd);
 
         std::system(cmd.c_str());
     }

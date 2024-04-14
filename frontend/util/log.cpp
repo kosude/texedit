@@ -17,7 +17,7 @@ static std::string GetCurrentDateTime(
     const bool with_time
 );
 
-namespace te::util {
+namespace te::util::log {
     void ResetLogColour() {
         ciocolstatedef(stderr);
     }
@@ -44,14 +44,10 @@ namespace te::util {
         ResetLogColour();
     }
 
-    void Fatal(const std::string &msg, bool except) {
-        ciocolstateset(CIOCOL_RED, CIOCOL_YELLOW, stderr);
+    void Fatal(const std::string &msg) {
+        ciocolstateset(CIOCOL_RED, 0xff, stderr);
         std::cerr << "[" << GetCurrentDateTime(true) << "] FATAL: " << msg << std::endl;
         ResetLogColour();
-
-        if (except) {
-            throw new std::runtime_error(msg);
-        }
     }
 }
 
