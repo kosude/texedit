@@ -11,7 +11,7 @@
 
 namespace te::cmds {
     enum {
-        Menu_URLSourcePage,
+        Menu_URLSourcePage = 101,
         Menu_URLFeatureRequest,
         Menu_URLBugReport,
     };
