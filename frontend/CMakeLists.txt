@@ -22,6 +22,8 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     endif()
 endif()
 
+option(TEXEDIT_VERSION "TexEdit project version inform" v0.0.0)
+
 set(TARGET_NAME "${PROJECT_NAME}")
 set(DEPS_DIR "${CMAKE_CURRENT_LIST_DIR}/../deps/")
 
@@ -45,3 +47,4 @@ target_include_directories(${TARGET_NAME} PRIVATE "${CMAKE_CURRENT_LIST_DIR}")
 target_link_libraries(${TARGET_NAME}
     cutils
     ${wxWidgets_LIBRARIES})
+target_compile_definitions(${TARGET_NAME} PRIVATE TEXEDIT_VERSION="${TEXEDIT_VERSION}")

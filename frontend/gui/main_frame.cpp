@@ -12,6 +12,7 @@
 #include "command_ids.hpp"
 #include "editor_panel.hpp"
 
+#include <wx/aboutdlg.h>
 #include <wx/splitter.h>
 
 namespace te {
@@ -55,6 +56,8 @@ namespace te {
         helpMenu->Append(cmds::Menu_URLSourcePage, "Git &Repository");
         helpMenu->Append(cmds::Menu_URLFeatureRequest, "&Feature Requests");
         helpMenu->Append(cmds::Menu_URLBugReport, "&Bug Reports");
+        helpMenu->AppendSeparator();
+        helpMenu->Append(wxID_ABOUT, "&About TexEdit");
         menuBar->Append(helpMenu, "&Help");
 
         SetMenuBar(menuBar);
@@ -64,6 +67,17 @@ namespace te {
         if (!wxLaunchDefaultBrowser(url)) {
             util::log::Error("Failed to open URL \"" + url + "\"");
         }
+    }
+
+    void MainFrame::OnMenuAbout(wxCommandEvent &event) {
+        wxAboutDialogInfo aboutInfo{};
+        aboutInfo.SetName("TexEdit");
+        aboutInfo.SetVersion(TEXEDIT_VERSION);
+        aboutInfo.SetDescription("Integrated viewer, compiler and editor for TeX documents");
+        aboutInfo.SetCopyright("(c) 2024 Jack Bennett");
+        aboutInfo.SetWebSite("https://kosude.github.io/texedit/");
+
+        wxAboutBox(aboutInfo);
     }
 
     void MainFrame::OnMenuQuit(wxCommandEvent &event) {
@@ -88,6 +102,7 @@ namespace te {
 
     wxBEGIN_EVENT_TABLE(MainFrame, wxFrame)
         EVT_MENU(wxID_EXIT, MainFrame::OnMenuQuit)
+        EVT_MENU(wxID_ABOUT, MainFrame::OnMenuAbout)
         EVT_MENU(cmds::Menu_URLSourcePage, MainFrame::OnMenuURLSourcePage)
         EVT_MENU(cmds::Menu_URLFeatureRequest, MainFrame::OnMenuURLFeatureRequest)
         EVT_MENU(cmds::Menu_URLBugReport, MainFrame::OnMenuURLBugReport)

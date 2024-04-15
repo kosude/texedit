@@ -22,6 +22,7 @@ namespace te {
 
         void ShowURL(const std::string &url);
 
+        void OnMenuAbout(wxCommandEvent &event);
         void OnMenuQuit(wxCommandEvent &event);
         void OnMenuURLSourcePage(wxCommandEvent &event);
         void OnMenuURLFeatureRequest(wxCommandEvent &event);
