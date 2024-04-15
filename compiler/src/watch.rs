@@ -38,6 +38,7 @@ pub fn watch_sync<P: AsRef<Path> + Debug>(
     outdir: P,
     watch: P,
     verbosity: compiler::OutputVerbosity,
+    initial_make: bool,
 ) -> CompResult<()> {
     let (tx, rx) = std::sync::mpsc::channel();
     let texpdfc = &texpdfc.as_ref().to_path_buf();
@@ -47,6 +48,12 @@ pub fn watch_sync<P: AsRef<Path> + Debug>(
         .out_dir(&outdir.as_ref())
         .verbosity(verbosity)
         .to_owned();
+
+    // first compilation done here, if it is specified
+    if initial_make {
+        log::info("Initial pre-watch compilation (-i) specified...");
+        watch_compile(&compiler);
+    }
 
     // set up debouncer watcher
     let mut debouncer = new_debouncer(
@@ -88,15 +95,7 @@ pub fn watch_sync<P: AsRef<Path> + Debug>(
 
                 // check if any of the recieved errors are to be tracked
                 if evs.iter().any(|ev| tracked_evs.contains(&ev.kind)) {
-                    // handle the error here (safely) instead of in main -- we don't want to exit the program on error when watching.
-                    if let Err(e) = || -> CompResult<CompileOutput> {
-                        compiler
-                            .compile()
-                            .map_err(|_| CompError::CompilationError("Compile error".to_string()))
-                    }() {
-                        // this just prints the error without stopping the process
-                        e.handle_safe();
-                    }
+                    watch_compile(&compiler);
                 }
             }
             Err(errs) => {
@@ -108,4 +107,16 @@ pub fn watch_sync<P: AsRef<Path> + Debug>(
     }
 
     Ok(())
+}
+
+fn watch_compile(compiler: &Compiler) {
+    // handle the error here (safely) instead of in main -- we don't want to exit the program on error when watching.
+    if let Err(e) = || -> CompResult<CompileOutput> {
+        compiler
+            .compile()
+            .map_err(|_| CompError::CompilationError("Compile error".to_string()))
+    }() {
+        // this just prints the error without stopping the process
+        e.handle_safe();
+    }
 }

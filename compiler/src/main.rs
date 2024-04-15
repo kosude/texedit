@@ -55,6 +55,7 @@ fn main() {
                     &str_to_pathbuf(&o.com.outdir, true)?,
                     &str_to_pathbuf(&o.watch, true)?,
                     args_to_comp_verbosity_enum(o.com.verbose),
+                    o.initial_make,
                 )?;
 
                 return Ok(());

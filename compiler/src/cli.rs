@@ -46,6 +46,10 @@ pub struct WatchArgs {
     /// Path to a file or directory to watch
     pub watch: String,
 
+    /// Initially compile the document when watch is started
+    #[arg(short = 'i', long, action)]
+    pub initial_make: bool,
+
     #[command(flatten)]
     pub com: CommonArgGroup,
 }
