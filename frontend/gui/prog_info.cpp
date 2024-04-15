@@ -15,7 +15,6 @@ namespace te {
         info.SetDescription(description);
         info.SetCopyright(copyright);
         info.SetWebSite(website);
-        info.SetLicence(licence);
 
         return info;
     }

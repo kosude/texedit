@@ -104,3 +104,4 @@ clean:
 
 predist:
 	rm -r $(BUILD_DIR)/_*
+	cp $(SRC_DIR)/LICENCE $(BUILD_DIR)
