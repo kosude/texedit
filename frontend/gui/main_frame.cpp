@@ -11,6 +11,7 @@
 #include "util/except.hpp"
 #include "command_ids.hpp"
 #include "editor_panel.hpp"
+#include "preview_panel.hpp"
 #include "prog_info.hpp"
 
 #include <wx/aboutdlg.h>
@@ -27,14 +28,13 @@ namespace te {
         splitter->SetMinimumPaneSize(100);
 
         wxWindow *l = new wxWindow(splitter, wxID_ANY);
-        wxBoxSizer* lSizer = new wxBoxSizer(wxHORIZONTAL);
+        wxBoxSizer* lSizer = new wxBoxSizer(wxVERTICAL);
         lSizer->Add(new EditorPanel(l), 1, wxEXPAND);
         l->SetSizer(lSizer);
 
         wxWindow *r = new wxWindow(splitter, wxID_ANY);
-        wxTextCtrl* rText = new wxTextCtrl(r, wxID_ANY, L"Panel 2 Text", wxDefaultPosition, wxSize(150, 150));
-        wxBoxSizer* rSizer = new wxBoxSizer(wxHORIZONTAL);
-        rSizer->Add(rText, 1, wxEXPAND);
+        wxBoxSizer* rSizer = new wxBoxSizer(wxVERTICAL);
+        rSizer->Add(new PreviewPanel(r), 1, wxEXPAND);
         r->SetSizer(rSizer);
 
         splitter->SplitVertically(l, r);

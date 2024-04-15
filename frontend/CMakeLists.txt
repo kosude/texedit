@@ -30,6 +30,7 @@ set(DEPS_DIR "${CMAKE_CURRENT_LIST_DIR}/../deps/")
 set(SRCS
     "gui/editor_panel.cpp"
     "gui/main_frame.cpp"
+    "gui/preview_panel.cpp"
     "gui/prog_info.cpp"
     "util/log.cpp"
     "main.cpp"
@@ -39,7 +40,7 @@ set(SRCS
 add_subdirectory("${DEPS_DIR}/cutils" "${CMAKE_CURRENT_BINARY_DIR}/deps/cutils")
 
 # wxwidgets
-find_package(wxWidgets REQUIRED COMPONENTS core base stc)
+find_package(wxWidgets REQUIRED COMPONENTS core base stc webview)
 include(${wxWidgets_USE_FILE})
 
 # build executable
