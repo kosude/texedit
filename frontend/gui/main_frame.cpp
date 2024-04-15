@@ -11,6 +11,7 @@
 #include "util/except.hpp"
 #include "command_ids.hpp"
 #include "editor_panel.hpp"
+#include "prog_info.hpp"
 
 #include <wx/aboutdlg.h>
 #include <wx/splitter.h>
@@ -70,13 +71,7 @@ namespace te {
     }
 
     void MainFrame::OnMenuAbout(wxCommandEvent &event) {
-        wxAboutDialogInfo aboutInfo{};
-        aboutInfo.SetName("TexEdit");
-        aboutInfo.SetVersion(TEXEDIT_VERSION);
-        aboutInfo.SetDescription("Integrated viewer, compiler and editor for TeX documents");
-        aboutInfo.SetCopyright("(c) 2024 Jack Bennett");
-        aboutInfo.SetWebSite("https://kosude.github.io/texedit/");
-
+        wxAboutDialogInfo aboutInfo = ProgInfo::GenerateAboutDialogInfo();
         wxAboutBox(aboutInfo);
     }
 

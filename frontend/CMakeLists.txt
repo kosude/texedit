@@ -30,6 +30,7 @@ set(DEPS_DIR "${CMAKE_CURRENT_LIST_DIR}/../deps/")
 set(SRCS
     "gui/editor_panel.cpp"
     "gui/main_frame.cpp"
+    "gui/prog_info.cpp"
     "util/log.cpp"
     "main.cpp"
 )
