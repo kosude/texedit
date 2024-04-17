@@ -1,8 +1,12 @@
 vendor/
 tests/
 deps/
+docs/
 build/
 
 *.md
 *.toml
 *.svg
+
+package.json
+package-lock.json
