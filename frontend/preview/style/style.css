@@ -1,0 +1,18 @@
+/*
+ *   Copyright (c) 2024 Jack Bennett.
+ *   All Rights Reserved.
+ *
+ *   See the LICENCE file for more information.
+ */
+
+:root {
+    --bg-col: rgb(120, 120, 120);
+}
+
+body {
+    background-color: var(--bg-col);
+}
+
+#pdf-render {
+    box-shadow: 0 0 20px rgb(0 0 0 / 0.6);
+}

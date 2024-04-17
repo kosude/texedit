@@ -77,6 +77,7 @@ frontend: $(FRONTEND_CMAKELISTS)
 	$(CMAKE) $(SRC_DIR)/frontend -B$(BUILD_DIR)/_frontend $(CMAKEFLAGS)
 	$(CMAKE) --build $(BUILD_DIR)/_frontend
 	cp $(BUILD_DIR)/_frontend/texedit $(BUILD_DIR)
+	cp $(BUILD_DIR)/_frontend/tepdfserver $(BUILD_DIR)
 
 
 #

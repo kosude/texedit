@@ -1,0 +1,27 @@
+{
+    "name": "tepdfserver",
+    "description": "TexEdit's PDF preview server implementation",
+    "private": true,
+    "scripts": {
+        "build": "pkg -t node16 . --out-path=\"${npm_config_out_path}\""
+    },
+    "type": "module",
+    "devDependencies": {
+        "mime": "^4.0.1",
+        "pkg": "^5.8.1"
+    },
+    "pkg": {
+        "scripts": [
+            "serverStart.js"
+        ],
+        "assets": [
+            "*.html",
+            "*.css",
+            "lib/**/*.mjs"
+        ],
+        "targets": [
+            "node16"
+        ]
+    },
+    "bin": "serverStart.js"
+}

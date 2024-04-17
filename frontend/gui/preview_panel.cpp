@@ -10,8 +10,7 @@
 namespace te {
     PreviewPanel::PreviewPanel(wxWindow *parent) : wxPanel(parent) {
         wxString pdf;
-        wxGetEnv("PDFLOC", &pdf);
-        _webView = wxWebView::New(this, wxID_ANY, "file://" + pdf);
+        _webView = wxWebView::New(this, wxID_ANY, "http://localhost:8080" + pdf);
 
         _sizer = new wxBoxSizer(wxVERTICAL);
         _sizer->Add(_webView, 1, wxEXPAND);
