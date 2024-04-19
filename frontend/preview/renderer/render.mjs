@@ -10,7 +10,7 @@ const url = "/curpdf";
 const { pdfjsLibPromise } = globalThis;
 
 pdfjsLibPromise.then((pdfjsLib) => {
-    pdfjsLib.GlobalWorkerOptions.workerSrc = "lib/pdf.js/pdf.worker.mjs";
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.mjs";
 
     const loadingTask = pdfjsLib.getDocument(url);
     loadingTask.promise.then((pdf) => {

@@ -20,7 +20,7 @@ export async function getResource(filename: string): Promise<Response> {
     // check if the file was preloaded at server init.
     let preload = getPreloadedResource(filename);
     if (preload) {
-        return new Successes.ResourceResponse(preload[0], preload[1]);
+        return new Successes.ResourceResponse(preload.content, preload.type);
     }
 
     // if the resource wasn't found in the preloaded cache, then we assert that the file exists on disk and return its contents

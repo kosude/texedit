@@ -8,7 +8,7 @@
 // TODO: graphical response to errors - so they are visible to the user in the webview component.
 
 import { Router, type ServeOptions } from "@stricjs/router";
-import * as routes from "./server/routes";
+import * as routes from "./routes";
 
 const serveOpts: ServeOptions = {
     hostname: "localhost",

@@ -1,16 +1,17 @@
 {
-    "name": "tepdfserver",
-    "description": "TexEdit's PDF preview server",
-    "type": "module",
-    "module": "start.ts",
-    "devDependencies": {
-        "@types/bun": "latest"
-    },
-    "peerDependencies": {
-        "typescript": "^5.0.0"
-    },
-    "dependencies": {
-        "@stricjs/router": "^5.0.6",
-        "@stricjs/utils": "^2.0.7"
-    }
+  "name": "tepdfserver",
+  "description": "TexEdit's PDF preview server",
+  "type": "module",
+  "module": "server/start.ts",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@stricjs/router": "^5.0.6",
+    "@stricjs/utils": "^2.0.7",
+    "pdfjs-dist": "^4.1.392"
+  }
 }
