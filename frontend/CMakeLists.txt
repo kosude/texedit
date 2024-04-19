@@ -50,8 +50,10 @@ target_link_libraries(${TARGET_NAME}
 target_compile_definitions(${TARGET_NAME} PRIVATE TEXEDIT_VERSION="${TEXEDIT_VERSION}")
 
 # fetch dependencies for and distribute PDF viewer web-server
-add_custom_target("texedit-pdf-viewer" ALL
-    COMMAND npm i
-    COMMAND npm run build --out_path="${CMAKE_CURRENT_BINARY_DIR}"
+set(BUN_EXEC "$ENV{HOME}/.bun/bin/bun")
+add_custom_target("tepdfserver" ALL
+    COMMAND ${BUN_EXEC} install
+    COMMAND ${BUN_EXEC} build --compile "start.ts" --loader .mjs:file --outfile tepdfserver
+    COMMAND ${CMAKE_COMMAND} -E rename "${CMAKE_CURRENT_LIST_DIR}/preview/tepdfserver" "${CMAKE_CURRENT_BINARY_DIR}/tepdfserver"
     WORKING_DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/preview"
 )
