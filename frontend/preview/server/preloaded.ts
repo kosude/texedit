@@ -16,16 +16,23 @@ import pdfJs from "../lib/pdf.js/pdf.mjs";
 // @ts-ignore
 import pdfWorkerJs from "../lib/pdf.js/pdf.worker.mjs";
 
-async function pl(f: string | URL): Promise<[ArrayBuffer, string]> {
+// @ts-ignore
+import renderJs from "../renderer/render.mjs";
+
+async function pl(f: any): Promise<[ArrayBuffer, string]> {
     let file = Bun.file(f);
     return [await file.arrayBuffer(), file.type];
 }
 
 const preloadedResources: Record<string, [ArrayBuffer, string]> = {
     "index.html": await pl(indexHtml),
+
+    "style/style.css": await pl(styleCss),
+
     "lib/pdf.js/pdf.mjs": await pl(pdfJs),
     "lib/pdf.js/pdf.worker.mjs": await pl(pdfWorkerJs),
-    "style/style.css": await pl(styleCss),
+
+    "renderer/render.mjs": await pl(renderJs),
 };
 
 // Return a tuple containing the content stream and the file's MIME type

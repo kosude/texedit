@@ -18,5 +18,6 @@ const serveOpts: ServeOptions = {
 new Router(serveOpts)
     .get("/", routes.index)
     .get("/*", (ctx) => routes.getResource(ctx.params["*"]))
+    .get("/curpdf", routes.getResourceCurPDF)
     .use(404, () => new Response("Resource not found.", { status: 404 }))
     .listen();

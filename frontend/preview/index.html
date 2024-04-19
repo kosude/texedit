@@ -7,57 +7,12 @@
 
         <link rel="stylesheet" href="style/style.css">
 
-        <!-- prevent GET requests to /favicon.ico -->
-        <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-
         <script src="lib/pdf.js/pdf.mjs" type="module"></script>
     </head>
 
     <body>
         <canvas id="pdf-render"></canvas>
 
-        <script type="module">
-            const url = "HelloWorld.pdf";
-
-            const { pdfjsLibPromise } = globalThis;
-
-            pdfjsLibPromise.then((pdfjsLib) => {
-                pdfjsLib.GlobalWorkerOptions.workerSrc = "lib/pdf.js/pdf.worker.mjs";
-
-                const loadingTask = pdfjsLib.getDocument(url);
-                loadingTask.promise.then((pdf) => {
-                    var pageNumber = 1;
-                    pdf.getPage(pageNumber).then((page) => {
-                        const scale = 1.5;
-                        const viewport = page.getViewport({ scale });
-                        const outputScale = window.devicePixelRatio || 1;
-
-                        const canvas = document.getElementById("pdf-render");
-                        const context = canvas.getContext("2d");
-
-                        canvas.width = Math.floor(viewport.width * outputScale);
-                        canvas.height = Math.floor(viewport.height * outputScale);
-                        canvas.style.width = Math.floor(viewport.width) + "px";
-                        canvas.style.height = Math.floor(viewport.height) + "px";
-
-                        const transform = outputScale !== 1
-                        ? [outputScale, 0, 0, outputScale, 0, 0]
-                        : null;
-
-                        const renderContext = {
-                            canvasContext: context,
-                            transform,
-                            viewport,
-                        };
-                        var renderTask = page.render(renderContext);
-                        renderTask.promise.then(() => {
-                            console.log("PDF rendered");
-                        });
-                    });
-                }, (reason) => {
-                    console.error(reason);
-                });
-            });
-        </script>
+        <script type="module" src="renderer/render.mjs"></script>
     </body>
 </html>

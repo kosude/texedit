@@ -6,7 +6,7 @@
  */
 
 import { getPreloadedResource } from "./preloaded";
-import { ResourceNotFoundError, ResourceResponse } from "./responses";
+import { Errors, Successes } from "./responses";
 
 // Route: /
 export async function index(): Promise<Response> {
@@ -17,17 +17,27 @@ export async function index(): Promise<Response> {
 export async function getResource(filename: string): Promise<Response> {
     const file = Bun.file(filename);
 
+    // check if the file was preloaded at server init.
     let preload = getPreloadedResource(filename);
     if (preload) {
-        return new ResourceResponse(preload[0], preload[1]);
+        return new Successes.ResourceResponse(preload[0], preload[1]);
     }
 
+    // if the resource wasn't found in the preloaded cache, then we assert that the file exists on disk and return its contents
     if (!await file.exists()) {
-        return new ResourceNotFoundError();
+        return new Errors.ResourceNotFoundError();
     }
-
-    return new ResourceResponse(
+    return new Successes.ResourceResponse(
         await file.arrayBuffer(),
         file.type
     );
+}
+
+// Route: /curpdf
+export async function getResourceCurPDF(): Promise<Response> {
+    let pdf = Bun.env["CURPDF"];
+    if (!pdf) {
+        return new Errors.InternalServerError("CURPDF environment variable is not set");
+    }
+    return await getResource(pdf);
 }

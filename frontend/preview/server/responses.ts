@@ -5,21 +5,33 @@
  *   See the LICENCE file for more information.
  */
 
-export class ResourceNotFoundError extends Response {
-    constructor() {
-        super("404 Resource not found",
-            {
-                status: 404
-            });
+export namespace Errors {
+    export class ResourceNotFoundError extends Response {
+        constructor() {
+            super("404 Resource Not Found",
+                {
+                    status: 404
+                });
+        }
+    }
+    export class InternalServerError extends Response {
+        constructor(msg: string) {
+            super(`500 Internal Server Error: ${msg}`,
+                {
+                    status: 500
+                });
+        }
     }
 }
 
-export class ResourceResponse extends Response {
-    constructor(contents: ArrayBuffer, type: string) {
-        super(contents,
-            {
-                status: 200,
-                headers: { "Content-Type": type }
-            });
+export namespace Successes {
+    export class ResourceResponse extends Response {
+        constructor(contents: ArrayBuffer, type: string) {
+            super(contents,
+                {
+                    status: 200,
+                    headers: { "Content-Type": type }
+                });
+        }
     }
 }

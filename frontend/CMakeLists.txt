@@ -50,10 +50,11 @@ target_link_libraries(${TARGET_NAME}
 target_compile_definitions(${TARGET_NAME} PRIVATE TEXEDIT_VERSION="${TEXEDIT_VERSION}")
 
 # fetch dependencies for and distribute PDF viewer web-server
-set(BUN_EXEC "$ENV{HOME}/.bun/bin/bun")
+set(BUN_EXEC "$ENV{HOME}/.bun/bin/bun") # FIXME: this is not very portable at all!!!
 add_custom_target("tepdfserver" ALL
     COMMAND ${BUN_EXEC} install
-    COMMAND ${BUN_EXEC} build --compile "start.ts" --loader .mjs:file --outfile tepdfserver
+    COMMAND ${BUN_EXEC} build --compile "start.ts" --loader .mjs:file --outfile=tepdfserver
+    # for some reason, the --outfile flag on bun build isn't respecting full paths, so a workaround is to just move it where it should be afterwards
     COMMAND ${CMAKE_COMMAND} -E rename "${CMAKE_CURRENT_LIST_DIR}/preview/tepdfserver" "${CMAKE_CURRENT_BINARY_DIR}/tepdfserver"
     WORKING_DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/preview"
 )
