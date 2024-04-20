@@ -4,8 +4,6 @@ deps/
 docs/
 build/
 
-frontend/preview/lib
-
 *.md
 *.toml
 *.svg
