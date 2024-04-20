@@ -13,3 +13,9 @@ a program to wrap the actual TeX compiler and run the right programs depending o
 
 Note that TexEdit is a personal project that I'm mostly doing for fun, so it likely won't be as finished as a much bigger and more organised project,
 for instance. If you want an actual, fully-fledged LaTeX editor, I recommend [Overleaf](https://www.overleaf.com/).
+
+
+## Documentation
+
+Project documentation, as well as a general user manual, can be found deployed at https://kosude.github.io/texedit. It can also be accessed locally
+by building it with `make docs`.
