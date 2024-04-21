@@ -13,7 +13,7 @@
 namespace te {
     TECompProcess::TECompProcess(ProcessManager &mgr) : _mgr{mgr}, _id{1} {
         _cmd = util::res::RelToExec("tecomp");
-        if (!util::res::ValidateExecutable(_cmd.ToStdString())) {
+        if (!util::res::ValidateExecutable(_cmd)) {
             throw util::except::MissingComponentException("tecomp");
         }
     }

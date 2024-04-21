@@ -75,7 +75,7 @@ namespace te {
         }
     }
 
-    void MainFrame::ShowURL(const std::string &url) {
+    void MainFrame::ShowURL(const wxString &url) {
         if (!wxLaunchDefaultBrowser(url)) {
             util::log::Error("Failed to open URL \"" + url + "\"");
         }

@@ -9,16 +9,16 @@
 #ifndef __texedit__resources_hpp__
 #define __texedit__resources_hpp__
 
-#include <string>
+#include <wx/string.h>
 #include <vector>
 
 namespace te::util::res {
-    std::string GetTexeditDir();
+    wxString GetTexeditDir();
 
-    std::string RelToExec(std::vector<std::string> dirs, std::string filename);
-    std::string RelToExec(std::string filename);
+    wxString RelToExec(std::vector<wxString> dirs, wxString filename);
+    wxString RelToExec(wxString filename);
 
-    bool ValidateExecutable(std::string path);
+    bool ValidateExecutable(wxString path);
 }
 
 #endif

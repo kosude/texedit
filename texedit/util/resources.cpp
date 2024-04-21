@@ -13,25 +13,25 @@
 #include "util/log.hpp"
 
 namespace te::util::res {
-    std::string GetTexeditDir() {
+    wxString GetTexeditDir() {
         wxFileName f = wxStandardPaths::Get().GetExecutablePath();
-        return f.GetPath().ToStdString();
+        return f.GetPath();
     }
 
-    std::string RelToExec(std::vector<std::string> dirs, std::string filename) {
+    wxString RelToExec(std::vector<wxString> dirs, wxString filename) {
         wxFileName f = wxFileName::DirName(GetTexeditDir());
         for (auto d : dirs) {
             f.AppendDir(d);
         }
 
-        return f.GetPath().ToStdString() + wxString{wxFileName::GetPathSeparator()}.ToStdString() + filename;
+        return f.GetPath() + wxString{wxFileName::GetPathSeparator()} + filename;
     }
 
-    std::string RelToExec(std::string filename) {
+    wxString RelToExec(wxString filename) {
         return RelToExec({}, filename);
     }
 
-    bool ValidateExecutable(std::string path) {
+    bool ValidateExecutable(wxString path) {
         wxFileName f{path};
         return f.FileExists() && f.IsFileExecutable();
     }

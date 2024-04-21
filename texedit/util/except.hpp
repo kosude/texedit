@@ -12,7 +12,7 @@
 namespace te::util::except {
     class MissingComponentException : public std::runtime_error {
     public:
-        inline MissingComponentException(const std::string &name)
+        inline MissingComponentException(const wxString &name)
             : std::runtime_error{"Missing " + name} {}
     };
 }

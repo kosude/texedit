@@ -9,16 +9,16 @@
 #ifndef __texedit__log_hpp__
 #define __texedit__log_hpp__
 
-#include <string>
+#include <wx/string.h>
 
 namespace te::util::log {
     void ResetLogColour();
 
-    void Log(const std::string &msg);
-    void Info(const std::string &msg);
-    void Warn(const std::string &msg);
-    void Error(const std::string &msg, bool show = true);
-    void Fatal(const std::string &msg);
+    void Log(const wxString &msg);
+    void Info(const wxString &msg);
+    void Warn(const wxString &msg);
+    void Error(const wxString &msg, bool show = true);
+    void Fatal(const wxString &msg);
 }
 
 #endif

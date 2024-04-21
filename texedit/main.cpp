@@ -23,7 +23,7 @@ namespace te {
             what = "Unknown runtime error";
         }
 
-        util::log::Fatal(what.ToStdString());
+        util::log::Fatal(what);
 
         if (wxMessageBox("An unexpected exception has occurred:\n"
                          "\"" + what + "\"\n\n"
@@ -47,7 +47,7 @@ namespace te {
             what = "Unknown runtime error";
         }
 
-        util::log::Fatal("(unhandled) " + what.ToStdString());
+        util::log::Fatal("(unhandled) " + what);
 
         wxMessageBox("An unexpected exception has occurred:\n"
                      "\"" + what + "\"\n\n"

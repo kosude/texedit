@@ -28,7 +28,7 @@ namespace te {
         wxString cmdstr;
         for (int i = 0; argv[i] != 0; i++)
             cmdstr << argv[i] << " ";
-        util::log::Info("Executing command: " + cmdstr.ToStdString());
+        util::log::Info("Executing command: " + cmdstr);
 
         wxExecute(argv, wxEXEC_ASYNC, proc);
 
@@ -43,7 +43,7 @@ namespace te {
         wxString cmdstr;
         for (int i = 0; argv[i] != 0; i++)
             cmdstr << argv[i] << " ";
-        util::log::Info("Executing command: " + cmdstr.ToStdString());
+        util::log::Info("Executing command: " + cmdstr);
 
         wxExecute(argv, wxEXEC_ASYNC, piproc);
 
@@ -72,13 +72,13 @@ namespace te {
     }
 
     void ProcessManager::HandleProcessTerminated(Process *p, int pid, int status) {
-        util::log::Info("Process " + std::to_string(pid) + " (" + p->GetCmd().ToStdString() + ") terminated with code " + std::to_string(status));
+        util::log::Info("Process " + std::to_string(pid) + " (" + p->GetCmd() + ") terminated with code " + std::to_string(status));
 
         RemoveProcess(p);
     }
 
     void ProcessManager::HandlePipedProcessTerminated(PipedProcess *p, int pid, int status) {
-        util::log::Info("Process " + std::to_string(pid) + " (" + p->GetCmd().ToStdString() + ") terminated with code " + std::to_string(status));
+        util::log::Info("Process " + std::to_string(pid) + " (" + p->GetCmd() + ") terminated with code " + std::to_string(status));
 
         RemovePipedProcess(p);
     }

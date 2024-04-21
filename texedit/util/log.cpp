@@ -13,7 +13,7 @@
 #include <ctime>
 #include <wx/wx.h>
 
-static std::string GetCurrentDateTime(
+static wxString GetCurrentDateTime(
     const bool with_time
 );
 
@@ -22,23 +22,23 @@ namespace te::util::log {
         ciocolstatedef(stderr);
     }
 
-    void Log(const std::string &msg) {
+    void Log(const wxString &msg) {
 #       if !defined(NDEBUG)
             std::cerr << "[" << GetCurrentDateTime(true) << "] DEBUG: " << msg << std::endl;
 #       endif
     }
 
-    void Info(const std::string &msg) {
+    void Info(const wxString &msg) {
         std::cerr << "[" << GetCurrentDateTime(true) << "] " << msg << std::endl;
     }
 
-    void Warn(const std::string &msg) {
+    void Warn(const wxString &msg) {
         ciocolstateset(CIOCOL_YELLOW, 0xff, stderr);
         std::cerr << "[" << GetCurrentDateTime(true) << "] WARN: " << msg << std::endl;
         ResetLogColour();
     }
 
-    void Error(const std::string &msg, bool show) {
+    void Error(const wxString &msg, bool show) {
         ciocolstateset(CIOCOL_RED, 0xff, stderr);
         std::cerr << "[" << GetCurrentDateTime(true) << "] ERROR: " << msg << std::endl;
         ResetLogColour();
@@ -48,14 +48,14 @@ namespace te::util::log {
         }
     }
 
-    void Fatal(const std::string &msg) {
+    void Fatal(const wxString &msg) {
         ciocolstateset(CIOCOL_RED, 0xff, stderr);
         std::cerr << "[" << GetCurrentDateTime(true) << "] FATAL: " << msg << std::endl;
         ResetLogColour();
     }
 }
 
-std::string GetCurrentDateTime(const bool with_time) {
+wxString GetCurrentDateTime(const bool with_time) {
     std::time_t t = std::time(nullptr);
     std::tm *tm = std::localtime(&t);
 
@@ -68,7 +68,7 @@ std::string GetCurrentDateTime(const bool with_time) {
             std::strftime(buf, 64, "%Y-%m-%d", tm);
         }
 
-        return std::string { buf };
+        return wxString{buf};
     }
 
     throw std::runtime_error("Date/time get failed");

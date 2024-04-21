@@ -28,7 +28,7 @@ namespace te {
 
         void OnIdle(wxIdleEvent &ev);
 
-        void ShowURL(const std::string &url);
+        void ShowURL(const wxString &url);
 
         void OnMenuAbout(wxCommandEvent &event);
         void OnMenuQuit(wxCommandEvent &event);
