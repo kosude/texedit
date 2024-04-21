@@ -12,7 +12,7 @@
 #include <wx/txtstrm.h>
 #include <iostream>
 
-namespace te {
+namespace te::proc {
     Process::Process(wxEvtHandler *parent, ProcessManager *mgr) : wxProcess(parent), _mgr{mgr} {
     }
 

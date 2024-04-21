@@ -7,7 +7,7 @@
 
 #include "prog_info.hpp"
 
-namespace te {
+namespace te::gui {
     wxAboutDialogInfo ProgInfo::GenerateAboutDialogInfo() {
         wxAboutDialogInfo info;
         info.SetName(name);

@@ -15,7 +15,7 @@
 #include "process/compiler/tecomp_proc.hpp"
 #include "util/logger.hpp"
 
-namespace te {
+namespace te::gui {
     class MainFrame : public wxFrame {
     public:
         MainFrame();
@@ -25,8 +25,8 @@ namespace te {
         util::GlobalLogger *_logger;
         wxListBox *_lb;
 
-        ProcessManager _proc_mgr;
-        TECompProcess _tecomp;
+        proc::ProcessManager _proc_mgr;
+        proc::TECompProcess _tecomp;
 
         void BuildSplitLayout();
         void BuildMenuBar();

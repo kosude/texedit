@@ -9,7 +9,7 @@
 
 #include <wx/log.h>
 
-namespace te {
+namespace te::proc {
     ProcessManager::ProcessManager(wxEvtHandler *cmd_parent) : _cmd_parent{cmd_parent} {
     }
 

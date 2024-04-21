@@ -13,7 +13,7 @@
 
 #include "process/process_mgr.hpp"
 
-namespace te {
+namespace te::proc {
     class TECompProcess {
     public:
         TECompProcess(ProcessManager &mgr);

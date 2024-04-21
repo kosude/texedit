@@ -13,7 +13,7 @@
 
 #include <unordered_map>
 
-namespace te {
+namespace te::proc {
     class ProcessManager {
     public:
         ProcessManager(wxEvtHandler *cmd_parent);

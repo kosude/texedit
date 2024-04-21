@@ -7,7 +7,7 @@
 
 #include "preview_panel.hpp"
 
-namespace te {
+namespace te::gui {
     PreviewPanel::PreviewPanel(wxWindow *parent) : wxPanel(parent) {
         wxString pdf;
         _webView = wxWebView::New(this, wxID_ANY, "http://localhost:8080" + pdf);

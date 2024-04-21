@@ -58,7 +58,7 @@ namespace te {
         // TODO: command-line parsing here
 
         // show root (editor) window
-        MainFrame *main_frame = new MainFrame();
+        gui::MainFrame *main_frame = new gui::MainFrame();
         SetTopWindow(main_frame);
         main_frame->Show();
 

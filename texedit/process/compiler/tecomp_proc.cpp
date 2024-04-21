@@ -7,14 +7,14 @@
 
 #include "tecomp_proc.hpp"
 
-#include "util/except.hpp"
+#include "except.hpp"
 #include "util/resources.hpp"
 
-namespace te {
+namespace te::proc {
     TECompProcess::TECompProcess(ProcessManager &mgr) : _mgr{mgr}, _id{1} {
-        _cmd = util::res::RelToExec("tecomp");
-        if (!util::res::ValidateExecutable(_cmd)) {
-            throw util::except::MissingComponentException("tecomp");
+        _cmd = util::RelToExec("tecomp");
+        if (!util::ValidateExecutable(_cmd)) {
+            throw except::MissingComponentException("tecomp");
         }
     }
 

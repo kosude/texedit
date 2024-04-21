@@ -12,7 +12,7 @@
 #include <wx/string.h>
 #include <vector>
 
-namespace te::util::res {
+namespace te::util {
     wxString GetTexeditDir();
 
     wxString RelToExec(std::vector<wxString> dirs, wxString filename);

@@ -12,7 +12,7 @@
 #include <wx/wx.h>
 #include <wx/stc/stc.h>
 
-namespace te {
+namespace te::gui {
     class EditorPanel : public wxPanel {
     public:
         EditorPanel(wxWindow *parent);

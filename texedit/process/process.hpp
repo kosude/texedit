@@ -13,7 +13,7 @@
 
 #include <vector>
 
-namespace te {
+namespace te::proc {
     class ProcessManager;
 
     class Process : public wxProcess {

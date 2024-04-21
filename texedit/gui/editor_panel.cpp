@@ -7,7 +7,7 @@
 
 #include "editor_panel.hpp"
 
-namespace te {
+namespace te::gui {
     EditorPanel::EditorPanel(wxWindow *parent) : wxPanel(parent) {
         _stc = new wxStyledTextCtrl(this, wxID_ANY);
 

@@ -12,7 +12,7 @@
 #include <wx/wx.h>
 #include <wx/webview.h>
 
-namespace te {
+namespace te::gui {
     class PreviewPanel : public wxPanel {
     public:
         PreviewPanel(wxWindow *parent);

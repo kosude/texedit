@@ -9,7 +9,7 @@
 #ifndef __texedit__command_ids_hpp__
 #define __texedit__command_ids_hpp__
 
-namespace te::cmds {
+namespace te::gui::cmds {
     enum {
         Menu_URLSourcePage = 101,
         Menu_URLFeatureRequest,

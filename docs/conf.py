@@ -42,5 +42,6 @@ html_theme_options = {
 }
 
 html_css_files = [
-    "css/sidebar.css"
+    "css/sidebar.css",
+    "css/link-consist.css"
 ]

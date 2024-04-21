@@ -8,7 +8,6 @@
 #include "main_frame.hpp"
 
 #include "process/process.hpp"
-#include "util/except.hpp"
 #include "util/resources.hpp"
 #include "command_ids.hpp"
 #include "editor_panel.hpp"
@@ -18,7 +17,7 @@
 #include <wx/aboutdlg.h>
 #include <wx/splitter.h>
 
-namespace te {
+namespace te::gui {
     MainFrame::MainFrame() : wxFrame{nullptr, wxID_ANY, "TexEdit", wxDefaultPosition, wxSize{1024, 640}}, _proc_mgr{this}, _tecomp{_proc_mgr} {
         BuildMenuBar();
         BuildSplitLayout();

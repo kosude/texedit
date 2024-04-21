@@ -2,6 +2,9 @@
 
 # TexEdit: a portable, cross-platform editor for TeX documents
 
+[![GitHub](https://img.shields.io/github/license/kosude/texedit)](LICENCE)
+![Lines of code](https://www.aschey.tech/tokei/github.com/kosude/texedit)
+
 TexEdit is a graphical application containing a text editor and PDF preview, to make locally editing LaTeX documents easier. Note that a minimal
 distribution of TeX including the `pdflatex` binary is included with the program, and so TexEdit is fully portable and does not depend on any existing
 TeX installation.
@@ -19,3 +22,5 @@ for instance. If you want an actual, fully-fledged LaTeX editor, I recommend [Ov
 
 Project documentation, as well as a general user manual, can be found deployed at https://kosude.github.io/texedit. It can also be accessed locally
 by building it with `make docs`.
+
+A development TO-DO can be found on [Trello](https://trello.com/b/xtq0vBzz/texedit).

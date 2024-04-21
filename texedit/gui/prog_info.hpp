@@ -11,7 +11,7 @@
 
 #include <wx/aboutdlg.h>
 
-namespace te {
+namespace te::gui {
     class ProgInfo {
     public:
         static constexpr const char *name = "TexEdit";
