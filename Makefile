@@ -108,9 +108,9 @@ tecomp: $(COMPILER_TOML) $(TEXLIVE_DST) $(BUILD_DIR)/texpdfc.sh | validate_cargo
 FRONTEND_CMAKELISTS := $(SRC_DIR)/texedit/CMakeLists.txt
 
 texedit: $(FRONTEND_CMAKELISTS) | validate_cmake
-	$(CMAKE) $(SRC_DIR)/texedit -B$(BUILD_DIR)/_frontend $(CMAKEFLAGS)
-	$(CMAKE) --build $(BUILD_DIR)/_frontend
-	mv $(BUILD_DIR)/_frontend/texedit $(BUILD_DIR)
+	$(CMAKE) $(SRC_DIR)/texedit -B$(BUILD_DIR)/_texedit $(CMAKEFLAGS)
+	$(CMAKE) --build $(BUILD_DIR)/_texedit
+	mv $(BUILD_DIR)/_texedit/texedit $(BUILD_DIR)
 
 
 #
