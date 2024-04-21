@@ -14,27 +14,44 @@ wxIMPLEMENT_APP(te::Application);
 
 namespace te {
     bool Application::OnExceptionInMainLoop() {
+        wxString what;
         try {
             throw;
         } catch (const std::exception &e) {
-            util::log::Fatal(e.what());
+            what = e.what();
+        } catch (...) {
+            what = "Unknown runtime error";
+        }
 
-            if (wxMessageBox("An unexpected exception has occurred:\n"
-                             "\"" + std::string{e.what()} + "\"\n\n"
-                             "TexEdit can attempt to keep running so you can save your data. Do you want to try?",
-                             "Fatal Error", wxYES | wxNO | wxICON_ERROR)
-                    == wxYES) {
-                util::log::Warn("Attempting to continue execution following a potentially fatal exception");
-                return true;
-            }
+        util::log::Fatal(what.ToStdString());
+
+        if (wxMessageBox("An unexpected exception has occurred:\n"
+                         "\"" + what + "\"\n\n"
+                         "TexEdit can attempt to keep running so you can save your data. Do you want to try?",
+                         "Fatal Error", wxYES | wxNO | wxICON_ERROR)
+                == wxYES) {
+            util::log::Warn("Attempting to continue execution following a potentially fatal exception");
+            return true;
         }
 
         return false;
     }
 
     void Application::OnUnhandledException() {
-        wxMessageBox("An unhandled exception has occurred and TexEdit cannot recover.\n"
-                     "The program will now terminate.",
+        wxString what;
+        try {
+            throw;
+        } catch (const std::exception &e) {
+            what = e.what();
+        } catch (...) {
+            what = "Unknown runtime error";
+        }
+
+        util::log::Fatal("(unhandled) " + what.ToStdString());
+
+        wxMessageBox("An unexpected exception has occurred:\n"
+                     "\"" + what + "\"\n\n"
+                     "This was unhandled and TexEdit cannot recover. The program will now terminate.",
                      "Unhandled Exception", wxOK | wxICON_ERROR);
     }
 

@@ -9,14 +9,11 @@
 #ifndef __texedit__except_hpp__
 #define __texedit__except_hpp__
 
-#include <string>
-
 namespace te::util::except {
-    class NotImplementedException : public std::exception {
+    class MissingComponentException : public std::runtime_error {
     public:
-        inline const char *what() const noexcept override {
-            return "Attempted to invoke an operation that is not yet implemented.";
-        }
+        inline MissingComponentException(const std::string &name)
+            : std::runtime_error{"Missing " + name} {}
     };
 }
 

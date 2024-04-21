@@ -7,8 +7,10 @@
 
 #include "main_frame.hpp"
 
+#include "process/process.hpp"
 #include "util/log.hpp"
 #include "util/except.hpp"
+#include "util/resources.hpp"
 #include "command_ids.hpp"
 #include "editor_panel.hpp"
 #include "preview_panel.hpp"
@@ -18,7 +20,9 @@
 #include <wx/splitter.h>
 
 namespace te {
-    MainFrame::MainFrame() : wxFrame(nullptr, wxID_ANY, "TexEdit", wxDefaultPosition, wxSize{1024, 640}) {
+    MainFrame::MainFrame() : wxFrame{nullptr, wxID_ANY, "TexEdit", wxDefaultPosition, wxSize{1024, 640}}, _proc_mgr{this}, _tecomp{_proc_mgr} {
+        _tecomp.Start();
+
         BuildMenuBar();
         BuildSplitLayout();
     }
@@ -64,6 +68,13 @@ namespace te {
         SetMenuBar(menuBar);
     }
 
+    void MainFrame::OnIdle(wxIdleEvent &ev) {
+        wxString s = _proc_mgr.PollPipedOutput();
+        if (!s.IsEmpty()) {
+            std::cout << s;
+        }
+    }
+
     void MainFrame::ShowURL(const std::string &url) {
         if (!wxLaunchDefaultBrowser(url)) {
             util::log::Error("Failed to open URL \"" + url + "\"");
@@ -96,6 +107,7 @@ namespace te {
     }
 
     wxBEGIN_EVENT_TABLE(MainFrame, wxFrame)
+        EVT_IDLE(MainFrame::OnIdle)
         EVT_MENU(wxID_EXIT, MainFrame::OnMenuQuit)
         EVT_MENU(wxID_ABOUT, MainFrame::OnMenuAbout)
         EVT_MENU(cmds::Menu_URLSourcePage, MainFrame::OnMenuURLSourcePage)

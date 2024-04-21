@@ -11,14 +11,22 @@
 
 #include <wx/wx.h>
 
+#include "process/process_mgr.hpp"
+#include "process/compiler/tecomp_proc.hpp"
+
 namespace te {
     class MainFrame : public wxFrame {
     public:
         MainFrame();
 
     private:
+        ProcessManager _proc_mgr;
+        TECompProcess _tecomp;
+
         void BuildSplitLayout();
         void BuildMenuBar();
+
+        void OnIdle(wxIdleEvent &ev);
 
         void ShowURL(const std::string &url);
 

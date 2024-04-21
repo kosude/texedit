@@ -30,7 +30,11 @@ set(SRCS
     "gui/main_frame.cpp"
     "gui/preview_panel.cpp"
     "gui/prog_info.cpp"
+    "process/compiler/tecomp_proc.cpp"
+    "process/process_mgr.cpp"
+    "process/process.cpp"
     "util/log.cpp"
+    "util/resources.cpp"
     "main.cpp"
 )
 

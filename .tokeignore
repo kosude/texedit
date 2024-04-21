@@ -1,5 +1,5 @@
 vendor/
-tests/
+examples/
 deps/
 docs/
 build/
