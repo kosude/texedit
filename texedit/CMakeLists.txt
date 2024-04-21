@@ -33,7 +33,7 @@ set(SRCS
     "process/compiler/tecomp_proc.cpp"
     "process/process_mgr.cpp"
     "process/process.cpp"
-    "util/log.cpp"
+    "util/logger.cpp"
     "util/resources.cpp"
     "main.cpp"
 )

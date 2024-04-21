@@ -8,7 +8,6 @@
 #include "main_frame.hpp"
 
 #include "process/process.hpp"
-#include "util/log.hpp"
 #include "util/except.hpp"
 #include "util/resources.hpp"
 #include "command_ids.hpp"
@@ -21,31 +20,61 @@
 
 namespace te {
     MainFrame::MainFrame() : wxFrame{nullptr, wxID_ANY, "TexEdit", wxDefaultPosition, wxSize{1024, 640}}, _proc_mgr{this}, _tecomp{_proc_mgr} {
-        _tecomp.Start();
-
         BuildMenuBar();
         BuildSplitLayout();
+
+        // use logger for message redirects
+        _logger = new util::GlobalLogger(_lb);
+        wxLog::SetActiveTarget(_logger);
+
+        _tecomp.Start();
+
+        wxLogDebug("TEST DEBUG");
+        wxLogInfo("TEST INFO");
+        wxLogStatus("TEST STATUS");
+        wxLogMessage("TEST MESSAGE");
+        wxLogWarning("TEST WARNING");
+        wxLogError("TEST ERROR");
+    }
+
+    MainFrame::~MainFrame() {
+        // reset logging to default behaviour before deleting the logger object
+        wxLog::SetActiveTarget(nullptr);
+        delete _logger;
     }
 
     void MainFrame::BuildSplitLayout() {
-        wxSplitterWindow *splitter = new wxSplitterWindow(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_LIVE_UPDATE);
-        splitter->SetMinimumPaneSize(100);
+        wxSplitterWindow *hsplitter = new wxSplitterWindow(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_LIVE_UPDATE);
+        hsplitter->SetMinimumPaneSize(100);
 
-        wxWindow *l = new wxWindow(splitter, wxID_ANY);
+        wxWindow *t = new wxWindow(hsplitter, wxID_ANY);
+
+        wxSplitterWindow *vsplitter = new wxSplitterWindow(t, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_LIVE_UPDATE);
+        vsplitter->SetMinimumPaneSize(100);
+        wxWindow *l = new wxWindow(vsplitter, wxID_ANY);
         wxBoxSizer* lSizer = new wxBoxSizer(wxVERTICAL);
         lSizer->Add(new EditorPanel(l), 1, wxEXPAND);
         l->SetSizer(lSizer);
-
-        wxWindow *r = new wxWindow(splitter, wxID_ANY);
+        wxWindow *r = new wxWindow(vsplitter, wxID_ANY);
         wxBoxSizer* rSizer = new wxBoxSizer(wxVERTICAL);
         rSizer->Add(new PreviewPanel(r), 1, wxEXPAND);
         r->SetSizer(rSizer);
+        vsplitter->SplitVertically(l, r);
+        wxBoxSizer *tSizer = new wxBoxSizer(wxVERTICAL);
+        tSizer->Add(vsplitter, 1, wxEXPAND);
+        t->SetSizer(tSizer);
 
-        splitter->SplitVertically(l, r);
+        wxWindow *b = new wxWindow(hsplitter, wxID_ANY);
+        wxBoxSizer *bSizer = new wxBoxSizer(wxVERTICAL);
+        _lb = new wxListBox(b, wxID_ANY);
+        bSizer->Add(_lb, 1, wxEXPAND);
+        b->SetSizer(bSizer);
 
-        wxBoxSizer *topSizer = new wxBoxSizer(wxHORIZONTAL);
-        topSizer->Add(splitter, 1, wxEXPAND);
-        SetSizer(topSizer);
+        hsplitter->SplitHorizontally(t, b);
+
+        wxBoxSizer *rootSizer = new wxBoxSizer(wxHORIZONTAL);
+        rootSizer->Add(hsplitter, 1, wxEXPAND);
+        SetSizer(rootSizer);
     }
 
     void MainFrame::BuildMenuBar() {
@@ -71,13 +100,13 @@ namespace te {
     void MainFrame::OnIdle(wxIdleEvent &ev) {
         wxString s = _proc_mgr.PollPipedOutput();
         if (!s.IsEmpty()) {
-            std::cout << s;
+            wxLogStatus(s);
         }
     }
 
     void MainFrame::ShowURL(const wxString &url) {
         if (!wxLaunchDefaultBrowser(url)) {
-            util::log::Error("Failed to open URL \"" + url + "\"");
+            wxLogError("Failed to open URL \"%s\"", url);
         }
     }
 

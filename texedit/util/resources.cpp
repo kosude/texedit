@@ -10,8 +10,6 @@
 #include <wx/filename.h>
 #include <wx/stdpaths.h>
 
-#include "util/log.hpp"
-
 namespace te::util::res {
     wxString GetTexeditDir() {
         wxFileName f = wxStandardPaths::Get().GetExecutablePath();

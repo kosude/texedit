@@ -13,13 +13,18 @@
 
 #include "process/process_mgr.hpp"
 #include "process/compiler/tecomp_proc.hpp"
+#include "util/logger.hpp"
 
 namespace te {
     class MainFrame : public wxFrame {
     public:
         MainFrame();
+        ~MainFrame();
 
     private:
+        util::GlobalLogger *_logger;
+        wxListBox *_lb;
+
         ProcessManager _proc_mgr;
         TECompProcess _tecomp;
 

@@ -23,7 +23,7 @@ namespace te {
         virtual void OnTerminate(int pid, int status) override;
 
         inline void SetCmd(const wxString &cmd) { _cmd = cmd; }
-        inline wxString GetCmd() { return _cmd; }
+        inline wxString GetCmd() const { return _cmd; }
 
     protected:
         ProcessManager *_mgr;

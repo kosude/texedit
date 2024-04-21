@@ -29,11 +29,11 @@ namespace te {
 
         if (IsInputAvailable()) {
             wxTextInputStream tis(*GetInputStream());
-            r << _cmd << " (stdout): " << tis.ReadLine() << "\n";
+            r << tis.ReadLine();
         }
         if (IsErrorAvailable()) {
             wxTextInputStream tis(*GetErrorStream());
-            r << _cmd << " (stderr): " << tis.ReadLine() << "\n";
+            r << tis.ReadLine();
         }
 
         return r;

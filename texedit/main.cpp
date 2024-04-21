@@ -8,7 +8,6 @@
 #include "main.hpp"
 
 #include "gui/main_frame.hpp"
-#include "util/log.hpp"
 
 wxIMPLEMENT_APP(te::Application);
 
@@ -23,14 +22,14 @@ namespace te {
             what = "Unknown runtime error";
         }
 
-        util::log::Fatal(what);
+        wxLogError("(FATAL): %s", what);
 
         if (wxMessageBox("An unexpected exception has occurred:\n"
                          "\"" + what + "\"\n\n"
                          "TexEdit can attempt to keep running so you can save your data. Do you want to try?",
                          "Fatal Error", wxYES | wxNO | wxICON_ERROR)
                 == wxYES) {
-            util::log::Warn("Attempting to continue execution following a potentially fatal exception");
+            wxLogWarning("Attempting to continue execution following a potentially fatal exception");
             return true;
         }
 
@@ -47,7 +46,7 @@ namespace te {
             what = "Unknown runtime error";
         }
 
-        util::log::Fatal("(unhandled) " + what);
+        wxLogError("(FATAL): %s", what);
 
         wxMessageBox("An unexpected exception has occurred:\n"
                      "\"" + what + "\"\n\n"
@@ -56,8 +55,6 @@ namespace te {
     }
 
     bool Application::OnInit() {
-        util::log::ResetLogColour();
-
         // TODO: command-line parsing here
 
         // show root (editor) window
@@ -69,7 +66,7 @@ namespace te {
     }
 
     int Application::OnExit() {
-        util::log::Info("Exiting...");
+        wxLogStatus("Exiting...");
         return 0;
     }
 }

@@ -7,7 +7,7 @@
 
 #include "process_mgr.hpp"
 
-#include "util/log.hpp"
+#include <wx/log.h>
 
 namespace te {
     ProcessManager::ProcessManager(wxEvtHandler *cmd_parent) : _cmd_parent{cmd_parent} {
@@ -28,7 +28,7 @@ namespace te {
         wxString cmdstr;
         for (int i = 0; argv[i] != 0; i++)
             cmdstr << argv[i] << " ";
-        util::log::Info("Executing command: " + cmdstr);
+        wxLogMessage("Executing command: %s", cmdstr);
 
         wxExecute(argv, wxEXEC_ASYNC, proc);
 
@@ -43,7 +43,7 @@ namespace te {
         wxString cmdstr;
         for (int i = 0; argv[i] != 0; i++)
             cmdstr << argv[i] << " ";
-        util::log::Info("Executing command: " + cmdstr);
+        wxLogMessage("Executing command: %s", cmdstr);
 
         wxExecute(argv, wxEXEC_ASYNC, piproc);
 
@@ -72,13 +72,15 @@ namespace te {
     }
 
     void ProcessManager::HandleProcessTerminated(Process *p, int pid, int status) {
-        util::log::Info("Process " + std::to_string(pid) + " (" + p->GetCmd() + ") terminated with code " + std::to_string(status));
+        wxLogMessage("Process %d (%s) terminated with code %d",
+                     pid, p->GetCmd(), status);
 
         RemoveProcess(p);
     }
 
     void ProcessManager::HandlePipedProcessTerminated(PipedProcess *p, int pid, int status) {
-        util::log::Info("Process " + std::to_string(pid) + " (" + p->GetCmd() + ") terminated with code " + std::to_string(status));
+        wxLogMessage("Process %d (%s) terminated with code %d",
+                     pid, p->GetCmd(), status);
 
         RemovePipedProcess(p);
     }
