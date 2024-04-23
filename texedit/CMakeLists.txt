@@ -38,9 +38,6 @@ set(SRCS
     "main.cpp"
 )
 
-# cutils
-add_subdirectory("${DEPS_DIR}/cutils" "${CMAKE_CURRENT_BINARY_DIR}/deps/cutils")
-
 # wxwidgets
 find_package(wxWidgets REQUIRED COMPONENTS core base stc webview)
 include(${wxWidgets_USE_FILE})
@@ -49,6 +46,5 @@ include(${wxWidgets_USE_FILE})
 add_executable(${TARGET_NAME} ${SRCS})
 target_include_directories(${TARGET_NAME} PRIVATE "${CMAKE_CURRENT_LIST_DIR}")
 target_link_libraries(${TARGET_NAME}
-    cutils
     ${wxWidgets_LIBRARIES})
 target_compile_definitions(${TARGET_NAME} PRIVATE TEXEDIT_VERSION="${TEXEDIT_VERSION}")
