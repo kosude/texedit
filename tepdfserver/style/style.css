@@ -5,14 +5,27 @@
  *   See the LICENCE file for more information.
  */
 
-:root {
-    --bg-col: rgb(120, 120, 120);
-}
-
 body {
-    background-color: var(--bg-col);
+    margin: 0;
 }
 
-#pdf-render {
-    box-shadow: 0 0 20px rgb(0 0 0 / 0.6);
+.canvas-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #393939;
+}
+
+canvas#pdf-render {
+    /* Adding some extra size allows PDFs to be zoomed in by default */
+    /* This is helpful since TeX creates quite a big margin */
+    max-width: 130%;
+    max-height: 130%;
+    object-fit: contain;
 }
