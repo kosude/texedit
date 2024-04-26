@@ -7,105 +7,49 @@
 
 #include "process_mgr.hpp"
 
+#include "services/compiler_process.hpp"
+#include "services/pdf_server_process.hpp"
+
 #include <wx/log.h>
+#include <type_traits>
 
 namespace te::proc {
+    template CompilerProcess *ProcessManager::ExecuteAsync<CompilerProcess>();
+    template PDFServerProcess *ProcessManager::ExecuteAsync<PDFServerProcess>();
+
     ProcessManager::ProcessManager(wxEvtHandler *cmd_parent) : _cmd_parent{cmd_parent} {
     }
 
     ProcessManager::~ProcessManager() {
-        // stop and delete all processes if they are still running when the process manager is destroyed
-        for (auto p : _all_async) {
-            delete p.second;
+        for (auto p : _running) {
+            wxProcess::Kill(p->GetPid(), wxSIGINT);
         }
     }
 
-    void ProcessManager::ExecuteAsync(int id, const char *const *argv) {
-        Process *proc = new Process(_cmd_parent, this);
-        proc->SetCmd(argv[0]);
+    template <typename P>
+    P *ProcessManager::ExecuteAsync() {
+        static_assert(std::is_base_of<Process, P>::value, "In ProcessManager::ExecuteAsync(), type parameter P must derive from the Process class");
 
-        // make a string with the given arguments so it can be logged
-        wxString cmdstr;
-        for (int i = 0; argv[i] != 0; i++)
-            cmdstr << argv[i] << " ";
-        wxLogMessage("Executing command: %s", cmdstr);
+        P *proc = new P(this);
+        _running.push_back(proc);
 
-        wxExecute(argv, wxEXEC_ASYNC, proc);
-
-        _all_async.emplace(id, proc);
+        return proc;
     }
 
-    void ProcessManager::ExecutePipedAsync(int id, const char *const *argv) {
-        PipedProcess *piproc = new PipedProcess(_cmd_parent, this);
-        piproc->SetCmd(argv[0]);
-
-        // make a string with the given arguments so it can be logged
-        wxString cmdstr;
-        for (int i = 0; argv[i] != 0; i++)
-            cmdstr << argv[i] << " ";
-        wxLogMessage("Executing command: %s", cmdstr);
-
-        wxExecute(argv, wxEXEC_ASYNC, piproc);
-
-        _piped_running.emplace(id, piproc);
-        _all_async.emplace(id, piproc);
-    }
-
-    wxString ProcessManager::PollPipedOutput(int id) {
+    wxString ProcessManager::PollAsyncOutput() {
         wxString r{""};
-
-        // merge all output if no id was specified
-        if (id == wxINT32_MAX) {
-            for (auto p : _piped_running) {
-                r << p.second->ReadLineStdout();
-            }
-
-            return r;
+        for (auto p : _running) {
+            r << p->ReadLineStdout();
         }
-
-        // otherwise just get output of process with given id
-        if (_piped_running.find(id) != _piped_running.end()) {
-            r << _piped_running.at(id)->ReadLineStdout();
-        }
-
         return r;
     }
 
     void ProcessManager::HandleProcessTerminated(Process *p, int pid, int status) {
-        wxLogMessage("Process %d (%s) terminated with code %d",
-                     pid, p->GetCmd(), status);
-
+        wxLogMessage("Process %d terminated with code %d", pid, status);
         RemoveProcess(p);
-    }
-
-    void ProcessManager::HandlePipedProcessTerminated(PipedProcess *p, int pid, int status) {
-        wxLogMessage("Process %d (%s) terminated with code %d",
-                     pid, p->GetCmd(), status);
-
-        RemovePipedProcess(p);
     }
 
     void ProcessManager::RemoveProcess(Process *p) {
-        auto it = _all_async.begin();
-        while (it != _all_async.end()) {
-            if (it->second == p) {
-                it = _all_async.erase(it);
-            } else {
-                it++;
-            }
-        }
-    }
-
-    void ProcessManager::RemovePipedProcess(PipedProcess *p) {
-        auto it = _piped_running.begin();
-        while (it != _piped_running.end()) {
-            if (it->second == p) {
-                it = _piped_running.erase(it);
-            } else {
-                it++;
-            }
-        }
-
-        RemoveProcess(p);
+        _running.erase(std::remove(_running.begin(), _running.end(), p));
     }
 }

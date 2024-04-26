@@ -6,11 +6,10 @@
  */
 
 #pragma once
-#ifndef __texedit__process_mgr_hpp__
-#define __texedit__process_mgr_hpp__
+#ifndef __texedit__process_hpp__
+#define __texedit__process_hpp__
 
 #include <wx/process.h>
-
 #include <vector>
 
 namespace te::proc {
@@ -18,25 +17,16 @@ namespace te::proc {
 
     class Process : public wxProcess {
     public:
-        Process(wxEvtHandler *parent, ProcessManager *mgr);
-
-        virtual void OnTerminate(int pid, int status) override;
-
-        inline void SetCmd(const wxString &cmd) { _cmd = cmd; }
-        inline wxString GetCmd() const { return _cmd; }
-
-    protected:
-        ProcessManager *_mgr;
-        wxString _cmd{};
-    };
-
-    class PipedProcess : public Process {
-    public:
-        PipedProcess(wxEvtHandler *parent, ProcessManager *mgr);
+        Process(ProcessManager *mgr, const std::vector<const char*> &argv);
 
         wxString ReadLineStdout();
 
-        virtual void OnTerminate(int pid, int status) override;
+        void OnTerminate(int pid, int status) override;
+
+    private:
+        ProcessManager *_mgr;
+
+        wxString ArgvToCmdStr(const std::vector<const char *> &argv);
     };
 }
 

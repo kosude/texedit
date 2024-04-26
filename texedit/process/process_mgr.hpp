@@ -6,12 +6,12 @@
  */
 
 #pragma once
-#ifndef __texedit__pdf_server_hpp__
-#define __texedit__pdf_server_hpp__
+#ifndef __texedit__process_mgr_hpp__
+#define __texedit__process_mgr_hpp__
 
 #include "process.hpp"
 
-#include <unordered_map>
+#include <vector>
 
 namespace te::proc {
     class ProcessManager {
@@ -19,22 +19,22 @@ namespace te::proc {
         ProcessManager(wxEvtHandler *cmd_parent);
         ~ProcessManager();
 
-        void ExecuteAsync(int id, const char *const *argv);
-        void ExecutePipedAsync(int id, const char *const *argv);
+        template <typename P>
+        P *ExecuteAsync();
 
-        wxString PollPipedOutput(int id = wxINT32_MAX);
+        // get output from async process stdout/stderr
+        wxString PollAsyncOutput();
 
         void HandleProcessTerminated(Process *p, int pid, int status);
-        void HandlePipedProcessTerminated(PipedProcess *p, int pid, int status);
+
+        inline wxEvtHandler *GetCmdParent() const { return _cmd_parent; }
 
     private:
         wxEvtHandler *_cmd_parent;
 
-        std::unordered_map<int, Process *> _all_async{};
-        std::unordered_map<int, PipedProcess *> _piped_running{};
+        std::vector<Process *> _running{};
 
         void RemoveProcess(Process *p);
-        void RemovePipedProcess(PipedProcess *p);
     };
 }
 

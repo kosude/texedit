@@ -22,7 +22,9 @@ namespace te::util {
             f.AppendDir(d);
         }
 
-        return f.GetPath() + wxString{wxFileName::GetPathSeparator()} + filename;
+        return f.GetPath() +
+               wxFileName::GetPathSeparator() +
+               filename;
     }
 
     wxString RelToExec(wxString filename) {

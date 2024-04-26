@@ -9,22 +9,22 @@
 
 #include "process_mgr.hpp"
 
+#include <wx/log.h>
 #include <wx/txtstrm.h>
-#include <iostream>
 
 namespace te::proc {
-    Process::Process(wxEvtHandler *parent, ProcessManager *mgr) : wxProcess(parent), _mgr{mgr} {
+    Process::Process(ProcessManager *mgr, const std::vector<const char*> &argv) : wxProcess(mgr->GetCmdParent()), _mgr{mgr} {
+        Redirect();
+
+        wxExecute(argv.data(), wxEXEC_ASYNC, this);
+        wxLogMessage("Executing (pid %li): %s", GetPid(), ArgvToCmdStr(argv));
     }
 
     void Process::OnTerminate(int pid, int status) {
         _mgr->HandleProcessTerminated(this, pid, status);
     }
 
-    PipedProcess::PipedProcess(wxEvtHandler *parent, ProcessManager *mgr) : Process(parent, mgr) {
-        Redirect();
-    }
-
-    wxString PipedProcess::ReadLineStdout() {
+    wxString Process::ReadLineStdout() {
         wxString r{""};
 
         if (IsInputAvailable()) {
@@ -39,7 +39,11 @@ namespace te::proc {
         return r;
     }
 
-    void PipedProcess::OnTerminate(int pid, int status) {
-        _mgr->HandlePipedProcessTerminated(this, pid, status);
+    wxString Process::ArgvToCmdStr(const std::vector<const char *> &argv) {
+        wxString s;
+        for (const char *a : argv) {
+          s << a << " ";
+        }
+        return s;
     }
 }

@@ -12,7 +12,6 @@
 #include <wx/wx.h>
 
 #include "process/process_mgr.hpp"
-#include "process/compiler/tecomp_proc.hpp"
 #include "util/logger.hpp"
 
 namespace te::gui {
@@ -26,7 +25,6 @@ namespace te::gui {
         wxListBox *_lb;
 
         proc::ProcessManager _proc_mgr;
-        proc::TECompProcess _tecomp;
 
         void BuildSplitLayout();
         void BuildMenuBar();

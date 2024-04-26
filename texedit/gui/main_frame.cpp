@@ -7,8 +7,9 @@
 
 #include "main_frame.hpp"
 
+#include "process/services/compiler_process.hpp"
+#include "process/services/pdf_server_process.hpp"
 #include "process/process.hpp"
-#include "util/resources.hpp"
 #include "command_ids.hpp"
 #include "editor_panel.hpp"
 #include "preview_panel.hpp"
@@ -18,7 +19,7 @@
 #include <wx/splitter.h>
 
 namespace te::gui {
-    MainFrame::MainFrame() : wxFrame{nullptr, wxID_ANY, "TexEdit", wxDefaultPosition, wxSize{1024, 640}}, _proc_mgr{this}, _tecomp{_proc_mgr} {
+    MainFrame::MainFrame() : wxFrame{nullptr, wxID_ANY, "TexEdit", wxDefaultPosition, wxSize{1024, 640}}, _proc_mgr{this} {
         BuildMenuBar();
         BuildSplitLayout();
 
@@ -26,7 +27,8 @@ namespace te::gui {
         _logger = new util::GlobalLogger(_lb);
         wxLog::SetActiveTarget(_logger);
 
-        _tecomp.Start();
+        _proc_mgr.ExecuteAsync<proc::PDFServerProcess>();
+        _proc_mgr.ExecuteAsync<proc::CompilerProcess>();
 
         wxLogDebug("TEST DEBUG");
         wxLogInfo("TEST INFO");
@@ -97,7 +99,7 @@ namespace te::gui {
     }
 
     void MainFrame::OnIdle(wxIdleEvent &ev) {
-        wxString s = _proc_mgr.PollPipedOutput();
+        wxString s = _proc_mgr.PollAsyncOutput();
         if (!s.IsEmpty()) {
             wxLogStatus(s);
         }
