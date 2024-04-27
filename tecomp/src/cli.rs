@@ -8,7 +8,7 @@
 use clap::{Args, Parser, Subcommand};
 
 #[derive(Parser, Debug)]
-#[command(version, about, long_about = None)]
+#[command(about, long_about = None)]
 pub struct Cli {
     #[command(subcommand)]
     pub subcommand: CommandVariant,

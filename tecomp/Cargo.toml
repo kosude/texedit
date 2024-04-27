@@ -1,6 +1,5 @@
 [package]
 name = "tecomp"
-version = "0.1.0"
 description = "TeX compilation backend interface for TexEdit"
 
 edition = "2018"

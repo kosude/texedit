@@ -34,10 +34,9 @@ export async function getResource(filename: string): Promise<Response> {
 }
 
 // Route: /curpdf
-export async function getResourceCurPDF(): Promise<Response> {
-    let pdf = Bun.env["CURPDF"];
-    if (!pdf) {
-        return new Errors.InternalServerError("CURPDF environment variable is not set");
+export async function getResourceCurPDF(pathArg: string | undefined): Promise<Response> {
+    if (!pathArg) {
+        return new Errors.InternalServerError("No PDF path was specified to the tepdfserver instance");
     }
-    return await getResource(pdf);
+    return await getResource(pathArg);
 }

@@ -17,6 +17,8 @@ namespace te::proc {
     void PDFServerProcess::Start() {
         Process::StartHelper({
             util::RelToExec("tepdfserver").ToUTF8(),
+            "--child",
+            "--path=HelloWorld.pdf",
             0
         });
     }
@@ -63,7 +65,6 @@ namespace te::proc {
         }
 
         if (!rets.ToLong(&retl)) {
-            wxLogError("Failed to convert string '%s' to long type", rets);
             return false;
         }
 

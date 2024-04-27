@@ -1,10 +1,11 @@
 BUILD_DIR := build
 SRC_DIR := .
 
-PROJECT_VERS := $(shell "$(SRC_DIR)/util/version.sh" --long)
+PROJECT_VERS := $(shell "$(SRC_DIR)/util/version.sh" --short)
+PROJECT_VERS_LONG := $(shell "$(SRC_DIR)/util/version.sh" --long)
 
 CMAKE := cmake
-CMAKEFLAGS = -DTEXEDIT_VERSION="$(PROJECT_VERS)" -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+CMAKEFLAGS = -DTEXEDIT_VERSION="$(PROJECT_VERS_LONG)" -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 
 CARGO := cargo
 CARGOCHAN := +nightly
@@ -13,6 +14,7 @@ CARGOFLAGS := -Zunstable-options
 SPHINX := sphinx-build
 
 BUN := bun
+BUNFLAGS := --loader=.mjs:file --outfile=tepdfserver --define="VERSION='$(PROJECT_VERS)'"
 
 # this ensures `all` is run by default despite not being the first target in the Makefile
 .DEFAULT_GOAL := all
@@ -121,7 +123,7 @@ $(SRC_DIR)/tepdfserver/node_modules:
 	$(BUN) install --cwd $(SRC_DIR)/tepdfserver
 
 tepdfserver: | validate_bun $(BUILD_DIR) $(SRC_DIR)/tepdfserver/node_modules
-	$(BUN) build --compile $(SRC_DIR)/tepdfserver/server/start.ts --loader .mjs:file --outfile=tepdfserver
+	$(BUN) build --compile $(SRC_DIR)/tepdfserver/server/start.ts $(BUNFLAGS)
 	mv $(SRC_DIR)/tepdfserver/server/tepdfserver $(BUILD_DIR)
 
 
@@ -133,7 +135,7 @@ DOCS_CONF_PY := $(SRC_DIR)/docs/conf.py
 DOCS_CONFIG_SH := $(SRC_DIR)/docs/configure.sh
 
 docs: $(DOCS_CONFIG_SH) $(DOCS_CONF_PY) | validate_sphinx
-	$(DOCS_CONFIG_SH) "$(SPHINX)" "$(SRC_DIR)/docs" "$(BUILD_DIR)/docs" "$(SRC_DIR)/util"
+	$(DOCS_CONFIG_SH) "$(SPHINX)" "$(SRC_DIR)/docs" "$(BUILD_DIR)/docs" "$(SRC_DIR)/util" "$(PROJECT_VERS)"
 
 
 #
