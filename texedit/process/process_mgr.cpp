@@ -7,8 +7,10 @@
 
 #include "process_mgr.hpp"
 
-#include "services/compiler_process.hpp"
-#include "services/pdf_server_process.hpp"
+// These headers are used indirectly by the ExecuteAsync template, as we need to know they inherit from the Process class to
+// not alert the static_assert. IWYU pragmas are respected by clangd and avoid 'unused include' warnings.
+#include "services/compiler_process.hpp"    // IWYU pragma: keep
+#include "services/pdf_server_process.hpp"  // IWYU pragma: keep
 
 #include <wx/log.h>
 #include <type_traits>
@@ -31,6 +33,7 @@ namespace te::proc {
         static_assert(std::is_base_of<Process, P>::value, "In ProcessManager::ExecuteAsync(), type parameter P must derive from the Process class");
 
         P *proc = new P(this);
+        proc->Start();
         _running.push_back(proc);
 
         return proc;

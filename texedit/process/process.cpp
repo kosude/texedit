@@ -13,15 +13,12 @@
 #include <wx/txtstrm.h>
 
 namespace te::proc {
-    Process::Process(ProcessManager *mgr, const std::vector<const char*> &argv) : wxProcess(mgr->GetCmdParent()), _mgr{mgr} {
+    Process::Process(ProcessManager *mgr) : wxProcess(mgr->GetCmdParent()), _mgr{mgr} {
         Redirect();
-
-        wxExecute(argv.data(), wxEXEC_ASYNC, this);
-        wxLogMessage("Executing (pid %li): %s", GetPid(), ArgvToCmdStr(argv));
     }
 
-    void Process::OnTerminate(int pid, int status) {
-        _mgr->HandleProcessTerminated(this, pid, status);
+    void Process::Start() {
+        StartHelper({});
     }
 
     wxString Process::ReadLineStdout() {
@@ -29,14 +26,39 @@ namespace te::proc {
 
         if (IsInputAvailable()) {
             wxTextInputStream tis(*GetInputStream());
-            r << tis.ReadLine();
+            wxString l = tis.ReadLine();
+
+            if (OnStdoutInputAvailable(l)) {
+                r << l;
+            }
         }
         if (IsErrorAvailable()) {
             wxTextInputStream tis(*GetErrorStream());
-            r << tis.ReadLine();
+            wxString l = tis.ReadLine();
+
+            if (OnStdoutErrorAvailable(l)) {
+                r << l;
+            }
         }
 
         return r;
+    }
+
+    void Process::OnTerminate(int pid, int status) {
+        _mgr->HandleProcessTerminated(this, pid, status);
+    }
+
+    void Process::StartHelper(const std::vector<const char*> &argv) {
+        wxExecute(argv.data(), wxEXEC_ASYNC, this);
+        wxLogMessage("Executing (pid %li): %s", GetPid(), ArgvToCmdStr(argv));
+    }
+
+    bool Process::OnStdoutInputAvailable(const wxString &line) {
+        return true;
+    }
+
+    bool Process::OnStdoutErrorAvailable(const wxString &line) {
+        return true;
     }
 
     wxString Process::ArgvToCmdStr(const std::vector<const char *> &argv) {

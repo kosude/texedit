@@ -16,12 +16,22 @@
 namespace te::proc {
     class PDFServerProcess : public Process {
     public:
+        using OnPortFoundCallback = std::function<void(long)>;
+
         PDFServerProcess(ProcessManager *mgr);
 
-    private:
-        wxString _cmd;
+        void Start() override;
 
-        std::vector<const char *> GetArgv();
+        void OnTerminate(int pid, int status) override;
+        void OnPortFound(OnPortFoundCallback &&fun);
+
+    protected:
+        bool OnStdoutInputAvailable(const wxString &line) override;
+
+    private:
+        OnPortFoundCallback _port_found_cb;
+
+        bool MatchPort(const wxString &line, long &port);
     };
 }
 

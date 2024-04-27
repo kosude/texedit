@@ -10,19 +10,14 @@
 #include "util/resources.hpp"
 
 namespace te::proc {
-    CompilerProcess::CompilerProcess(ProcessManager *mgr) : Process(mgr, { util::RelToExec("tecomp").ToUTF8(), "watch", "examples", "examples/HelloWorld.tex", 0 }) {
+    CompilerProcess::CompilerProcess(ProcessManager *mgr) : Process(mgr) {
     }
 
-    std::vector<const char *> CompilerProcess::GetArgv() {
-        static bool cmdset = false;
-        if (!cmdset) {
-            _cmd = util::RelToExec("tecomp");
-            if (!util::ValidateExecutable(_cmd)) {
-                throw except::MissingComponentException("tecomp");
-            }
-            cmdset = true;
-        }
-
-        return {};
+    void CompilerProcess::Start() {
+        Process::StartHelper({
+            util::RelToExec("tecomp").ToUTF8(),
+            "watch", "examples", "examples/HelloWorld.tex",
+            0
+        });
     }
 }

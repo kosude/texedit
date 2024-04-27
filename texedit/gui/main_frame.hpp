@@ -12,6 +12,8 @@
 #include <wx/wx.h>
 
 #include "process/process_mgr.hpp"
+#include "process/services/compiler_process.hpp"
+#include "process/services/pdf_server_process.hpp"
 #include "util/logger.hpp"
 
 namespace te::gui {
@@ -25,6 +27,8 @@ namespace te::gui {
         wxListBox *_lb;
 
         proc::ProcessManager _proc_mgr;
+        proc::CompilerProcess *_compiler_proc;
+        proc::PDFServerProcess *_preview_proc;
 
         void BuildSplitLayout();
         void BuildMenuBar();

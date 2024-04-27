@@ -12,12 +12,17 @@ import * as routes from "./routes";
 
 const serveOpts: ServeOptions = {
     hostname: "localhost",
-    port: 8080
+    port: 6950
 }
 
-new Router(serveOpts)
+var r = new Router(serveOpts)
     .get("/", routes.index)
     .get("/*", (ctx) => routes.getResource(ctx.params["*"]))
     .get("/curpdf", routes.getResourceCurPDF)
-    .use(404, () => new Response("Resource not found.", { status: 404 }))
-    .listen();
+    .use(404, () => new Response("Resource not found.", { status: 404 }));
+
+// this output will be read and scanned by the texedit GUI
+// TODO: only print this when this program is invoked by texedit (i.e. add cli flag)
+console.log(`tepdfserver:Port=${r.port}`);
+
+r.listen();

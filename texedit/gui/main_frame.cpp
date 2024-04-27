@@ -27,8 +27,11 @@ namespace te::gui {
         _logger = new util::GlobalLogger(_lb);
         wxLog::SetActiveTarget(_logger);
 
-        _proc_mgr.ExecuteAsync<proc::PDFServerProcess>();
-        _proc_mgr.ExecuteAsync<proc::CompilerProcess>();
+        _compiler_proc = _proc_mgr.ExecuteAsync<proc::CompilerProcess>();
+        _preview_proc = _proc_mgr.ExecuteAsync<proc::PDFServerProcess>();
+        _preview_proc->OnPortFound([&](long p) {
+            wxLogMessage("Port----%ld", p);
+        });
 
         wxLogDebug("TEST DEBUG");
         wxLogInfo("TEST INFO");
@@ -99,9 +102,14 @@ namespace te::gui {
     }
 
     void MainFrame::OnIdle(wxIdleEvent &ev) {
-        wxString s = _proc_mgr.PollAsyncOutput();
-        if (!s.IsEmpty()) {
-            wxLogStatus(s);
+        wxString sc = _compiler_proc->ReadLineStdout();
+        if (!sc.IsEmpty()) {
+            wxLogStatus(sc);
+        }
+
+        wxString sp = _preview_proc->ReadLineStdout();
+        if (!sp.IsEmpty()) {
+            wxLogStatus(sp);
         }
     }
 

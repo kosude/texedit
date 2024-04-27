@@ -18,10 +18,7 @@ namespace te::proc {
     public:
         CompilerProcess(ProcessManager *mgr);
 
-    private:
-        wxString _cmd;
-
-        std::vector<const char *> GetArgv();
+        void Start() override;
     };
 }
 
