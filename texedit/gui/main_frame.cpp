@@ -12,7 +12,6 @@
 #include "process/process.hpp"
 #include "command_ids.hpp"
 #include "editor_panel.hpp"
-#include "preview_panel.hpp"
 #include "prog_info.hpp"
 
 #include <wx/aboutdlg.h>
@@ -30,7 +29,7 @@ namespace te::gui {
         _compiler_proc = _proc_mgr.ExecuteAsync<proc::CompilerProcess>();
         _preview_proc = _proc_mgr.ExecuteAsync<proc::PDFServerProcess>();
         _preview_proc->OnPortFound([&](long p) {
-            wxLogMessage("Port----%ld", p);
+            _preview->Load(wxString::Format("http://localhost:%li", p));
         });
 
         wxLogDebug("TEST DEBUG");
@@ -61,7 +60,8 @@ namespace te::gui {
         l->SetSizer(lSizer);
         wxWindow *r = new wxWindow(vsplitter, wxID_ANY);
         wxBoxSizer* rSizer = new wxBoxSizer(wxVERTICAL);
-        rSizer->Add(new PreviewPanel(r), 1, wxEXPAND);
+        _preview = new PreviewPanel(r);
+        rSizer->Add(_preview, 1, wxEXPAND);
         r->SetSizer(rSizer);
         vsplitter->SplitVertically(l, r);
         wxBoxSizer *tSizer = new wxBoxSizer(wxVERTICAL);

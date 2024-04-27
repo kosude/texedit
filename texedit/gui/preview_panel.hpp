@@ -17,6 +17,8 @@ namespace te::gui {
     public:
         PreviewPanel(wxWindow *parent);
 
+        void Load(const wxString &url);
+
     private:
         wxBoxSizer *_sizer;
 

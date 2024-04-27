@@ -15,6 +15,7 @@
 #include "process/services/compiler_process.hpp"
 #include "process/services/pdf_server_process.hpp"
 #include "util/logger.hpp"
+#include "preview_panel.hpp"
 
 namespace te::gui {
     class MainFrame : public wxFrame {
@@ -25,6 +26,8 @@ namespace te::gui {
     private:
         util::GlobalLogger *_logger;
         wxListBox *_lb;
+
+        PreviewPanel *_preview;
 
         proc::ProcessManager _proc_mgr;
         proc::CompilerProcess *_compiler_proc;
