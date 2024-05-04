@@ -12,6 +12,7 @@
 #include "process/process.hpp"
 #include "command_ids.hpp"
 #include "editor_panel.hpp"
+#include "explorer_panel.hpp"
 #include "prog_info.hpp"
 
 #include <wx/aboutdlg.h>
@@ -47,38 +48,69 @@ namespace te::gui {
     }
 
     void MainFrame::BuildSplitLayout() {
-        wxSplitterWindow *hsplitter = new wxSplitterWindow(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_LIVE_UPDATE);
-        hsplitter->SetMinimumPaneSize(100);
+        //          |
+        // Explorer | Editor, preview, etc
+        //          |
+        wxSplitterWindow *left_split = new wxSplitterWindow(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_LIVE_UPDATE);
+        left_split->SetMinimumPaneSize(100);
+        wxWindow *explorer_pane = new wxWindow(left_split, wxID_ANY);
+        wxWindow *non_explorer_nested = new wxWindow(left_split, wxID_ANY);
+        left_split->SplitVertically(explorer_pane, non_explorer_nested);
 
-        wxWindow *t = new wxWindow(hsplitter, wxID_ANY);
+        //        |
+        // Editor | Preview etc
+        //        |
+        wxSplitterWindow *middle_split = new wxSplitterWindow(non_explorer_nested, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_LIVE_UPDATE);
+        middle_split->SetMinimumPaneSize(200);
+        wxWindow *editor_pane = new wxWindow(middle_split, wxID_ANY);
+        wxWindow *non_editor_nested = new wxWindow(middle_split, wxID_ANY);
+        middle_split->SplitVertically(editor_pane, non_editor_nested);
 
-        wxSplitterWindow *vsplitter = new wxSplitterWindow(t, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_LIVE_UPDATE);
-        vsplitter->SetMinimumPaneSize(100);
-        wxWindow *l = new wxWindow(vsplitter, wxID_ANY);
-        wxBoxSizer* lSizer = new wxBoxSizer(wxVERTICAL);
-        lSizer->Add(new EditorPanel(l), 1, wxEXPAND);
-        l->SetSizer(lSizer);
-        wxWindow *r = new wxWindow(vsplitter, wxID_ANY);
-        wxBoxSizer* rSizer = new wxBoxSizer(wxVERTICAL);
-        _preview = new PreviewPanel(r);
-        rSizer->Add(_preview, 1, wxEXPAND);
-        r->SetSizer(rSizer);
-        vsplitter->SplitVertically(l, r);
-        wxBoxSizer *tSizer = new wxBoxSizer(wxVERTICAL);
-        tSizer->Add(vsplitter, 1, wxEXPAND);
-        t->SetSizer(tSizer);
+        //     Preview
+        // ----------------
+        //  Output console
+        wxSplitterWindow *right_hoz_split = new wxSplitterWindow(non_editor_nested, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_LIVE_UPDATE);
+        right_hoz_split->SetMinimumPaneSize(200);
+        wxWindow *preview_pane = new wxWindow(right_hoz_split, wxID_ANY);
+        wxWindow *console_pane = new wxWindow(right_hoz_split, wxID_ANY);
+        right_hoz_split->SplitHorizontally(preview_pane, console_pane);
 
-        wxWindow *b = new wxWindow(hsplitter, wxID_ANY);
-        wxBoxSizer *bSizer = new wxBoxSizer(wxVERTICAL);
-        _lb = new wxListBox(b, wxID_ANY);
-        bSizer->Add(_lb, 1, wxEXPAND);
-        b->SetSizer(bSizer);
+        // Explorer
+        ExplorerPanel *explorer = new ExplorerPanel(explorer_pane);
+        wxBoxSizer *explorer_sizer = new wxBoxSizer(wxVERTICAL);
+        explorer_pane->SetSizer(explorer_sizer);
+        explorer_sizer->Add(explorer, 1, wxEXPAND);
+        wxBoxSizer *non_explorer_sizer = new wxBoxSizer(wxVERTICAL);
+        non_explorer_nested->SetSizer(non_explorer_sizer);
+        non_explorer_sizer->Add(middle_split, 1, wxEXPAND);
 
-        hsplitter->SplitHorizontally(t, b);
+        // Editor
+        EditorPanel *editor = new EditorPanel(editor_pane);
+        wxBoxSizer *editor_sizer = new wxBoxSizer(wxVERTICAL);
+        editor_pane->SetSizer(editor_sizer);
+        editor_sizer->Add(editor, 1, wxEXPAND);
+        wxBoxSizer *non_editor_sizer = new wxBoxSizer(wxVERTICAL);
+        non_editor_nested->SetSizer(non_editor_sizer);
+        non_editor_sizer->Add(right_hoz_split, 1, wxEXPAND);
 
-        wxBoxSizer *rootSizer = new wxBoxSizer(wxHORIZONTAL);
-        rootSizer->Add(hsplitter, 1, wxEXPAND);
-        SetSizer(rootSizer);
+        // Preview
+        _preview = new PreviewPanel(preview_pane);
+        wxBoxSizer *preview_sizer = new wxBoxSizer(wxVERTICAL);
+        preview_pane->SetSizer(preview_sizer);
+        preview_sizer->Add(_preview, 1, wxEXPAND);
+
+        // Console (listbox)
+        _lb = new wxListBox(console_pane, wxID_ANY);
+        wxBoxSizer *console_sizer = new wxBoxSizer(wxVERTICAL);
+        console_pane->SetSizer(console_sizer);
+        console_sizer->Add(_lb, 1, wxEXPAND);
+
+        //
+        // Root sizer
+        //
+        wxBoxSizer *root = new wxBoxSizer(wxHORIZONTAL);
+        root->Add(left_split, 1, wxEXPAND);
+        SetSizer(root);
     }
 
     void MainFrame::BuildMenuBar() {
