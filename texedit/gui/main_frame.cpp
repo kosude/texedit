@@ -49,11 +49,11 @@ namespace te::gui {
         fileMenu->Append(wxID_EXIT, "&Quit");
         menuBar->Append(fileMenu, "&File");
 
-        wxMenu *windowMenu = new wxMenu();
-        windowMenu->Append(cmds::Menu_PaneExplorer, "&Explorer");
-        windowMenu->Append(cmds::Menu_PanePreview, "PDF &Preview");
-        windowMenu->Append(cmds::Menu_PaneOutput, "&Output");
-        menuBar->Append(windowMenu, "&Window");
+        wxMenu *viewMenu = new wxMenu();
+        viewMenu->Append(cmds::Menu_PaneExplorer, "&Explorer");
+        viewMenu->Append(cmds::Menu_PanePreview, "PDF &Preview");
+        viewMenu->Append(cmds::Menu_PaneOutput, "&Output");
+        menuBar->Append(viewMenu, "&View");
 
         wxMenu *helpMenu = new wxMenu();
         helpMenu->Append(cmds::Menu_URLUserManual, "&Documentation");
@@ -100,6 +100,7 @@ namespace te::gui {
         }
 
         _layout.GetExplorerPane()->ChangeRootDir(dlg.GetPath());
+        _layout.Update();
     }
 
     void MainFrame::OnMenuAbout(wxCommandEvent &event) {
