@@ -6,7 +6,6 @@
  */
 
 #include "compiler_process.hpp"
-#include "except.hpp"
 #include "util/resources.hpp"
 
 namespace te::proc {

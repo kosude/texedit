@@ -5,14 +5,14 @@
  *   See the LICENCE file for more information.
  */
 
-#include "explorer_panel.hpp"
+#include "editor_pane.hpp"
 
 namespace te::gui {
-    ExplorerPanel::ExplorerPanel(wxWindow *parent) : wxPanel(parent) {
-        _dirctl = new wxGenericDirCtrl(this, wxID_ANY);
+    EditorPane::EditorPane(wxWindow *parent) : PaneBase(parent) {
+        _stc = new wxStyledTextCtrl(this, wxID_ANY);
 
         _sizer = new wxBoxSizer(wxVERTICAL);
-        _sizer->Add(_dirctl, 1, wxEXPAND);
+        _sizer->Add(_stc, 1, wxEXPAND);
         SetSizer(_sizer);
     }
 }

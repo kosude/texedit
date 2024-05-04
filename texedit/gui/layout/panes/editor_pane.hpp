@@ -6,20 +6,21 @@
  */
 
 #pragma once
-#ifndef __texedit__explorer_panel_hpp__
-#define __texedit__explorer_panel_hpp__
+#ifndef __texedit__editor_pane_hpp__
+#define __texedit__editor_pane_hpp__
 
 #include <wx/wx.h>
-#include <wx/dirctrl.h>
+#include <wx/stc/stc.h>
+#include "pane_base.hpp"
 
 namespace te::gui {
-    class ExplorerPanel : public wxPanel {
+    class EditorPane : public PaneBase {
     public:
-        ExplorerPanel(wxWindow *parent);
+        EditorPane(wxWindow *parent);
 
     private:
         wxBoxSizer *_sizer;
-        wxGenericDirCtrl *_dirctl;
+        wxStyledTextCtrl *_stc;
     };
 }
 

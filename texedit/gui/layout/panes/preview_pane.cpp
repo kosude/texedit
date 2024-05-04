@@ -5,10 +5,10 @@
  *   See the LICENCE file for more information.
  */
 
-#include "preview_panel.hpp"
+#include "preview_pane.hpp"
 
 namespace te::gui {
-    PreviewPanel::PreviewPanel(wxWindow *parent) : wxPanel(parent) {
+    PreviewPane::PreviewPane(wxWindow *parent) : PaneBase(parent) {
         wxString pdf;
         _webView = wxWebView::New(this, wxID_ANY);
 
@@ -17,7 +17,7 @@ namespace te::gui {
         SetSizer(_sizer);
     }
 
-    void PreviewPanel::Load(const wxString &url) {
+    void PreviewPane::Load(const wxString &url) {
         wxLogInfo("Attempting to load preview resource from %s", url);
         _webView->LoadURL(url);
     }

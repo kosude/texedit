@@ -26,22 +26,27 @@ set(TARGET_NAME "${PROJECT_NAME}")
 set(DEPS_DIR "${CMAKE_CURRENT_LIST_DIR}/../deps/")
 
 set(SRCS
-    "gui/editor_panel.cpp"
-    "gui/explorer_panel.cpp"
+    "gui/layout/panes/editor_pane.cpp"
+    "gui/layout/panes/explorer_pane.cpp"
+    "gui/layout/panes/output_pane.cpp"
+    "gui/layout/panes/preview_pane.cpp"
+    "gui/layout/layout_manager.cpp"
     "gui/main_frame.cpp"
-    "gui/preview_panel.cpp"
     "gui/prog_info.cpp"
+
     "process/services/compiler_process.cpp"
     "process/services/pdf_server_process.cpp"
-    "process/process_mgr.cpp"
+    "process/process_manager.cpp"
     "process/process.cpp"
+
     "util/logger.cpp"
     "util/resources.cpp"
+
     "main.cpp"
 )
 
 # wxwidgets
-find_package(wxWidgets REQUIRED COMPONENTS core base stc webview)
+find_package(wxWidgets REQUIRED COMPONENTS core base stc webview aui)
 include(${wxWidgets_USE_FILE})
 
 # build executable

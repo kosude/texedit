@@ -6,16 +6,17 @@
  */
 
 #pragma once
-#ifndef __texedit__preview_panel_hpp__
-#define __texedit__preview_panel_hpp__
+#ifndef __texedit__preview_pane_hpp__
+#define __texedit__preview_pane_hpp__
 
 #include <wx/wx.h>
 #include <wx/webview.h>
+#include "pane_base.hpp"
 
 namespace te::gui {
-    class PreviewPanel : public wxPanel {
+    class PreviewPane : public PaneBase {
     public:
-        PreviewPanel(wxWindow *parent);
+        PreviewPane(wxWindow *parent);
 
         void Load(const wxString &url);
 

@@ -11,11 +11,11 @@
 
 #include <wx/wx.h>
 
-#include "process/process_mgr.hpp"
+#include "process/process_manager.hpp"
 #include "process/services/compiler_process.hpp"
 #include "process/services/pdf_server_process.hpp"
+#include "layout/layout_manager.hpp"
 #include "util/logger.hpp"
-#include "preview_panel.hpp"
 
 namespace te::gui {
     class MainFrame : public wxFrame {
@@ -24,16 +24,13 @@ namespace te::gui {
         ~MainFrame();
 
     private:
+        LayoutManager _layout;
         util::GlobalLogger *_logger;
-        wxListBox *_lb;
-
-        PreviewPanel *_preview;
 
         proc::ProcessManager _proc_mgr;
         proc::CompilerProcess *_compiler_proc;
         proc::PDFServerProcess *_preview_proc;
 
-        void BuildSplitLayout();
         void BuildMenuBar();
 
         void OnIdle(wxIdleEvent &ev);

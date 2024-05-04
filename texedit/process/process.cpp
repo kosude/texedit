@@ -7,7 +7,7 @@
 
 #include "process.hpp"
 
-#include "process_mgr.hpp"
+#include "process_manager.hpp"
 
 #include <wx/log.h>
 #include <wx/txtstrm.h>

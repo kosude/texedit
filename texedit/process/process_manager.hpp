@@ -6,8 +6,8 @@
  */
 
 #pragma once
-#ifndef __texedit__process_mgr_hpp__
-#define __texedit__process_mgr_hpp__
+#ifndef __texedit__process_manager_hpp__
+#define __texedit__process_manager_hpp__
 
 #include "process.hpp"
 

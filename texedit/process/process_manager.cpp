@@ -5,7 +5,7 @@
  *   See the LICENCE file for more information.
  */
 
-#include "process_mgr.hpp"
+#include "process_manager.hpp"
 
 // These headers are used indirectly by the ExecuteAsync template, as we need to know they inherit from the Process class to
 // not alert the static_assert. IWYU pragmas are respected by clangd and avoid 'unused include' warnings.
