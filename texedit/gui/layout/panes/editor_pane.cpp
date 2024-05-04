@@ -8,7 +8,7 @@
 #include "editor_pane.hpp"
 
 namespace te::gui {
-    EditorPane::EditorPane(wxWindow *parent) : PaneBase(parent) {
+    EditorPane::EditorPane(wxWindow *parent) : PaneBase{parent} {
         _stc = new wxStyledTextCtrl(this, wxID_ANY);
 
         _sizer = new wxBoxSizer(wxVERTICAL);

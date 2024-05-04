@@ -7,6 +7,7 @@
 
 #include "main_frame.hpp"
 
+#include "layout/panes/explorer_pane.hpp"
 #include "layout/panes/output_pane.hpp"
 #include "layout/panes/preview_pane.hpp"
 #include "process/services/compiler_process.hpp"
@@ -16,6 +17,7 @@
 #include "prog_info.hpp"
 
 #include <wx/aboutdlg.h>
+#include <wx/generic/dirctrlg.h>
 #include <wx/splitter.h>
 
 namespace te::gui {
@@ -43,6 +45,7 @@ namespace te::gui {
         wxMenuBar *menuBar = new wxMenuBar();
 
         wxMenu *fileMenu = new wxMenu();
+        fileMenu->Append(cmds::Menu_OpenFolder, "O&pen Folder...");
         fileMenu->Append(wxID_EXIT, "&Quit");
         menuBar->Append(fileMenu, "&File");
 
@@ -65,6 +68,12 @@ namespace te::gui {
         SetMenuBar(menuBar);
     }
 
+    void MainFrame::ShowURL(const wxString &url) {
+        if (!wxLaunchDefaultBrowser(url)) {
+            wxLogError("Failed to open URL \"%s\"", url);
+        }
+    }
+
     void MainFrame::OnIdle(wxIdleEvent &ev) {
         wxString sc = _compiler_proc->ReadLineStdout();
         if (!sc.IsEmpty()) {
@@ -77,10 +86,20 @@ namespace te::gui {
         }
     }
 
-    void MainFrame::ShowURL(const wxString &url) {
-        if (!wxLaunchDefaultBrowser(url)) {
-            wxLogError("Failed to open URL \"%s\"", url);
+    void MainFrame::OnDirCtrlFileActivated(wxTreeEvent &event) {
+        wxGenericDirCtrl dirctrl = _layout.GetExplorerPane()->GetDirCtrl();
+
+        wxLogMessage("%s", dirctrl.GetPath(event.GetItem()));
+    }
+
+    void MainFrame::OnButtonOpenFolder(wxCommandEvent &event) {
+        wxDirDialog dlg(this, "Choose a workspace directory", "", wxDD_DEFAULT_STYLE | wxDD_DIR_MUST_EXIST);
+
+        if (dlg.ShowModal() == wxID_CANCEL) {
+            return;
         }
+
+        _layout.GetExplorerPane()->ChangeRootDir(dlg.GetPath());
     }
 
     void MainFrame::OnMenuAbout(wxCommandEvent &event) {
@@ -120,6 +139,11 @@ namespace te::gui {
 
     wxBEGIN_EVENT_TABLE(MainFrame, wxFrame)
         EVT_IDLE(MainFrame::OnIdle)
+
+        EVT_DIRCTRL_FILEACTIVATED(wxID_ANY, MainFrame::OnDirCtrlFileActivated)
+        EVT_BUTTON(cmds::Button_OpenFolder, MainFrame::OnButtonOpenFolder)
+        EVT_MENU(cmds::Menu_OpenFolder,     MainFrame::OnButtonOpenFolder)
+
         EVT_MENU(wxID_EXIT,  MainFrame::OnMenuQuit)
         EVT_MENU(wxID_ABOUT, MainFrame::OnMenuAbout)
         EVT_MENU(cmds::Menu_URLSourcePage,      MainFrame::OnMenuURLSourcePage)

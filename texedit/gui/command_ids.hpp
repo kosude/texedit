@@ -11,13 +11,15 @@
 
 namespace te::gui::cmds {
     enum {
-        Menu_URLSourcePage = 101,
+        Menu_URLSourcePage = 501,
         Menu_URLFeatureRequest,
         Menu_URLBugReport,
         Menu_URLUserManual,
         Menu_PaneExplorer,
         Menu_PaneOutput,
         Menu_PanePreview,
+        Menu_OpenFolder,
+        Button_OpenFolder,
     };
 }
 

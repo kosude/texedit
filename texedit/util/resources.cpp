@@ -8,6 +8,7 @@
 #include "resources.hpp"
 
 #include <wx/filename.h>
+#include <wx/dir.h>
 #include <wx/stdpaths.h>
 
 namespace te::util {
@@ -16,7 +17,7 @@ namespace te::util {
         return f.GetPath();
     }
 
-    wxString RelToExec(std::vector<wxString> dirs, wxString filename) {
+    wxString RelToExec(const std::vector<wxString> &dirs, const wxString &filename) {
         wxFileName f = wxFileName::DirName(GetTexeditDir());
         for (auto d : dirs) {
             f.AppendDir(d);
@@ -27,11 +28,11 @@ namespace te::util {
                filename;
     }
 
-    wxString RelToExec(wxString filename) {
+    wxString RelToExec(const wxString &filename) {
         return RelToExec({}, filename);
     }
 
-    bool ValidateExecutable(wxString path) {
+    bool ValidateExecutable(const wxString &path) {
         wxFileName f{path};
         return f.FileExists() && f.IsFileExecutable();
     }

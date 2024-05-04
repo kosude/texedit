@@ -10,6 +10,7 @@
 #define __texedit__root_frame_hpp__
 
 #include <wx/wx.h>
+#include <wx/treebase.h>
 
 #include "process/process_manager.hpp"
 #include "process/services/compiler_process.hpp"
@@ -33,9 +34,11 @@ namespace te::gui {
 
         void BuildMenuBar();
 
-        void OnIdle(wxIdleEvent &ev);
-
         void ShowURL(const wxString &url);
+
+        void OnIdle(wxIdleEvent &ev);
+        void OnDirCtrlFileActivated(wxTreeEvent &event);
+        void OnButtonOpenFolder(wxCommandEvent &event);
 
         void OnMenuAbout(wxCommandEvent &event);
         void OnMenuQuit(wxCommandEvent &event);

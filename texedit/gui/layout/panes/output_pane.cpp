@@ -8,7 +8,7 @@
 #include "output_pane.hpp"
 
 namespace te::gui {
-    OutputPane::OutputPane(wxWindow *parent) : PaneBase(parent) {
+    OutputPane::OutputPane(wxWindow *parent) : PaneBase{parent} {
         _listbox = new wxListBox(this, wxID_ANY);
 
         _sizer = new wxBoxSizer(wxVERTICAL);

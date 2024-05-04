@@ -8,7 +8,7 @@
 #include "preview_pane.hpp"
 
 namespace te::gui {
-    PreviewPane::PreviewPane(wxWindow *parent) : PaneBase(parent) {
+    PreviewPane::PreviewPane(wxWindow *parent) : PaneBase{parent} {
         wxString pdf;
         _webView = wxWebView::New(this, wxID_ANY);
 

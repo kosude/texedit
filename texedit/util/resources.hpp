@@ -15,10 +15,10 @@
 namespace te::util {
     wxString GetTexeditDir();
 
-    wxString RelToExec(std::vector<wxString> dirs, wxString filename);
-    wxString RelToExec(wxString filename);
+    wxString RelToExec(const std::vector<wxString> &dirs, const wxString &filename);
+    wxString RelToExec(const wxString &filename);
 
-    bool ValidateExecutable(wxString path);
+    bool ValidateExecutable(const wxString &path);
 }
 
 #endif

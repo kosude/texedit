@@ -14,13 +14,32 @@
 #include "pane_base.hpp"
 
 namespace te::gui {
+    // An implementation of wxGenericDirCtrl that is local to a specified directory, as opposed to listing the entire filesystem
+    class LocalDirCtrl : public wxGenericDirCtrl {
+    public:
+        LocalDirCtrl(wxWindow *parent, const wxString &root, wxWindowID id = wxID_ANY);
+
+        void SetupSections() override;
+
+    private:
+        wxString _root;
+    };
+
     class ExplorerPane : public PaneBase {
     public:
         ExplorerPane(wxWindow *parent);
 
+        inline LocalDirCtrl *GetDirCtrl() const { return _dirctrl; }
+
+        void ChangeRootDir(const wxString &path);
+
     private:
+        wxSizerItem *_empty_tree_stretch_spacer[2];
+        wxButton *_empty_tree_btn;
+        void AddEmptyTreeButton();
+
         wxBoxSizer *_sizer;
-        wxGenericDirCtrl *_dirctl;
+        LocalDirCtrl *_dirctrl{nullptr};
     };
 }
 
