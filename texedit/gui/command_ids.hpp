@@ -14,7 +14,10 @@ namespace te::gui::cmds {
         Menu_URLSourcePage = 101,
         Menu_URLFeatureRequest,
         Menu_URLBugReport,
-        Menu_URLUserManual
+        Menu_URLUserManual,
+        Menu_PaneExplorer,
+        Menu_PaneOutput,
+        Menu_PanePreview,
     };
 }
 

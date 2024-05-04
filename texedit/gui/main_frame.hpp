@@ -43,6 +43,9 @@ namespace te::gui {
         void OnMenuURLFeatureRequest(wxCommandEvent &event);
         void OnMenuURLBugReport(wxCommandEvent &event);
         void OnMenuURLUserManual(wxCommandEvent &event);
+        void OnMenuPaneExplorer(wxCommandEvent &event);
+        void OnMenuPaneOutput(wxCommandEvent &event);
+        void OnMenuPanePreview(wxCommandEvent &event);
 
         wxDECLARE_EVENT_TABLE();
     };

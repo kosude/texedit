@@ -46,6 +46,12 @@ namespace te::gui {
         fileMenu->Append(wxID_EXIT, "&Quit");
         menuBar->Append(fileMenu, "&File");
 
+        wxMenu *windowMenu = new wxMenu();
+        windowMenu->Append(cmds::Menu_PaneExplorer, "&Explorer");
+        windowMenu->Append(cmds::Menu_PanePreview, "PDF &Preview");
+        windowMenu->Append(cmds::Menu_PaneOutput, "&Output");
+        menuBar->Append(windowMenu, "&Window");
+
         wxMenu *helpMenu = new wxMenu();
         helpMenu->Append(cmds::Menu_URLUserManual, "&Documentation");
         helpMenu->AppendSeparator();
@@ -102,13 +108,26 @@ namespace te::gui {
         ShowURL("https://kosude.github.io/texedit/");
     }
 
+    void MainFrame::OnMenuPaneExplorer(wxCommandEvent &event) {
+        _layout.ShowExplorerPane();
+    }
+    void MainFrame::OnMenuPaneOutput(wxCommandEvent &event) {
+        _layout.ShowOutputPane();
+    }
+    void MainFrame::OnMenuPanePreview(wxCommandEvent &event) {
+        _layout.ShowPreviewPane();
+    }
+
     wxBEGIN_EVENT_TABLE(MainFrame, wxFrame)
         EVT_IDLE(MainFrame::OnIdle)
-        EVT_MENU(wxID_EXIT, MainFrame::OnMenuQuit)
+        EVT_MENU(wxID_EXIT,  MainFrame::OnMenuQuit)
         EVT_MENU(wxID_ABOUT, MainFrame::OnMenuAbout)
-        EVT_MENU(cmds::Menu_URLSourcePage, MainFrame::OnMenuURLSourcePage)
-        EVT_MENU(cmds::Menu_URLFeatureRequest, MainFrame::OnMenuURLFeatureRequest)
-        EVT_MENU(cmds::Menu_URLBugReport, MainFrame::OnMenuURLBugReport)
-        EVT_MENU(cmds::Menu_URLUserManual, MainFrame::OnMenuURLUserManual)
+        EVT_MENU(cmds::Menu_URLSourcePage,      MainFrame::OnMenuURLSourcePage)
+        EVT_MENU(cmds::Menu_URLFeatureRequest,  MainFrame::OnMenuURLFeatureRequest)
+        EVT_MENU(cmds::Menu_URLBugReport,       MainFrame::OnMenuURLBugReport)
+        EVT_MENU(cmds::Menu_URLUserManual,      MainFrame::OnMenuURLUserManual)
+        EVT_MENU(cmds::Menu_PaneExplorer,       MainFrame::OnMenuPaneExplorer)
+        EVT_MENU(cmds::Menu_PaneOutput,         MainFrame::OnMenuPaneOutput)
+        EVT_MENU(cmds::Menu_PanePreview,        MainFrame::OnMenuPanePreview)
     wxEND_EVENT_TABLE()
 }
