@@ -36,7 +36,6 @@ set(SRCS
     "gui/prog_info.cpp"
 
     "process/services/compiler_process.cpp"
-    "process/services/pdf_server_process.cpp"
     "process/process_manager.cpp"
     "process/process.cpp"
 

@@ -7,6 +7,3 @@ build/
 *.md
 *.toml
 *.svg
-
-package.json
-package-lock.json

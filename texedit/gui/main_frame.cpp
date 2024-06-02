@@ -11,7 +11,6 @@
 #include "layout/panes/output_pane.hpp"
 #include "layout/panes/preview_pane.hpp"
 #include "process/services/compiler_process.hpp"
-#include "process/services/pdf_server_process.hpp"
 #include "process/process.hpp"
 #include "command_ids.hpp"
 #include "prog_info.hpp"
@@ -29,10 +28,6 @@ namespace te::gui {
         wxLog::SetActiveTarget(_logger);
 
         _compiler_proc = _proc_mgr.ExecuteAsync<proc::CompilerProcess>();
-        _preview_proc = _proc_mgr.ExecuteAsync<proc::PDFServerProcess>();
-        _preview_proc->OnPortFound([&](long p) {
-            _layout.GetPreviewPane()->Load(wxString::Format("http://localhost:%li", p));
-        });
     }
 
     MainFrame::~MainFrame() {
@@ -78,11 +73,6 @@ namespace te::gui {
         wxString sc = _compiler_proc->ReadLineStdout();
         if (!sc.IsEmpty()) {
             wxLogStatus(sc);
-        }
-
-        wxString sp = _preview_proc->ReadLineStdout();
-        if (!sp.IsEmpty()) {
-            wxLogStatus(sp);
         }
     }
 

@@ -13,9 +13,6 @@ CARGOFLAGS := -Zunstable-options
 
 SPHINX := sphinx-build
 
-BUN := bun
-BUNFLAGS := --loader=.mjs:file --outfile=tepdfserver --define="VERSION='$(PROJECT_VERS)'"
-
 # this ensures `all` is run by default despite not being the first target in the Makefile
 .DEFAULT_GOAL := all
 
@@ -40,12 +37,6 @@ validate_sphinx:
 		$(info Sphinx located at $(shell command -v $(SPHINX))),\
 		$(error Sphinx (sphinx-build) not found in PATH, but is required to build HTML doc))
 	@:
-validate_bun:
-	$(if \
-		$(shell which $(BUN)),\
-		$(info Bun located at $(shell command -v $(BUN))),\
-		$(error Bun not found in PATH, but is required to build tepdfserver))
-	@:
 
 # run with DEBUG=1 to use debug configuration
 
@@ -59,14 +50,14 @@ ifneq "$(DEBUG)" "1"
 CARGOFLAGS += --release
 endif
 
-.PHONY: tecomp texedit tepdfserver
+.PHONY: tecomp texedit
 .PHONY: docs clean predist
 
 
 #
 # All targets
 #
-all: tecomp texedit tepdfserver
+all: tecomp texedit
 
 
 $(BUILD_DIR):
@@ -113,18 +104,6 @@ texedit: $(FRONTEND_CMAKELISTS) | validate_cmake
 	$(CMAKE) $(SRC_DIR)/texedit -B$(BUILD_DIR)/_texedit $(CMAKEFLAGS)
 	$(CMAKE) --build $(BUILD_DIR)/_texedit
 	mv $(BUILD_DIR)/_texedit/texedit $(BUILD_DIR)
-
-
-#
-# Bundle the PDF preview server
-#
-
-$(SRC_DIR)/tepdfserver/node_modules:
-	$(BUN) install --cwd $(SRC_DIR)/tepdfserver
-
-tepdfserver: | validate_bun $(BUILD_DIR) $(SRC_DIR)/tepdfserver/node_modules
-	$(BUN) build --compile $(SRC_DIR)/tepdfserver/server/start.ts $(BUNFLAGS)
-	mv $(SRC_DIR)/tepdfserver/server/tepdfserver $(BUILD_DIR)
 
 
 #

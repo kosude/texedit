@@ -10,14 +10,12 @@
 // These headers are used indirectly by the ExecuteAsync template, as we need to know they inherit from the Process class to
 // not alert the static_assert. IWYU pragmas are respected by clangd and avoid 'unused include' warnings.
 #include "services/compiler_process.hpp"    // IWYU pragma: keep
-#include "services/pdf_server_process.hpp"  // IWYU pragma: keep
 
 #include <wx/log.h>
 #include <type_traits>
 
 namespace te::proc {
     template CompilerProcess *ProcessManager::ExecuteAsync<CompilerProcess>();
-    template PDFServerProcess *ProcessManager::ExecuteAsync<PDFServerProcess>();
 
     ProcessManager::ProcessManager(wxEvtHandler *cmd_parent) : _cmd_parent{cmd_parent} {
     }
