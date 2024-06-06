@@ -14,8 +14,10 @@ Support for Linux and macOS is confirmed; TexEdit does not currently support Win
 This repository contains both the TexEdit graphical editor as well as the `tecomp` (TexEdit Compiler) backend, which isn't actually a compiler, just
 a program to wrap the actual TeX compiler and run the right programs depending on the operating system and architecture.
 
-Note that TexEdit is a personal project that I'm mostly doing for fun, so it likely won't be as finished as a much bigger and more organised project,
-for instance. If you want an actual, fully-fledged LaTeX editor, I recommend [Overleaf](https://www.overleaf.com/).
+> [!IMPORTANT]
+> This is a personal project that I'm mostly doing for fun (and so I can use it to write my A-level coursework in), so it likely won't be as finished
+> as a much bigger and more organised project, for instance. If you want an actual, fully-fledged LaTeX editor, I recommend
+> [Overleaf](https://www.overleaf.com/).
 
 
 ## Documentation
