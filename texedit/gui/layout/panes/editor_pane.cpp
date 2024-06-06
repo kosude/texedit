@@ -6,13 +6,14 @@
  */
 
 #include "editor_pane.hpp"
+#include "gui/editor/src_editor_component.hpp"
 
 namespace te::gui {
     EditorPane::EditorPane(wxWindow *parent) : PaneBase{parent} {
-        _stc = new wxStyledTextCtrl(this, wxID_ANY);
+        _src_editor = new editor::SrcEditor(this);
 
         _sizer = new wxBoxSizer(wxVERTICAL);
-        _sizer->Add(_stc, 1, wxEXPAND);
+        _sizer->Add(_src_editor, 1, wxEXPAND);
         SetSizer(_sizer);
     }
 }

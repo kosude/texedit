@@ -12,6 +12,7 @@
 #include <wx/wx.h>
 #include <wx/stc/stc.h>
 #include "pane_base.hpp"
+#include "gui/editor/src_editor_component.hpp"
 
 namespace te::gui {
     class EditorPane : public PaneBase {
@@ -20,7 +21,8 @@ namespace te::gui {
 
     private:
         wxBoxSizer *_sizer;
-        wxStyledTextCtrl *_stc;
+
+        editor::SrcEditor *_src_editor;
     };
 }
 
