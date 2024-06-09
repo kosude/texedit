@@ -27,6 +27,10 @@ namespace te::gui {
         _logger = new util::GlobalLogger(_layout.GetOutputPane()->GetListBox());
         wxLog::SetActiveTarget(_logger);
 
+        // TODO: temp --
+        _layout.GetPreviewPane()->SetPDFLocation("HelloWorld.pdf");
+        // _layout.GetPreviewPane()->SetPDFLocation("/home/jack/Downloads/7-stripe-rainbow-pride-flag-A4-size.pdf");
+
         _compiler_proc = _proc_mgr.ExecuteAsync<proc::CompilerProcess>();
     }
 

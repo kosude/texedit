@@ -8,6 +8,7 @@
 #include "main.hpp"
 
 #include "gui/main_frame.hpp"
+#include "gui/pdf_viewer/pdf_document.hpp"
 
 wxIMPLEMENT_APP(te::Application);
 
@@ -16,8 +17,8 @@ namespace te {
         wxString what;
         try {
             throw;
-        } catch (const std::exception &e) {
-            what = e.what();
+        } catch (const std::exception *e) {
+            what = e->what();
         } catch (...) {
             what = "Unknown runtime error";
         }
@@ -40,8 +41,8 @@ namespace te {
         wxString what;
         try {
             throw;
-        } catch (const std::exception &e) {
-            what = e.what();
+        } catch (const std::exception *e) {
+            what = e->what();
         } catch (...) {
             what = "Unknown runtime error";
         }
@@ -56,6 +57,9 @@ namespace te {
 
     bool Application::OnInit() {
         // TODO: command-line parsing here
+
+        // initialise logging for PDF document processing
+        gui::PDFDocument::CaptureRuntimeLogging();
 
         // show root (editor) window
         gui::MainFrame *main_frame = new gui::MainFrame();

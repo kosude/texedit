@@ -7,18 +7,38 @@
 
 #include "preview_pane.hpp"
 
+#include "except.hpp"
+
 namespace te::gui {
-    PreviewPane::PreviewPane(wxWindow *parent) : PaneBase{parent} {
-        wxString pdf;
-        _webView = wxWebView::New(this, wxID_ANY);
+    PreviewPane::PreviewPane(wxWindow *parent) : PaneBase(parent) {
+        _canvas = new PDFCanvas(this);
 
         _sizer = new wxBoxSizer(wxVERTICAL);
-        _sizer->Add(_webView, 1, wxEXPAND);
+        _sizer->Add(_canvas, 1, wxEXPAND, 3);
         SetSizer(_sizer);
     }
 
-    void PreviewPane::Load(const wxString &url) {
-        wxLogInfo("Attempting to load preview resource from %s", url);
-        _webView->LoadURL(url);
+    PreviewPane::~PreviewPane() {
+        // delete last loaded document if applicable
+        if (_document) {
+            delete _document;
+        }
+    }
+
+    void PreviewPane::SetPDFLocation(const wxString &path) {
+        try {
+            // document is heap-allocated, so replace it here
+            if (_document) {
+                delete _document;
+            }
+            _document = new PDFDocument(path);
+
+            // RenderDocument() stores the new document's rendered images into the canvas object to be drawn later
+            _canvas->RenderDocument(_document);
+        } catch (except::PDFException *e) {
+            // TODO: show error message in the preview pane.
+            wxLogError("%s", e->what());
+            return;
+        }
     }
 }

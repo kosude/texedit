@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.24)
 
 project("texedit" CXX)
 
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
+
 set(CMAKE_CXX_STANDARD 17)
 
 set(CMAKE_CONFIGURATION_TYPES Debug Release)
@@ -32,6 +34,8 @@ set(SRCS
     "gui/layout/panes/output_pane.cpp"
     "gui/layout/panes/preview_pane.cpp"
     "gui/layout/layout_manager.cpp"
+    "gui/pdf_viewer/pdf_canvas.cpp"
+    "gui/pdf_viewer/pdf_document.cpp"
     "gui/main_frame.cpp"
     "gui/prog_info.cpp"
 
@@ -49,9 +53,20 @@ set(SRCS
 find_package(wxWidgets REQUIRED COMPONENTS core base stc webview aui)
 include(${wxWidgets_USE_FILE})
 
+# libpoppler
+find_package(Poppler REQUIRED COMPONENTS Cpp)
+
 # build executable
 add_executable(${TARGET_NAME} ${SRCS})
-target_include_directories(${TARGET_NAME} PRIVATE "${CMAKE_CURRENT_LIST_DIR}")
+target_include_directories(${TARGET_NAME} PRIVATE
+    "${CMAKE_CURRENT_LIST_DIR}"
+    ${Poppler_INCLUDE_DIRS}
+)
 target_link_libraries(${TARGET_NAME}
-    ${wxWidgets_LIBRARIES})
-target_compile_definitions(${TARGET_NAME} PRIVATE TEXEDIT_VERSION="${TEXEDIT_VERSION}")
+    ${wxWidgets_LIBRARIES}
+    ${Poppler_LIBRARIES}
+)
+target_compile_definitions(${TARGET_NAME} PRIVATE
+    TEXEDIT_VERSION="${TEXEDIT_VERSION}"
+    ${Poppler_DEFINITIONS}
+)
