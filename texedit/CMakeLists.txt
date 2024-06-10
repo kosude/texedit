@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.24)
 
 project("texedit" CXX)
 
-set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/../cmake/mod")
 
 set(CMAKE_CXX_STANDARD 17)
 

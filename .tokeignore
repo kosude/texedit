@@ -4,6 +4,8 @@ deps/
 docs/
 build/
 
+cmake/mod/
+
 *.md
 *.toml
 *.svg
