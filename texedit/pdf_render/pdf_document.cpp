@@ -10,6 +10,7 @@
 #include "except.hpp"
 
 #include <wx/log.h>
+#include <wx/image.h>
 
 namespace te::pdfr {
     PDFDocument::PDFDocument(const wxString &path) : _path{path} {
@@ -34,9 +35,9 @@ namespace te::pdfr {
         }
     }
 
-    std::vector<wxImage *> PDFDocument::RenderAll() const {
+    std::vector<RenderedPage> PDFDocument::RenderAll() const {
         int pagen = _pages.size();
-        std::vector<wxImage *> ret(pagen);
+        std::vector<RenderedPage> ret(pagen);
 
         int i = 0;
         for (poppler::page *page : _pages) {
@@ -51,7 +52,9 @@ namespace te::pdfr {
             unsigned char *rgb = (unsigned char *) malloc(sizeof(unsigned char) * img.width() * img.height() * 3);
             unsigned char *a = (unsigned char *) malloc(sizeof(unsigned char) * img.width() * img.height());
 
-            int dims = img.width() * img.height();
+            int width = img.width(),
+                height = img.height();
+            int dims = width * height;
             char *data = img.data();
 
             for (int j = 0, k = 0; k < dims; j += 4, k++) {
@@ -63,9 +66,11 @@ namespace te::pdfr {
                 rgb[j + 2 - k] = data[j];
             }
 
-            // converting from poppler image to wxImage
-            wxImage *wx = new wxImage(img.width(), img.height(), rgb, a, false);
-            ret[i] = wx;
+            ret[i] = RenderedPage {
+                std::make_unique<wxImage>(width, height, rgb, a, false),
+                width,
+                height
+            };
 
             i++;
         }

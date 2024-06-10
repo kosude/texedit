@@ -13,18 +13,12 @@
 
 namespace te::gui {
     PDFCanvas::PDFCanvas(wxWindow *parent) : wxScrolledWindow{parent, wxID_ANY} {
-        SetBackgroundColour(*wxRED);
-
         SetScrollbars(5, 50, 0, 100);
     }
 
     void PDFCanvas::RenderDocument(const pdfr::PDFDocument *doc) {
-        for (wxImage *img : _page_images) {
-            delete img;
-        }
-
         // render document into list of bitmaps
-        _page_images = doc->RenderAll();
+        _rendered_pages = doc->RenderAll();
     }
 
     void PDFCanvas::OnPaint(wxPaintEvent &event) {
@@ -32,12 +26,12 @@ namespace te::gui {
         DoPrepareDC(dc);
 
         int yi = 0;
-        for (wxImage *img : _page_images) {
-            wxBitmap bmp = wxBitmap(*img, 32);
-
+        for (const pdfr::RenderedPage &page : _rendered_pages) {
+            // images have to be converted to a bitmap before being drawn
+            wxBitmap bmp = wxBitmap(*page.image, 32);
             dc.DrawBitmap(bmp, 0, yi);
 
-            yi++;
+            yi += page.page_height + 50;
         }
     }
 

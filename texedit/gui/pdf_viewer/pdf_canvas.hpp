@@ -9,6 +9,7 @@
 #ifndef __texedit__pdf_canvas_hpp__
 #define __texedit__pdf_canvas_hpp__
 
+#include "pdf_render/rendered_page.hpp"
 #include <wx/scrolwin.h>
 #include <wx/image.h>
 #include <vector>
@@ -27,7 +28,7 @@ namespace te::gui {
         void OnPaint(wxPaintEvent &event);
 
     private:
-        std::vector<wxImage *> _page_images{};
+        std::vector<pdfr::RenderedPage> _rendered_pages{};
 
         wxDECLARE_EVENT_TABLE();
     };
