@@ -28,7 +28,11 @@ namespace te::gui {
         void OnPaint(wxPaintEvent &event);
 
     private:
+        static constexpr int _page_gap = 25;
+
         std::vector<pdfr::RenderedPage> _rendered_pages{};
+
+        void UpdateScrollbars();
 
         wxDECLARE_EVENT_TABLE();
     };

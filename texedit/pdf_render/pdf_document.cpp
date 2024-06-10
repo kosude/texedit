@@ -41,7 +41,8 @@ namespace te::pdfr {
 
         int i = 0;
         for (poppler::page *page : _pages) {
-            poppler::image img = _renderer.render_page(page, 96, 96);
+            // TODO: preference for PDF rendering DPI
+            poppler::image img = _renderer.render_page(page, 54, 54);
             if (!img.is_valid()) {
                 throw new except::InvalidPDFRenderException(_path);
             }
