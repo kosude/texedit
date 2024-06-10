@@ -9,6 +9,8 @@
 
 #include "except.hpp"
 
+#include "pdf_render/pdf_document.hpp"
+
 namespace te::gui {
     PreviewPane::PreviewPane(wxWindow *parent) : PaneBase(parent) {
         _canvas = new PDFCanvas(this);
@@ -31,7 +33,7 @@ namespace te::gui {
             if (_document) {
                 delete _document;
             }
-            _document = new PDFDocument(path);
+            _document = new pdfr::PDFDocument(path);
 
             // RenderDocument() stores the new document's rendered images into the canvas object to be drawn later
             _canvas->RenderDocument(_document);

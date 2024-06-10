@@ -8,7 +8,7 @@
 #include "main.hpp"
 
 #include "gui/main_frame.hpp"
-#include "gui/pdf_viewer/pdf_document.hpp"
+#include "pdf_render/poppler_log.hpp"
 
 wxIMPLEMENT_APP(te::Application);
 
@@ -59,7 +59,7 @@ namespace te {
         // TODO: command-line parsing here
 
         // initialise logging for PDF document processing
-        gui::PDFDocument::CaptureRuntimeLogging();
+        pdfr::CaptureRuntimeLogging();
 
         // show root (editor) window
         gui::MainFrame *main_frame = new gui::MainFrame();

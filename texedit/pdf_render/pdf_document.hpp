@@ -6,8 +6,8 @@
  */
 
 #pragma once
-#ifndef __pdf_viewer__pdf_document_hpp__
-#define __pdf_viewer__pdf_document_hpp__
+#ifndef __texedit__pdf_document_hpp__
+#define __texedit__pdf_document_hpp__
 
 #include <vector>
 
@@ -16,7 +16,7 @@
 #include <poppler-document.h>
 #include <poppler-page-renderer.h>
 
-namespace te::gui {
+namespace te::pdfr {
     /**
      * An abstraction over a `libpoppler` PDF document and associated functionality.
      */
@@ -27,8 +27,6 @@ namespace te::gui {
         // Render all pages in the document into a vector of wxImages (note they must be freed after this).
         std::vector<wxImage *> RenderAll() const;
 
-        static void CaptureRuntimeLogging();
-
     private:
         const wxString &_path;
 
@@ -36,8 +34,6 @@ namespace te::gui {
 
         poppler::document *_doc;
         std::vector<poppler::page *> _pages;
-
-        static void PopplerDebugFunc(const std::string &msg, void *closure);
     };
 }
 

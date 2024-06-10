@@ -9,18 +9,20 @@
 #ifndef __texedit__pdf_canvas_hpp__
 #define __texedit__pdf_canvas_hpp__
 
-#include "pdf_document.hpp"
-
 #include <wx/scrolwin.h>
 #include <wx/image.h>
 #include <vector>
+
+namespace te::pdfr {
+    class PDFDocument;
+}
 
 namespace te::gui {
     class PDFCanvas : public wxScrolledWindow {
     public:
         PDFCanvas(wxWindow *parent);
 
-        void RenderDocument(const PDFDocument *doc);
+        void RenderDocument(const pdfr::PDFDocument *doc);
 
         void OnPaint(wxPaintEvent &event);
 

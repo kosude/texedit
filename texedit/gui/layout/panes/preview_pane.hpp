@@ -15,6 +15,10 @@
 #include "pane_base.hpp"
 #include "gui/pdf_viewer/pdf_canvas.hpp"
 
+namespace te::pdfr {
+    class PDFDocument;
+}
+
 namespace te::gui {
     class PreviewPane : public PaneBase {
     public:
@@ -26,7 +30,7 @@ namespace te::gui {
     private:
         wxBoxSizer *_sizer;
 
-        PDFDocument *_document{nullptr};
+        pdfr::PDFDocument *_document{nullptr};
         PDFCanvas *_canvas;
     };
 }

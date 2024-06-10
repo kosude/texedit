@@ -35,9 +35,11 @@ set(SRCS
     "gui/layout/panes/preview_pane.cpp"
     "gui/layout/layout_manager.cpp"
     "gui/pdf_viewer/pdf_canvas.cpp"
-    "gui/pdf_viewer/pdf_document.cpp"
     "gui/main_frame.cpp"
     "gui/prog_info.cpp"
+
+    "pdf_render/pdf_document.cpp"
+    "pdf_render/poppler_log.cpp"
 
     "process/services/compiler_process.cpp"
     "process/process_manager.cpp"

@@ -7,11 +7,9 @@
 
 #include "pdf_canvas.hpp"
 
-#include <wx/dcclient.h>
-#include <wx/graphics.h>
-#include <poppler-page.h>
+#include "pdf_render/pdf_document.hpp"
 
-#include <wx/rawbmp.h>
+#include <wx/dcclient.h>
 
 namespace te::gui {
     PDFCanvas::PDFCanvas(wxWindow *parent) : wxScrolledWindow{parent, wxID_ANY} {
@@ -20,7 +18,7 @@ namespace te::gui {
         SetScrollbars(5, 50, 0, 100);
     }
 
-    void PDFCanvas::RenderDocument(const PDFDocument *doc) {
+    void PDFCanvas::RenderDocument(const pdfr::PDFDocument *doc) {
         for (wxImage *img : _page_images) {
             delete img;
         }
@@ -41,16 +39,6 @@ namespace te::gui {
 
             yi++;
         }
-
-        // wxGraphicsContext *gc = wxGraphicsContext::Create(dc);
-        // if (gc) {
-        //     gc->SetPen(*wxGREY_PEN);
-        //     gc->SetBrush(*wxLIGHT_GREY_BRUSH);
-        //     gc->DrawRectangle(10, 10, 50, 500);
-        //     gc->DrawEllipse(70, 10, 50, 700);
-
-        //     delete gc;
-        // }
     }
 
     wxBEGIN_EVENT_TABLE(PDFCanvas, wxScrolledWindow)

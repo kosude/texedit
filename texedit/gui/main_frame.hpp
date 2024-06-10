@@ -9,13 +9,13 @@
 #ifndef __texedit__root_frame_hpp__
 #define __texedit__root_frame_hpp__
 
-#include <wx/wx.h>
-#include <wx/treebase.h>
-
 #include "process/process_manager.hpp"
 #include "process/services/compiler_process.hpp"
 #include "layout/layout_manager.hpp"
 #include "util/logger.hpp"
+
+#include <wx/wx.h>
+#include <wx/treebase.h>
 
 namespace te::gui {
     class MainFrame : public wxFrame {

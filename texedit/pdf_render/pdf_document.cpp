@@ -11,7 +11,7 @@
 
 #include <wx/log.h>
 
-namespace te::gui {
+namespace te::pdfr {
     PDFDocument::PDFDocument(const wxString &path) : _path{path} {
         _renderer.set_render_hints(
             poppler::page_renderer::antialiasing |
@@ -71,13 +71,5 @@ namespace te::gui {
         }
 
         return ret;
-    }
-
-    void PDFDocument::CaptureRuntimeLogging() {
-        poppler::set_debug_error_function(PDFDocument::PopplerDebugFunc, nullptr);
-    }
-
-    void PDFDocument::PopplerDebugFunc(const std::string &msg, void *closure) {
-        wxLogError("poppler: " + wxString{msg});
     }
 }
