@@ -17,8 +17,6 @@ the codebase. The total list of dependencies can be found below:
     * -- *When building* ``texedit`` --
         * **CMake** - `link <https://cmake.org/download/>`__
         * **wxWidgets** - `link <https://docs.wxwidgets.org/latest/overview_install.html>`__
-    * -- *When building* ``tepdfserver`` --
-        * **Bun** - `link <https://bun.sh/docs/installation>`__
     * -- *When building* ``docs`` --
         * *Sphinx and other dependencies can be installed from pip via the* ``docs/requirements.txt`` *file provided.*
 
@@ -26,7 +24,7 @@ the codebase. The total list of dependencies can be found below:
 
 Each sub-list pertains to a particular Make target, which are themselves listed in the Compilation section below. **You don't necessarily need
 everything listed above!** For example, if you don't need to build the documentation, you don't need Python or pip or anything necessary for that
-target. For full functionality, however, you will likely want to build at least ``tecomp``, ``texedit``, and ``tepdfserver``.
+target. For full functionality, however, you will likely want to build at least ``tecomp`` and ``texedit``.
 
 
 Compilation
@@ -43,8 +41,8 @@ Building is done as follows:
     # a standard TexEdit distribution
     $ make
 
-    # build tepdfserver on its own, for example
-    $ make tepdfserver
+    # build tecomp on its own, for example
+    $ make tecomp
 
     # build the HTML documentation - this is not done by default.
     $ make docs
@@ -53,8 +51,8 @@ Building is done as follows:
 ``texedit``
 ^^^^^^^^^^^
 
-The GUI frontend to TexEdit, and the program that should be executed for standard full functionality - it will run and manage the other programs as
-necessary in the background.
+The GUI frontend to TexEdit, and the program that should be executed for standard full functionality - it will run and manage the other program(s) as
+necessary in the background, in addition to handling the PDF previewing functionality.
 
 
 ``tecomp``
@@ -63,13 +61,6 @@ necessary in the background.
 A program to manage TeX compilation in a cross-platform way. This is run as a backend by the TexEdit application to provide a constantly updated PDF
 as the source is updated, via its watch functionality. A full CLI is provided, so you can compile it on its own and use it *without* the rest of
 TexEdit if you want.
-
-
-``tepdfserver``
-^^^^^^^^^^^^^^^
-
-A locally hosted webserver via which a preview of a PDF can be rendered. This is run in the background by the TexEdit application to provide the
-live PDF preview. Due to the way it works, this preview can be accessed from any web browser.
 
 
 ``docs``

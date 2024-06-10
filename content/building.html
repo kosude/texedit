@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=12dfc556" />
     <link rel="stylesheet" type="text/css" href="../_static/css/sidebar.css?v=ab7eb5aa" />
     <link rel="stylesheet" type="text/css" href="../_static/css/link-consist.css?v=6fb58d70" />
-    <script src="../_static/documentation_options.js?v=9d4f4ab8"></script>
+    <script src="../_static/documentation_options.js?v=2b01122f"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="icon" href="../_static/favicon.png"/>
@@ -60,13 +60,6 @@ the codebase. The total list of dependencies can be found below:</p>
 </dl>
 </li>
 <li><dl class="simple">
-<dt>– <em>When building</em> <code class="docutils literal notranslate"><span class="pre">tepdfserver</span></code> –</dt><dd><ul>
-<li><p><strong>Bun</strong> - <a class="reference external" href="https://bun.sh/docs/installation">link</a></p></li>
-</ul>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
 <dt>– <em>When building</em> <code class="docutils literal notranslate"><span class="pre">docs</span></code> –</dt><dd><ul>
 <li><p><em>Sphinx and other dependencies can be installed from pip via the</em> <code class="docutils literal notranslate"><span class="pre">docs/requirements.txt</span></code> <em>file provided.</em></p></li>
 </ul>
@@ -78,7 +71,7 @@ the codebase. The total list of dependencies can be found below:</p>
 <p><em>(As always, if you’re on Linux or macOS, you should install these via your package manager whenever possible.)</em></p>
 <p>Each sub-list pertains to a particular Make target, which are themselves listed in the Compilation section below. <strong>You don’t necessarily need
 everything listed above!</strong> For example, if you don’t need to build the documentation, you don’t need Python or pip or anything necessary for that
-target. For full functionality, however, you will likely want to build at least <code class="docutils literal notranslate"><span class="pre">tecomp</span></code>, <code class="docutils literal notranslate"><span class="pre">texedit</span></code>, and <code class="docutils literal notranslate"><span class="pre">tepdfserver</span></code>.</p>
+target. For full functionality, however, you will likely want to build at least <code class="docutils literal notranslate"><span class="pre">tecomp</span></code> and <code class="docutils literal notranslate"><span class="pre">texedit</span></code>.</p>
 </section>
 <section id="compilation">
 <h2>Compilation<a class="headerlink" href="#compilation" title="Link to this heading">¶</a></h2>
@@ -89,8 +82,8 @@ available, but you <em>can</em> build them separately if you want.</p>
 <span class="c1"># a standard TexEdit distribution</span>
 $<span class="w"> </span>make
 
-<span class="c1"># build tepdfserver on its own, for example</span>
-$<span class="w"> </span>make<span class="w"> </span>tepdfserver
+<span class="c1"># build tecomp on its own, for example</span>
+$<span class="w"> </span>make<span class="w"> </span>tecomp
 
 <span class="c1"># build the HTML documentation - this is not done by default.</span>
 $<span class="w"> </span>make<span class="w"> </span>docs
@@ -98,19 +91,14 @@ $<span class="w"> </span>make<span class="w"> </span>docs
 </div>
 <section id="texedit">
 <h3><code class="docutils literal notranslate"><span class="pre">texedit</span></code><a class="headerlink" href="#texedit" title="Link to this heading">¶</a></h3>
-<p>The GUI frontend to TexEdit, and the program that should be executed for standard full functionality - it will run and manage the other programs as
-necessary in the background.</p>
+<p>The GUI frontend to TexEdit, and the program that should be executed for standard full functionality - it will run and manage the other program(s) as
+necessary in the background, in addition to handling the PDF previewing functionality.</p>
 </section>
 <section id="tecomp">
 <h3><code class="docutils literal notranslate"><span class="pre">tecomp</span></code><a class="headerlink" href="#tecomp" title="Link to this heading">¶</a></h3>
 <p>A program to manage TeX compilation in a cross-platform way. This is run as a backend by the TexEdit application to provide a constantly updated PDF
 as the source is updated, via its watch functionality. A full CLI is provided, so you can compile it on its own and use it <em>without</em> the rest of
 TexEdit if you want.</p>
-</section>
-<section id="tepdfserver">
-<h3><code class="docutils literal notranslate"><span class="pre">tepdfserver</span></code><a class="headerlink" href="#tepdfserver" title="Link to this heading">¶</a></h3>
-<p>A locally hosted webserver via which a preview of a PDF can be rendered. This is run in the background by the TexEdit application to provide the
-live PDF preview. Due to the way it works, this preview can be accessed from any web browser.</p>
 </section>
 <section id="docs">
 <h3><code class="docutils literal notranslate"><span class="pre">docs</span></code><a class="headerlink" href="#docs" title="Link to this heading">¶</a></h3>
@@ -135,7 +123,7 @@ live PDF preview. Due to the way it works, this preview can be accessed from any
 
 
 
-<p class="blurb">v0.0.0-93</p>
+<p class="blurb">v0.0.0-100</p>
 
 
 
@@ -156,7 +144,6 @@ live PDF preview. Due to the way it works, this preview can be accessed from any
 <li class="toctree-l2"><a class="reference internal" href="#compilation">Compilation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#texedit"><code class="docutils literal notranslate"><span class="pre">texedit</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#tecomp"><code class="docutils literal notranslate"><span class="pre">tecomp</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#tepdfserver"><code class="docutils literal notranslate"><span class="pre">tepdfserver</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#docs"><code class="docutils literal notranslate"><span class="pre">docs</span></code></a></li>
 </ul>
 </li>
