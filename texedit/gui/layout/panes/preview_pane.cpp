@@ -21,22 +21,14 @@ namespace te::gui {
     }
 
     PreviewPane::~PreviewPane() {
-        // delete last loaded document if applicable
-        if (_document) {
-            delete _document;
-        }
     }
 
     void PreviewPane::SetPDFLocation(const wxString &path) {
         try {
-            // document is heap-allocated, so replace it here
-            if (_document) {
-                delete _document;
-            }
-            _document = new pdfr::PDFDocument(path);
+            _document = std::make_unique<pdfr::PDFDocument>(path);
 
             // RenderDocument() stores the new document's rendered images into the canvas object to be drawn later
-            _canvas->RenderDocument(_document);
+            _canvas->RenderDocument(_document.get());
         } catch (except::PDFException *e) {
             // TODO: show error message in the preview pane.
             wxLogError("%s", e->what());

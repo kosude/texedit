@@ -16,6 +16,7 @@
 
 #include <wx/wx.h>
 #include <wx/treebase.h>
+#include <memory>
 
 namespace te::gui {
     class MainFrame : public wxFrame {
@@ -25,7 +26,7 @@ namespace te::gui {
 
     private:
         LayoutManager _layout;
-        util::GlobalLogger *_logger;
+        std::unique_ptr<util::GlobalLogger> _logger;
 
         proc::ProcessManager _proc_mgr;
         proc::CompilerProcess *_compiler_proc;

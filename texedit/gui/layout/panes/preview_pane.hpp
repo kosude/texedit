@@ -9,11 +9,12 @@
 #ifndef __texedit__preview_pane_hpp__
 #define __texedit__preview_pane_hpp__
 
-#include <wx/wx.h>
-#include <wx/webview.h>
-
 #include "pane_base.hpp"
 #include "gui/pdf_viewer/pdf_canvas.hpp"
+
+#include <wx/wx.h>
+#include <wx/webview.h>
+#include <memory>
 
 namespace te::pdfr {
     class PDFDocument;
@@ -30,7 +31,7 @@ namespace te::gui {
     private:
         wxBoxSizer *_sizer;
 
-        pdfr::PDFDocument *_document{nullptr};
+        std::unique_ptr<pdfr::PDFDocument> _document{nullptr};
         PDFCanvas *_canvas;
     };
 }

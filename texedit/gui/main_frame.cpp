@@ -24,8 +24,8 @@ namespace te::gui {
         BuildMenuBar();
 
         // use logger for message redirects
-        _logger = new util::GlobalLogger(_layout.GetOutputPane()->GetListBox());
-        wxLog::SetActiveTarget(_logger);
+        _logger = std::make_unique<util::GlobalLogger>(_layout.GetOutputPane()->GetListBox());
+        wxLog::SetActiveTarget(_logger.get());
 
         // TODO: temp --
         _layout.GetPreviewPane()->SetPDFLocation("HelloWorld.pdf");
@@ -37,7 +37,6 @@ namespace te::gui {
     MainFrame::~MainFrame() {
         // reset logging to default behaviour before deleting the logger object
         wxLog::SetActiveTarget(nullptr);
-        delete _logger;
     }
 
     void MainFrame::BuildMenuBar() {
