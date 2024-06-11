@@ -21,11 +21,15 @@ namespace te::gui {
         EditorPane(wxWindow *parent);
 
         void LoadFile(const wxString &path);
+        bool SaveFile(const wxString &path);
+
+        inline const wxString &GetPath() const { return _path; }
 
     private:
         wxBoxSizer *_sizer;
 
         editor::SrcEditor *_src_editor;
+        wxString _path;
     };
 }
 

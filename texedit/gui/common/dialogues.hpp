@@ -14,6 +14,7 @@
 
 namespace te::gui {
     class LayoutManager;
+    class EditorPane;
 }
 
 namespace te::gui::dlg {
@@ -29,6 +30,13 @@ namespace te::gui::dlg {
         OpenWorkspaceDirDlg(wxWindow *parent);
 
         void UpdateLayout(LayoutManager *layout);
+    };
+
+    class SaveFileAsDlg : public wxFileDialog {
+    public:
+        SaveFileAsDlg(wxWindow *parent);
+
+        void WriteEditorContents(EditorPane *editor);
     };
 }
 

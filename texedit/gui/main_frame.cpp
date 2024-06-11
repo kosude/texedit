@@ -28,7 +28,9 @@ enum {
     Menu_PaneOutput,
     Menu_PanePreview,
     Menu_OpenFolder,
-    Menu_OpenFile
+    Menu_OpenFile,
+    Menu_SaveFile,
+    Menu_SaveFileAs,
 };
 
 namespace te::gui {
@@ -55,8 +57,11 @@ namespace te::gui {
         wxMenuBar *menuBar = new wxMenuBar();
 
         wxMenu *fileMenu = new wxMenu();
-        fileMenu->Append(Menu_OpenFile, "&Open File...");
-        fileMenu->Append(Menu_OpenFolder, "Open &Folder...");
+        fileMenu->Append(Menu_OpenFile, "&Open File...\tCtrl+O");
+        fileMenu->Append(Menu_OpenFolder, "Open &Folder...\tCtrl+Shift+O");
+        fileMenu->AppendSeparator();
+        fileMenu->Append(Menu_SaveFile, "&Save\tCtrl+S");
+        fileMenu->Append(Menu_SaveFileAs, "&Save As...\tCtrl+Shift+S");
         fileMenu->AppendSeparator();
         fileMenu->Append(wxID_EXIT, "&Quit");
         menuBar->Append(fileMenu, "&File");
@@ -109,6 +114,24 @@ namespace te::gui {
         dlg.UpdateLayout(&_layout);
     }
 
+    void MainFrame::OnMenuSaveFile(wxCommandEvent &event) {
+        EditorPane *pane = _layout.GetEditorPane();
+        const wxString &path = pane->GetPath();
+
+        if (!pane->SaveFile(path)) {
+            OnMenuSaveFileAs(event);
+            event.Skip();
+        }
+    }
+
+    void MainFrame::OnMenuSaveFileAs(wxCommandEvent &event) {
+        dlg::SaveFileAsDlg dlg(this);
+        if (dlg.ShowModal() == wxID_CANCEL) {
+            return;
+        }
+        dlg.WriteEditorContents(_layout.GetEditorPane());
+    }
+
     void MainFrame::OnMenuAbout(wxCommandEvent &event) {
         wxAboutDialogInfo aboutInfo = ProgInfo::GenerateAboutDialogInfo();
         wxAboutBox(aboutInfo);
@@ -146,16 +169,20 @@ namespace te::gui {
 
     wxBEGIN_EVENT_TABLE(MainFrame, wxFrame)
         EVT_IDLE(MainFrame::OnIdle)
-        EVT_MENU(wxID_EXIT,  MainFrame::OnMenuQuit)
-        EVT_MENU(wxID_ABOUT, MainFrame::OnMenuAbout)
-        EVT_MENU(Menu_OpenFile,           MainFrame::OnMenuOpenFile)
-        EVT_MENU(Menu_OpenFolder,         MainFrame::OnMenuOpenFolder)
-        EVT_MENU(Menu_URLSourcePage,      MainFrame::OnMenuURLSourcePage)
-        EVT_MENU(Menu_URLFeatureRequest,  MainFrame::OnMenuURLFeatureRequest)
-        EVT_MENU(Menu_URLBugReport,       MainFrame::OnMenuURLBugReport)
-        EVT_MENU(Menu_URLUserManual,      MainFrame::OnMenuURLUserManual)
-        EVT_MENU(Menu_PaneExplorer,       MainFrame::OnMenuPaneExplorer)
-        EVT_MENU(Menu_PaneOutput,         MainFrame::OnMenuPaneOutput)
-        EVT_MENU(Menu_PanePreview,        MainFrame::OnMenuPanePreview)
+
+        EVT_MENU(wxID_EXIT,     MainFrame::OnMenuQuit)
+        EVT_MENU(wxID_ABOUT,    MainFrame::OnMenuAbout)
+
+        EVT_MENU(Menu_OpenFile,             MainFrame::OnMenuOpenFile)
+        EVT_MENU(Menu_OpenFolder,           MainFrame::OnMenuOpenFolder)
+        EVT_MENU(Menu_SaveFile,             MainFrame::OnMenuSaveFile)
+        EVT_MENU(Menu_SaveFileAs,           MainFrame::OnMenuSaveFileAs)
+        EVT_MENU(Menu_URLSourcePage,        MainFrame::OnMenuURLSourcePage)
+        EVT_MENU(Menu_URLFeatureRequest,    MainFrame::OnMenuURLFeatureRequest)
+        EVT_MENU(Menu_URLBugReport,         MainFrame::OnMenuURLBugReport)
+        EVT_MENU(Menu_URLUserManual,        MainFrame::OnMenuURLUserManual)
+        EVT_MENU(Menu_PaneExplorer,         MainFrame::OnMenuPaneExplorer)
+        EVT_MENU(Menu_PaneOutput,           MainFrame::OnMenuPaneOutput)
+        EVT_MENU(Menu_PanePreview,          MainFrame::OnMenuPanePreview)
     wxEND_EVENT_TABLE()
 }

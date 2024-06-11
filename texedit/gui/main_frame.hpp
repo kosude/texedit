@@ -38,6 +38,8 @@ namespace te::gui {
         void OnIdle(wxIdleEvent &ev);
         void OnMenuOpenFile(wxCommandEvent &event);
         void OnMenuOpenFolder(wxCommandEvent &event);
+        void OnMenuSaveFile(wxCommandEvent &event);
+        void OnMenuSaveFileAs(wxCommandEvent &event);
         void OnMenuAbout(wxCommandEvent &event);
         void OnMenuQuit(wxCommandEvent &event);
         void OnMenuURLSourcePage(wxCommandEvent &event);

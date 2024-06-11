@@ -18,7 +18,7 @@ namespace te::gui::dlg {
             wxEmptyString,
             wxEmptyString,
             wxFileSelectorDefaultWildcardStr,
-            wxFD_DEFAULT_STYLE | wxFD_OPEN | wxFD_FILE_MUST_EXIST
+            wxFD_OPEN | wxFD_FILE_MUST_EXIST
     ) {
     }
 
@@ -39,5 +39,20 @@ namespace te::gui::dlg {
         layout->GetExplorerPane()->ChangeRootDir(GetPath());
 
         layout->Update();
+    }
+
+    SaveFileAsDlg::SaveFileAsDlg(wxWindow *parent)
+        : wxFileDialog(
+            parent,
+            "Save file as",
+            wxEmptyString,
+            wxEmptyString,
+            wxFileSelectorDefaultWildcardStr,
+            wxFD_SAVE | wxFD_OVERWRITE_PROMPT
+    ) {
+    }
+
+    void SaveFileAsDlg::WriteEditorContents(EditorPane *editor) {
+        editor->SaveFile(GetPath());
     }
 }
