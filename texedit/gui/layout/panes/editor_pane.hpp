@@ -18,10 +18,12 @@
 namespace te::gui {
     class EditorPane : public PaneBase {
     public:
-        EditorPane(wxWindow *parent);
+        EditorPane(wxWindow *parent, const wxString &path = "");
 
         void LoadFile(const wxString &path);
         bool SaveFile(const wxString &path);
+
+        void HideEditor();
 
         inline const wxString &GetPath() const { return _path; }
 
@@ -30,6 +32,8 @@ namespace te::gui {
 
         editor::SrcEditor *_src_editor;
         wxString _path;
+
+        void ShowEditor();
     };
 }
 

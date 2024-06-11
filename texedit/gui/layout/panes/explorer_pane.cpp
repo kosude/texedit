@@ -49,6 +49,16 @@ namespace te::gui {
         _sizer->Add(_dirctrl, 1, wxEXPAND);
     }
 
+    void ExplorerPane::CloseDir() {
+        if (!_dirctrl) {
+            return;
+        }
+
+        _sizer->Detach(_dirctrl);
+        _dirctrl->Destroy();
+        _dirctrl = nullptr;
+    }
+
     void ExplorerPane::AddEmptyTreeButton() {
         _sizer->Clear();
 

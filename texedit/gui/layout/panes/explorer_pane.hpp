@@ -36,6 +36,7 @@ namespace te::gui {
         inline LocalDirCtrl *GetDirCtrl() const { return _dirctrl; }
 
         void ChangeRootDir(const wxString &path);
+        void CloseDir();
 
     private:
         wxSizerItem *_empty_tree_stretch_spacer[2];

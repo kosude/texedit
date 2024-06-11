@@ -31,6 +31,8 @@ enum {
     Menu_OpenFile,
     Menu_SaveFile,
     Menu_SaveFileAs,
+    Menu_CloseFolder,
+    Menu_CloseEditor,
 };
 
 namespace te::gui {
@@ -63,13 +65,16 @@ namespace te::gui {
         fileMenu->Append(Menu_SaveFile, "&Save\tCtrl+S");
         fileMenu->Append(Menu_SaveFileAs, "&Save As...\tCtrl+Shift+S");
         fileMenu->AppendSeparator();
+        fileMenu->Append(Menu_CloseFolder, "&Close Folder");
+        fileMenu->Append(Menu_CloseEditor, "&Close Editor\tCtrl+W");
+        fileMenu->AppendSeparator();
         fileMenu->Append(wxID_EXIT, "&Quit");
         menuBar->Append(fileMenu, "&File");
 
         wxMenu *viewMenu = new wxMenu();
-        viewMenu->Append(Menu_PaneExplorer, "&Explorer");
-        viewMenu->Append(Menu_PanePreview, "PDF &Preview");
-        viewMenu->Append(Menu_PaneOutput, "&Output");
+        viewMenu->Append(Menu_PaneExplorer, "&Explorer\tCtrl+Alt+E");
+        viewMenu->Append(Menu_PanePreview, "PDF &Preview\tCtrl+Alt+P");
+        viewMenu->Append(Menu_PaneOutput, "&Output\tCtrl+Alt+O");
         menuBar->Append(viewMenu, "&View");
 
         wxMenu *helpMenu = new wxMenu();
@@ -132,6 +137,14 @@ namespace te::gui {
         dlg.WriteEditorContents(_layout.GetEditorPane());
     }
 
+    void MainFrame::OnMenuCloseFolder(wxCommandEvent &event) {
+        _layout.GetExplorerPane()->CloseDir();
+    }
+
+    void MainFrame::OnMenuCloseEditor(wxCommandEvent &event) {
+        _layout.GetEditorPane()->HideEditor();
+    }
+
     void MainFrame::OnMenuAbout(wxCommandEvent &event) {
         wxAboutDialogInfo aboutInfo = ProgInfo::GenerateAboutDialogInfo();
         wxAboutBox(aboutInfo);
@@ -177,6 +190,8 @@ namespace te::gui {
         EVT_MENU(Menu_OpenFolder,           MainFrame::OnMenuOpenFolder)
         EVT_MENU(Menu_SaveFile,             MainFrame::OnMenuSaveFile)
         EVT_MENU(Menu_SaveFileAs,           MainFrame::OnMenuSaveFileAs)
+        EVT_MENU(Menu_CloseEditor,          MainFrame::OnMenuCloseEditor)
+        EVT_MENU(Menu_CloseFolder,          MainFrame::OnMenuCloseFolder)
         EVT_MENU(Menu_URLSourcePage,        MainFrame::OnMenuURLSourcePage)
         EVT_MENU(Menu_URLFeatureRequest,    MainFrame::OnMenuURLFeatureRequest)
         EVT_MENU(Menu_URLBugReport,         MainFrame::OnMenuURLBugReport)
