@@ -9,11 +9,15 @@
 #ifndef __texedit__explorer_pane_hpp__
 #define __texedit__explorer_pane_hpp__
 
+#include "pane_base.hpp"
+#include "editor_pane.hpp"
+
 #include <wx/wx.h>
 #include <wx/dirctrl.h>
-#include "pane_base.hpp"
 
 namespace te::gui {
+    class LayoutManager;
+
     // An implementation of wxGenericDirCtrl that is local to a specified directory, as opposed to listing the entire filesystem
     class LocalDirCtrl : public wxGenericDirCtrl {
     public:
@@ -27,7 +31,7 @@ namespace te::gui {
 
     class ExplorerPane : public PaneBase {
     public:
-        ExplorerPane(wxWindow *parent);
+        ExplorerPane(wxWindow *parent, EditorPane *editor_pane, LayoutManager *parent_layout);
 
         inline LocalDirCtrl *GetDirCtrl() const { return _dirctrl; }
 
@@ -40,6 +44,14 @@ namespace te::gui {
 
         wxBoxSizer *_sizer;
         LocalDirCtrl *_dirctrl{nullptr};
+
+        LayoutManager *_parent_layout;
+        EditorPane *_rel_editor;
+
+        void OnButtonOpenFolder(wxCommandEvent &event);
+        void OnTreeFileActivated(wxTreeEvent &event);
+
+        wxDECLARE_EVENT_TABLE();
     };
 }
 

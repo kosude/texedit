@@ -17,7 +17,7 @@
 namespace te::gui {
     LayoutManager::LayoutManager(wxWindow *win) : wxAuiManager(win), _win{win} {
         _editor   = new EditorPane(_win);
-        _explorer = new ExplorerPane(_win);
+        _explorer = new ExplorerPane(_win, _editor, this);
         _output   = new OutputPane(_win);
         _preview  = new PreviewPane(_win);
 

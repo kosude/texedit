@@ -7,17 +7,29 @@
 
 #include "main_frame.hpp"
 
+#include "common/dialogues.hpp"
 #include "layout/panes/explorer_pane.hpp"
 #include "layout/panes/output_pane.hpp"
 #include "layout/panes/preview_pane.hpp"
 #include "process/services/compiler_process.hpp"
 #include "process/process.hpp"
-#include "command_ids.hpp"
 #include "prog_info.hpp"
 
 #include <wx/aboutdlg.h>
 #include <wx/generic/dirctrlg.h>
 #include <wx/splitter.h>
+
+enum {
+    Menu_URLSourcePage = wxID_HIGHEST + 1,
+    Menu_URLFeatureRequest,
+    Menu_URLBugReport,
+    Menu_URLUserManual,
+    Menu_PaneExplorer,
+    Menu_PaneOutput,
+    Menu_PanePreview,
+    Menu_OpenFolder,
+    Menu_OpenFile
+};
 
 namespace te::gui {
     MainFrame::MainFrame() : wxFrame{nullptr, wxID_ANY, "TexEdit", wxDefaultPosition, wxSize{1280, 720}}, _proc_mgr{this}, _layout{this} {
@@ -43,22 +55,24 @@ namespace te::gui {
         wxMenuBar *menuBar = new wxMenuBar();
 
         wxMenu *fileMenu = new wxMenu();
-        fileMenu->Append(cmds::Menu_OpenFolder, "O&pen Folder...");
+        fileMenu->Append(Menu_OpenFile, "&Open File...");
+        fileMenu->Append(Menu_OpenFolder, "Open &Folder...");
+        fileMenu->AppendSeparator();
         fileMenu->Append(wxID_EXIT, "&Quit");
         menuBar->Append(fileMenu, "&File");
 
         wxMenu *viewMenu = new wxMenu();
-        viewMenu->Append(cmds::Menu_PaneExplorer, "&Explorer");
-        viewMenu->Append(cmds::Menu_PanePreview, "PDF &Preview");
-        viewMenu->Append(cmds::Menu_PaneOutput, "&Output");
+        viewMenu->Append(Menu_PaneExplorer, "&Explorer");
+        viewMenu->Append(Menu_PanePreview, "PDF &Preview");
+        viewMenu->Append(Menu_PaneOutput, "&Output");
         menuBar->Append(viewMenu, "&View");
 
         wxMenu *helpMenu = new wxMenu();
-        helpMenu->Append(cmds::Menu_URLUserManual, "&Documentation");
+        helpMenu->Append(Menu_URLUserManual, "&Documentation");
         helpMenu->AppendSeparator();
-        helpMenu->Append(cmds::Menu_URLSourcePage, "Git &Repository");
-        helpMenu->Append(cmds::Menu_URLFeatureRequest, "&Feature Requests");
-        helpMenu->Append(cmds::Menu_URLBugReport, "&Bug Reports");
+        helpMenu->Append(Menu_URLSourcePage, "Git &Repository");
+        helpMenu->Append(Menu_URLFeatureRequest, "&Feature Requests");
+        helpMenu->Append(Menu_URLBugReport, "&Bug Reports");
         helpMenu->AppendSeparator();
         helpMenu->Append(wxID_ABOUT, "&About TexEdit");
         menuBar->Append(helpMenu, "&Help");
@@ -79,21 +93,20 @@ namespace te::gui {
         }
     }
 
-    void MainFrame::OnDirCtrlFileActivated(wxTreeEvent &event) {
-        wxGenericDirCtrl dirctrl = _layout.GetExplorerPane()->GetDirCtrl();
-
-        wxLogMessage("%s", dirctrl.GetPath(event.GetItem()));
-    }
-
-    void MainFrame::OnButtonOpenFolder(wxCommandEvent &event) {
-        wxDirDialog dlg(this, "Choose a workspace directory", "", wxDD_DEFAULT_STYLE | wxDD_DIR_MUST_EXIST);
-
+    void MainFrame::OnMenuOpenFile(wxCommandEvent &event) {
+        dlg::OpenFileDlg dlg(this);
         if (dlg.ShowModal() == wxID_CANCEL) {
             return;
         }
+        dlg.UpdateLayout(&_layout);
+    }
 
-        _layout.GetExplorerPane()->ChangeRootDir(dlg.GetPath());
-        _layout.Update();
+    void MainFrame::OnMenuOpenFolder(wxCommandEvent &event) {
+        dlg::OpenWorkspaceDirDlg dlg(this);
+        if (dlg.ShowModal() == wxID_CANCEL) {
+            return;
+        }
+        dlg.UpdateLayout(&_layout);
     }
 
     void MainFrame::OnMenuAbout(wxCommandEvent &event) {
@@ -133,19 +146,16 @@ namespace te::gui {
 
     wxBEGIN_EVENT_TABLE(MainFrame, wxFrame)
         EVT_IDLE(MainFrame::OnIdle)
-
-        EVT_DIRCTRL_FILEACTIVATED(wxID_ANY, MainFrame::OnDirCtrlFileActivated)
-        EVT_BUTTON(cmds::Button_OpenFolder, MainFrame::OnButtonOpenFolder)
-        EVT_MENU(cmds::Menu_OpenFolder,     MainFrame::OnButtonOpenFolder)
-
         EVT_MENU(wxID_EXIT,  MainFrame::OnMenuQuit)
         EVT_MENU(wxID_ABOUT, MainFrame::OnMenuAbout)
-        EVT_MENU(cmds::Menu_URLSourcePage,      MainFrame::OnMenuURLSourcePage)
-        EVT_MENU(cmds::Menu_URLFeatureRequest,  MainFrame::OnMenuURLFeatureRequest)
-        EVT_MENU(cmds::Menu_URLBugReport,       MainFrame::OnMenuURLBugReport)
-        EVT_MENU(cmds::Menu_URLUserManual,      MainFrame::OnMenuURLUserManual)
-        EVT_MENU(cmds::Menu_PaneExplorer,       MainFrame::OnMenuPaneExplorer)
-        EVT_MENU(cmds::Menu_PaneOutput,         MainFrame::OnMenuPaneOutput)
-        EVT_MENU(cmds::Menu_PanePreview,        MainFrame::OnMenuPanePreview)
+        EVT_MENU(Menu_OpenFile,           MainFrame::OnMenuOpenFile)
+        EVT_MENU(Menu_OpenFolder,         MainFrame::OnMenuOpenFolder)
+        EVT_MENU(Menu_URLSourcePage,      MainFrame::OnMenuURLSourcePage)
+        EVT_MENU(Menu_URLFeatureRequest,  MainFrame::OnMenuURLFeatureRequest)
+        EVT_MENU(Menu_URLBugReport,       MainFrame::OnMenuURLBugReport)
+        EVT_MENU(Menu_URLUserManual,      MainFrame::OnMenuURLUserManual)
+        EVT_MENU(Menu_PaneExplorer,       MainFrame::OnMenuPaneExplorer)
+        EVT_MENU(Menu_PaneOutput,         MainFrame::OnMenuPaneOutput)
+        EVT_MENU(Menu_PanePreview,        MainFrame::OnMenuPanePreview)
     wxEND_EVENT_TABLE()
 }

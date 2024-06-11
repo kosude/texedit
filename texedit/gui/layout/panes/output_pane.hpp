@@ -9,9 +9,10 @@
 #ifndef __texedit__output_pane_hpp__
 #define __texedit__output_pane_hpp__
 
+#include "pane_base.hpp"
+
 #include <wx/sizer.h>
 #include <wx/listbox.h>
-#include "pane_base.hpp"
 
 namespace te::gui {
     class OutputPane : public PaneBase {

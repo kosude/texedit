@@ -16,4 +16,8 @@ namespace te::gui {
         _sizer->Add(_src_editor, 1, wxEXPAND);
         SetSizer(_sizer);
     }
+
+    void EditorPane::LoadFile(const wxString &path) {
+        _src_editor->LoadFile(path);
+    }
 }

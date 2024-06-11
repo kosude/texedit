@@ -28,6 +28,7 @@ set(TARGET_NAME "${PROJECT_NAME}")
 set(DEPS_DIR "${CMAKE_CURRENT_LIST_DIR}/../deps/")
 
 set(SRCS
+    "gui/common/dialogues.cpp"
     "gui/editor/src_editor_component.cpp"
     "gui/layout/panes/editor_pane.cpp"
     "gui/layout/panes/explorer_pane.cpp"

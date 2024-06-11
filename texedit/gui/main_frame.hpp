@@ -36,9 +36,8 @@ namespace te::gui {
         void ShowURL(const wxString &url);
 
         void OnIdle(wxIdleEvent &ev);
-        void OnDirCtrlFileActivated(wxTreeEvent &event);
-        void OnButtonOpenFolder(wxCommandEvent &event);
-
+        void OnMenuOpenFile(wxCommandEvent &event);
+        void OnMenuOpenFolder(wxCommandEvent &event);
         void OnMenuAbout(wxCommandEvent &event);
         void OnMenuQuit(wxCommandEvent &event);
         void OnMenuURLSourcePage(wxCommandEvent &event);
