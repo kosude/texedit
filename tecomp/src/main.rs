@@ -24,6 +24,7 @@ mod error;
 mod files;
 mod handle;
 mod log;
+mod pkg;
 mod watch;
 
 fn main() {
@@ -44,7 +45,7 @@ fn main() {
                     .compile()
                     .map_err(|_| CompError::CompilationError(format!("Compilation error")))?;
 
-                return Ok(());
+                Ok(())
             }
             CommandVariant::Watch(o) => {
                 add_watch_ctrlc_handler()?;
@@ -58,7 +59,19 @@ fn main() {
                     o.initial_make,
                 )?;
 
-                return Ok(());
+                Ok(())
+            }
+            CommandVariant::Pkg(o) => {
+                // list all installed packages
+                if o.list {
+                    for p in pkg::get_installed()? {
+                        println!("{}", p);
+                    }
+
+                    return Ok(());
+                }
+
+                Ok(())
             }
         }
     }() {

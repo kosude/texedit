@@ -25,6 +25,10 @@ pub fn get_texpdfc() -> &'static str {
     }
 }
 
+pub fn get_texmf_loc() -> CompResult<PathBuf> {
+    Ok(get_exec_loc()?.join("engine").join("texmf"))
+}
+
 pub fn str_to_pathbuf<S: AsRef<str>>(str: S, must_exist: bool) -> CompResult<PathBuf> {
     let mut p = PathBuf::from(&str.as_ref());
     if must_exist {

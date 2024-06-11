@@ -18,6 +18,7 @@ pub struct Cli {
 pub enum CommandVariant {
     Make(MakeArgs),
     Watch(WatchArgs),
+    Pkg(PkgArgs),
 }
 
 #[derive(Args, Debug)]
@@ -29,7 +30,7 @@ pub struct CommonArgGroup {
     #[arg(short, long, default_value = ".")]
     pub outdir: String,
     /// Print full TeX compilation output
-    #[arg(short, long, action)]
+    #[arg(short, long)]
     pub verbose: bool,
 }
 
@@ -47,9 +48,18 @@ pub struct WatchArgs {
     pub watch: String,
 
     /// Initially compile the document when watch is started
-    #[arg(short = 'i', long, action)]
+    #[arg(short = 'i', long)]
     pub initial_make: bool,
 
     #[command(flatten)]
     pub com: CommonArgGroup,
+}
+
+/// Manage LaTeX packages under the tecomp texmf directory
+#[derive(Args, Debug)]
+#[command(arg_required_else_help = true)]
+pub struct PkgArgs {
+    /// List installed packages
+    #[arg(long)]
+    pub list: bool,
 }
