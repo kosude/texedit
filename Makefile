@@ -69,7 +69,7 @@ $(BUILD_DIR):
 #
 
 TEXLIVE_SRC := $(SRC_DIR)/vendor/tex
-TEXLIVE_DST := $(BUILD_DIR)/vendor/tex
+TEXLIVE_DST := $(BUILD_DIR)/engine
 
 $(TEXLIVE_DST): $(TEXLIVE_SRC)
 	mkdir -p $(TEXLIVE_DST)

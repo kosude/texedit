@@ -1,11 +1,12 @@
-This directory contains a minimal, custom distribution of TeX Live 2023 which is
-shipped with the TexEdit project.
+This directory contains a minimal, modified variant of the TeX Live 2023
+distribution which is shipped with the TexEdit project.
 
 TexEdit is not affiliated with TeX Live!
 
 Binaries in this distribution should not be invoked directly. Instead, use the
-'texpdfc.sh' script provided to compile TeX documents on the appropriate system
-architecture. TexEdit's compilation wrapper, tecomp, invokes this script.
+'texpdfc.sh' script, or equivalent, provided to compile TeX documents on the
+appropriate system architecture. TexEdit's compilation wrapper, tecomp,
+invokes this script.
 
 ---
 
