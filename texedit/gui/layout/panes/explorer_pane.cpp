@@ -82,7 +82,7 @@ namespace te::gui {
             return;
         }
 
-        _rel_editor->LoadFile(_dirctrl->GetPath(event.GetItem()));
+        _rel_editor->OpenEditor(_dirctrl->GetPath(event.GetItem()));
     }
 
     wxBEGIN_EVENT_TABLE(ExplorerPane, PaneBase)

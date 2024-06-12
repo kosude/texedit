@@ -6,6 +6,7 @@
  */
 
 #pragma once
+#include <vector>
 #ifndef __texedit__editor_pane_hpp__
 #define __texedit__editor_pane_hpp__
 
@@ -14,26 +15,23 @@
 
 #include <wx/wx.h>
 #include <wx/stc/stc.h>
+#include <wx/aui/auibook.h>
 
 namespace te::gui {
     class EditorPane : public PaneBase {
     public:
         EditorPane(wxWindow *parent, const wxString &path = "");
 
-        void LoadFile(const wxString &path);
-        bool SaveFile(const wxString &path);
+        void OpenEditor(const wxString &path = "", int index = -1);
+        void CloseEditor(int index = -1);
 
-        void HideEditor();
+        bool SaveFile(const wxString &path, int editor_index = -1);
 
-        inline const wxString &GetPath() const { return _path; }
+        wxString GetCurrentEditorPath();
 
     private:
         wxBoxSizer *_sizer;
-
-        editor::SrcEditor *_src_editor;
-        wxString _path;
-
-        void ShowEditor();
+        wxAuiNotebook *_notebook;
     };
 }
 

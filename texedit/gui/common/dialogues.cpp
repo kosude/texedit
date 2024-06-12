@@ -23,7 +23,7 @@ namespace te::gui::dlg {
     }
 
     void OpenFileDlg::UpdateLayout(LayoutManager *layout) {
-        layout->GetEditorPane()->LoadFile(GetPath());
+        layout->GetEditorPane()->OpenEditor(GetPath());
     }
 
     OpenWorkspaceDirDlg::OpenWorkspaceDirDlg(wxWindow *parent)

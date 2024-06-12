@@ -14,10 +14,13 @@
 namespace te::gui::editor {
     class SrcEditor : public wxStyledTextCtrl {
     public:
-        SrcEditor(wxWindow *parent);
+        SrcEditor(wxWindow *parent, const wxString &path = "");
         ~SrcEditor();
 
+        inline const wxString &GetPath() const { return _path; }
+
     private:
+        wxString _path;
     };
 }
 

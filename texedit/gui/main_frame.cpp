@@ -121,7 +121,12 @@ namespace te::gui {
 
     void MainFrame::OnMenuSaveFile(wxCommandEvent &event) {
         EditorPane *pane = _layout.GetEditorPane();
-        const wxString &path = pane->GetPath();
+
+        const wxString &path = pane->GetCurrentEditorPath();
+        if (path.empty()) {
+            // there is no editor currently open so we don't know what to save
+            return;
+        }
 
         if (!pane->SaveFile(path)) {
             OnMenuSaveFileAs(event);
@@ -142,7 +147,7 @@ namespace te::gui {
     }
 
     void MainFrame::OnMenuCloseEditor(wxCommandEvent &event) {
-        _layout.GetEditorPane()->HideEditor();
+        _layout.GetEditorPane()->CloseEditor();
     }
 
     void MainFrame::OnMenuAbout(wxCommandEvent &event) {
