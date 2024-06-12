@@ -65,15 +65,16 @@ $(BUILD_DIR):
 
 
 #
-# Copy TexLive distribution
+# Extract Tex distribution to build dir
 #
 
-TEXLIVE_SRC := $(SRC_DIR)/vendor/tex
-TEXLIVE_DST := $(BUILD_DIR)/engine
+TEXDIST_SRC := $(SRC_DIR)/vendor/tex/tex.tar.xz
+TEXDIST_DST := $(BUILD_DIR)/engine
+TEXDIST_UNPACK := $(SRC_DIR)/vendor/tex/unpack.sh
 
-$(TEXLIVE_DST): $(TEXLIVE_SRC)
-	mkdir -p $(TEXLIVE_DST)
-	cp -r $(TEXLIVE_SRC)/* $(TEXLIVE_DST)
+$(TEXDIST_DST): $(TEXDIST_SRC)
+	mkdir -p $(TEXDIST_DST)
+	$(TEXDIST_UNPACK) $(TEXDIST_DST)
 
 
 #
@@ -90,7 +91,7 @@ $(BUILD_DIR)/texpdfc.sh: $(SRC_DIR)/tecomp/texpdfc.sh | $(BUILD_DIR)
 
 COMPILER_TOML := $(SRC_DIR)/tecomp/Cargo.toml
 
-tecomp: $(COMPILER_TOML) $(TEXLIVE_DST) $(BUILD_DIR)/texpdfc.sh | validate_cargo
+tecomp: $(COMPILER_TOML) $(TEXDIST_DST) $(BUILD_DIR)/texpdfc.sh | validate_cargo
 	$(CARGO) $(CARGOCHAN) build $(CARGOFLAGS) --manifest-path=$(COMPILER_TOML) --target-dir=$(BUILD_DIR)/_$@ --out-dir=$(BUILD_DIR)
 
 

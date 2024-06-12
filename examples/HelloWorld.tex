@@ -1,31 +1,34 @@
-%%hello.tex
 \documentclass{article}
+
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{subfiles}
+
 \begin{document}
 
-\title{How to Structure a LaTeX Document}
-\author{Someone}
-\date{\today}
-\maketitle
+    \title{How to Structure a LaTeX Document}
+    \author{Someone}
+    \date{\today}
+    \maketitle
 
-\begin{abstract}
-Your abstract goes here...
-\end{abstract}
+    \begin{abstract}
+    Your abstract goes here...
+    \end{abstract}
 
-\section{Structure}
-This section's content...
+    \section{Structure}
+    This section's content...
 
-\subsection{Top Matter}
-This subsection's content...
+    \subsection{Top Matter}
+    This subsection's content...
 
-\subsubsection{Article Information}
-This subsubsection's content...
+    \subsubsection{Article Information}
+    This subsubsection's content...
 
-\emph{hello} hello $x^2, \mathbb R, \mathcal C, \mathfrak F, \int_0^1 \sin(x) \mathrm d x$
+    \emph{hello} hello $x^2, \mathbb R, \mathcal C, \mathfrak F, \int_0^1 \sin(x) \mathrm d x$
 
-\pagebreak
+    \bigskip
 
-This content is on a separate page.
+    % subfile directives are relative to the CWD, so this assumes tecomp is being executed from the project root:
+    \subfile{examples/HelloWorldSubfile.tex}
 
 \end{document}

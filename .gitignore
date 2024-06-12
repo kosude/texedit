@@ -9,6 +9,8 @@ tmp/
 *.log
 *.aux
 *.pdf
+*.toc
+*.out
 
 .DS_STORE
 
