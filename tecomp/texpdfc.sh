@@ -27,7 +27,6 @@ texlive_base_dir="$(realpath "$base_dir/engine")"
 texlive_bin_dir="$(realpath "$texlive_base_dir/bin/$arch")"
 pdflatex_bin="$texlive_bin_dir/pdflatex"
 
-cd $texlive_base_dir
 source env_$arch.sh $texlive_base_dir
 
 cmd="$pdflatex_bin -interaction=nonstopmode -file-line-error -output-directory=$outdir $filename"
