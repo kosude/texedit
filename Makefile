@@ -69,7 +69,7 @@ $(BUILD_DIR):
 #
 
 TEXDIST_SRC := $(SRC_DIR)/vendor/tex/tex.tar.xz
-TEXDIST_DST := $(BUILD_DIR)/engine
+TEXDIST_DST := $(BUILD_DIR)/tex
 TEXDIST_UNPACK := $(SRC_DIR)/vendor/tex/unpack.sh
 
 $(TEXDIST_DST): $(TEXDIST_SRC)
