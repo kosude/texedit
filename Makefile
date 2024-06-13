@@ -73,8 +73,14 @@ TEXDIST_DST := $(BUILD_DIR)/tex
 TEXDIST_UNPACK := $(SRC_DIR)/vendor/tex/unpack.sh
 
 $(TEXDIST_DST): $(TEXDIST_SRC)
+	$(info No TeX distribution found in build output.)
+ifneq "$(PRESERVE_TEX)" "1"
+	$(info Extracting TeX distribution)
 	mkdir -p $(TEXDIST_DST)
 	$(TEXDIST_UNPACK) $(TEXDIST_DST)
+else
+	$(info PRESERVE_TEX=1 set, preserving any existing distribution)
+endif
 
 
 #
