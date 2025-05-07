@@ -160,19 +160,19 @@ namespace te::gui {
     }
 
     void MainFrame::OnMenuURLSourcePage(wxCommandEvent &event) {
-        ShowURL("https://github.com/kosude/texedit");
+        ShowURL("https://gitlab.com/kosude/texedit");
     }
 
     void MainFrame::OnMenuURLFeatureRequest(wxCommandEvent &event) {
-        ShowURL("https://github.com/kosude/texedit/issues");
+        ShowURL("https://gitlab.com/kosude/texedit/issues");
     }
 
     void MainFrame::OnMenuURLBugReport(wxCommandEvent &event) {
-        ShowURL("https://github.com/kosude/texedit/issues");
+        ShowURL("https://gitlab.com/kosude/texedit/issues");
     }
 
     void MainFrame::OnMenuURLUserManual(wxCommandEvent &event) {
-        ShowURL("https://kosude.github.io/texedit/");
+        ShowURL("https://kosude.gitlab.io/texedit/");
     }
 
     void MainFrame::OnMenuPaneExplorer(wxCommandEvent &event) {

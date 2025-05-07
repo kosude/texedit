@@ -20,6 +20,6 @@ resulting PDF, written in C++ and Rust.
 This project is *very* work-in-progress and developed in my free time, so keep that in mind if you decide to use it! Platform support is currently
 limited to Linux and macOS; Windows support may be implemented in the future, since it is a relatively big task in this case. Despite being a
 personal project, TexEdit is still of course open-source and contributions are welcome and encouraged! If this applies to you, it might be helpful to
-read up on the :doc:`build process <content/building>` - also, see the TO-DO list on `Trello <https://trello.com/b/xtq0vBzz/texedit>`_.
+read up on the :doc:`build process <content/building>`.
 
-Source code is available on `GitHub <https://github.com/kosude/texedit>`_.
+Source code is available on `GitLab <https://gitlab.com/kosude/texedit>`_.

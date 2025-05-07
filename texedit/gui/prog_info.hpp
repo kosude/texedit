@@ -18,7 +18,7 @@ namespace te::gui {
         static constexpr const char *version = TEXEDIT_VERSION;
         static constexpr const char *description = "Integrated viewer, compiler and editor for TeX documents";
         static constexpr const char *copyright = "(c) 2024 Jack Bennett";
-        static constexpr const char *website = "https://kosude.github.io/texedit/";
+        static constexpr const char *website = "https://kosude.gitlab.io/texedit/";
 
         static wxAboutDialogInfo GenerateAboutDialogInfo();
     };
